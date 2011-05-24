@@ -1,0 +1,72 @@
+.TH "lib/ccn_header.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_header.c \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBccn_parse_tagged_required_uintmax\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, uintmax_t *result)"
+.br
+.ti -1c
+.RI "struct \fBccn_header\fP * \fBccn_header_parse\fP (const unsigned char *p, size_t size)"
+.br
+.RI "\fIParse a ccnb-encoded Header. \fP"
+.ti -1c
+.RI "void \fBccn_header_destroy\fP (struct \fBccn_header\fP **ph)"
+.br
+.ti -1c
+.RI "int \fBccnb_append_header\fP (struct \fBccn_charbuf\fP *c, const struct \fBccn_header\fP *h)"
+.br
+.ti -1c
+.RI "struct \fBccn_header\fP * \fBccn_get_header\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, int timeout)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const unsigned char \fBmeta\fP [8] = {CCN_MARKER_CONTROL, '.', 'M', 'E', 'T', 'A', '.', 'M'}"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "struct \fBccn_header\fP* ccn_get_header (struct ccn * h, struct \fBccn_charbuf\fP * name, int timeout)\fC [read]\fP"
+.PP
+Definition at line 137 of file ccn_header.c.
+.SS "void ccn_header_destroy (struct \fBccn_header\fP ** ph)"
+.PP
+Definition at line 104 of file ccn_header.c.
+.PP
+Referenced by ccn_header_parse(), and main().
+.SS "struct \fBccn_header\fP* ccn_header_parse (const unsigned char * p, size_t size)\fC [read]\fP"
+.PP
+Parse a ccnb-encoded Header. 
+.PP
+Definition at line 50 of file ccn_header.c.
+.PP
+Referenced by ccn_get_header(), and main().
+.SS "int ccn_parse_tagged_required_uintmax (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, uintmax_t * result)"
+.PP
+Definition at line 34 of file ccn_header.c.
+.PP
+Referenced by ccn_header_parse().
+.SS "int ccnb_append_header (struct \fBccn_charbuf\fP * c, const struct \fBccn_header\fP * h)"
+.PP
+Definition at line 115 of file ccn_header.c.
+.PP
+Referenced by main().
+.SH "Variable Documentation"
+.PP 
+.SS "const unsigned char \fBmeta\fP[8] = {CCN_MARKER_CONTROL, '.', 'M', 'E', 'T', 'A', '.', 'M'}"
+.PP
+Definition at line 31 of file ccn_header.c.
+.PP
+Referenced by ccn_get_header().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

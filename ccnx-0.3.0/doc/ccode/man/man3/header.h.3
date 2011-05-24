@@ -1,0 +1,69 @@
+.TH "include/ccn/header.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/header.h \- 
+.PP
+Part of the CCNx C Library.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_header\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_header\fP * \fBccn_header_parse\fP (const unsigned char *, size_t)"
+.br
+.RI "\fIParse a ccnb-encoded Header. \fP"
+.ti -1c
+.RI "void \fBccn_header_destroy\fP (struct \fBccn_header\fP **)"
+.br
+.ti -1c
+.RI "int \fBccnb_append_header\fP (struct \fBccn_charbuf\fP *, const struct \fBccn_header\fP *)"
+.br
+.ti -1c
+.RI "struct \fBccn_header\fP * \fBccn_get_header\fP (struct ccn *, struct \fBccn_charbuf\fP *, int)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Part of the CCNx C Library. 
+
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBheader.h\fP.
+.SH "Function Documentation"
+.PP 
+.SS "struct \fBccn_header\fP* ccn_get_header (struct ccn *, struct \fBccn_charbuf\fP *, int)\fC [read]\fP"
+.PP
+Definition at line 137 of file ccn_header.c.
+.SS "void ccn_header_destroy (struct \fBccn_header\fP **)"
+.PP
+Definition at line 104 of file ccn_header.c.
+.PP
+Referenced by ccn_header_parse(), and main().
+.SS "struct \fBccn_header\fP* ccn_header_parse (const unsigned char *, size_t)\fC [read]\fP"
+.PP
+Parse a ccnb-encoded Header. 
+.PP
+Definition at line 50 of file ccn_header.c.
+.PP
+Referenced by ccn_get_header(), and main().
+.SS "int ccnb_append_header (struct \fBccn_charbuf\fP *, const struct \fBccn_header\fP *)"
+.PP
+Definition at line 115 of file ccn_header.c.
+.PP
+Referenced by main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

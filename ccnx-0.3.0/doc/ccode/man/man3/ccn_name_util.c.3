@@ -1,0 +1,227 @@
+.TH "lib/ccn_name_util.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_name_util.c \- 
+.PP
+Support for manipulating ccnb-encoded Names.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBccn_name_init\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIReset charbuf to represent an empty Name in binary format. \fP"
+.ti -1c
+.RI "int \fBccn_name_append\fP (struct \fBccn_charbuf\fP *c, const void *component, size_t n)"
+.br
+.RI "\fIAdd a Component to a Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_str\fP (struct \fBccn_charbuf\fP *c, const char *s)"
+.br
+.RI "\fIAdd a Component that is a NUL-terminated string. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_numeric\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP marker, uintmax_t value)"
+.br
+.RI "\fIAdd a binary Component to a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_nonce\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAdd nonce Component to ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_components\fP (struct \fBccn_charbuf\fP *c, const unsigned char *ccnb, size_t start, size_t stop)"
+.br
+.RI "\fIAdd sequence of ccnb-encoded Components to a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_comp_get\fP (const unsigned char *data, const struct \fBccn_indexbuf\fP *indexbuf, unsigned int i, const unsigned char **comp, size_t *size)"
+.br
+.RI "\fIExtract a pointer to and size of component at given index i. \fP"
+.ti -1c
+.RI "int \fBccn_name_comp_strcmp\fP (const unsigned char *data, const struct \fBccn_indexbuf\fP *indexbuf, unsigned int i, const char *val)"
+.br
+.ti -1c
+.RI "int \fBccn_name_split\fP (const struct \fBccn_charbuf\fP *c, struct \fBccn_indexbuf\fP *components)"
+.br
+.RI "\fIFind Component boundaries in a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_chop\fP (struct \fBccn_charbuf\fP *c, struct \fBccn_indexbuf\fP *components, int n)"
+.br
+.RI "\fIChop the name down to n components. \fP"
+.ti -1c
+.RI "int \fBccn_name_next_sibling\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAdvance the last Component of a Name to the next possible value. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for manipulating ccnb-encoded Names. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_name_util.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_name_append (struct \fBccn_charbuf\fP * c, const void * component, size_t n)"
+.PP
+Add a Component to a Name. The component is an arbitrary string of n octets, no escaping required. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 50 of file ccn_name_util.c.
+.PP
+Referenced by ccn_get_header(), ccn_initiate_prefix_reg(), ccn_name_append_nonce(), ccn_name_append_numeric(), ccn_name_append_str(), ccn_name_from_uri(), ccn_name_next_sibling(), ccn_resolve_version(), ccnd_init_service_ccnb(), ccnd_reg_ccnx_ccndid(), ccnd_start_notice(), create_face(), express_bulkdata_interest(), incoming_content(), main(), register_unregister_prefix(), and sequenced_name().
+.SS "int ccn_name_append_components (struct \fBccn_charbuf\fP * c, const unsigned char * ccnb, size_t start, size_t stop)"
+.PP
+Add sequence of ccnb-encoded Components to a ccnb-encoded Name. start and stop are offsets from ccnb 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for obvious error 
+.RE
+.PP
+
+.PP
+Definition at line 131 of file ccn_name_util.c.
+.PP
+Referenced by age_forwarding(), ccn_initiate_prefix_reg(), ccnd_reg_prefix(), collect_forwarding_html(), collect_forwarding_xml(), incoming_content(), and next_child_at_level().
+.SS "int ccn_name_append_nonce (struct \fBccn_charbuf\fP * c)"
+.PP
+Add nonce Component to ccnb-encoded Name. Uses C1.N namespace. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error see doc/technical/NameConventions.html 
+.RE
+.PP
+
+.PP
+Definition at line 114 of file ccn_name_util.c.
+.PP
+Referenced by ccn_initiate_ping(), get_ccndid(), and main().
+.SS "int ccn_name_append_numeric (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker, uintmax_t value)"
+.PP
+Add a binary Component to a ccnb-encoded Name. These are special components used for marking versions, fragments, etc. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error see doc/technical/NameConventions.html 
+.RE
+.PP
+
+.PP
+Definition at line 90 of file ccn_name_util.c.
+.PP
+Referenced by incoming_content(), main(), sequenced_name(), and seqw_next_cob().
+.SS "int ccn_name_append_str (struct \fBccn_charbuf\fP * c, const char * s)"
+.PP
+Add a Component that is a NUL-terminated string. The component added consists of the bytes of the string without the NUL. This function is convenient for those applications that construct component names from simple strings. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file ccn_name_util.c.
+.PP
+Referenced by ccn_get_header(), ccn_initiate_prefix_reg(), ccnd_start_notice(), create_face(), encode_message(), main(), and register_unregister_prefix().
+.SS "int ccn_name_chop (struct \fBccn_charbuf\fP * c, struct \fBccn_indexbuf\fP * components, int n)"
+.PP
+Chop the name down to n components. \fBParameters:\fP
+.RS 4
+\fIc\fP contains a ccnb-encoded Name 
+.br
+\fIcomponents\fP may be NULL; if provided it must be consistent with some prefix of the name, and is updated accordingly. 
+.br
+\fIn\fP is the number or components to leave, or, if negative, specifies how many components to remove, e.g. -1 will remove just the last component. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the new number of Components 
+.RE
+.PP
+
+.PP
+Definition at line 226 of file ccn_name_util.c.
+.PP
+Referenced by ccn_name_chop(), ccn_name_next_sibling(), and main().
+.SS "int ccn_name_comp_get (const unsigned char * data, const struct \fBccn_indexbuf\fP * indexbuf, unsigned int i, const unsigned char ** comp, size_t * size)"
+.PP
+Extract a pointer to and size of component at given index i. The first component is index 0. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 152 of file ccn_name_util.c.
+.PP
+Referenced by ccn_name_comp_strcmp(), ccn_resolve_version(), ccn_sign_content(), ccnd_answer_req(), and ccnd_uri_listen().
+.SS "int ccn_name_comp_strcmp (const unsigned char * data, const struct \fBccn_indexbuf\fP * indexbuf, unsigned int i, const char * val)"
+.PP
+Definition at line 182 of file ccn_name_util.c.
+.PP
+Referenced by decode_message().
+.SS "int ccn_name_init (struct \fBccn_charbuf\fP * c)"
+.PP
+Reset charbuf to represent an empty Name in binary format. \fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 33 of file ccn_name_util.c.
+.PP
+Referenced by age_forwarding(), ccn_initiate_prefix_reg(), ccn_name_from_uri(), ccnd_reg_prefix(), ccnd_reg_uri(), collect_forwarding_html(), collect_forwarding_xml(), create_face(), encode_message(), incoming_content(), initialize_global_data(), main(), next_child_at_level(), and register_unregister_prefix().
+.SS "int ccn_name_next_sibling (struct \fBccn_charbuf\fP * c)"
+.PP
+Advance the last Component of a Name to the next possible value. \fBParameters:\fP
+.RS 4
+\fIc\fP contains a ccnb-encoded Name to be updated. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the number of Components 
+.RE
+.PP
+
+.PP
+Definition at line 262 of file ccn_name_util.c.
+.PP
+Referenced by main(), and next_child_at_level().
+.SS "int ccn_name_split (const struct \fBccn_charbuf\fP * c, struct \fBccn_indexbuf\fP * components)"
+.PP
+Find Component boundaries in a ccnb-encoded Name. Thin veneer over \fBccn_parse_Name()\fP. components arg may be NULL to just do a validity check
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the number of Components. 
+.RE
+.PP
+
+.PP
+Definition at line 207 of file ccn_name_util.c.
+.PP
+Referenced by ccn_create_version(), ccn_name_chop(), ccn_name_next_sibling(), ccn_resolve_version(), ccn_sign_content(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), and ccnd_uri_listen().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

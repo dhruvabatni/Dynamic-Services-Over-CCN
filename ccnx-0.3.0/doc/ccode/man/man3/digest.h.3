@@ -1,0 +1,115 @@
+.TH "include/ccn/digest.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/digest.h \- 
+.PP
+Message digest interface.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBccn_digest_id\fP { \fBCCN_DIGEST_DEFAULT\fP, \fBCCN_DIGEST_SHA1\fP, \fBCCN_DIGEST_SHA224\fP, \fBCCN_DIGEST_SHA256\fP, \fBCCN_DIGEST_SHA384\fP, \fBCCN_DIGEST_SHA512\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_digest * \fBccn_digest_create\fP (enum \fBccn_digest_id\fP)"
+.br
+.ti -1c
+.RI "void \fBccn_digest_destroy\fP (struct ccn_digest **)"
+.br
+.ti -1c
+.RI "enum \fBccn_digest_id\fP \fBccn_digest_getid\fP (struct ccn_digest *)"
+.br
+.ti -1c
+.RI "size_t \fBccn_digest_size\fP (struct ccn_digest *)"
+.br
+.ti -1c
+.RI "void \fBccn_digest_init\fP (struct ccn_digest *)"
+.br
+.ti -1c
+.RI "int \fBccn_digest_update\fP (struct ccn_digest *, const void *, size_t)"
+.br
+.ti -1c
+.RI "int \fBccn_digest_final\fP (struct ccn_digest *, unsigned char *, size_t)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Message digest interface. 
+
+This is a veneer so that the ccn code can use various underlying implementations of the message digest functions without muss and fuss.
+.PP
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBdigest.h\fP.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBccn_digest_id\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_DIGEST_DEFAULT \fP\fP
+.TP
+\fB\fICCN_DIGEST_SHA1 \fP\fP
+.TP
+\fB\fICCN_DIGEST_SHA224 \fP\fP
+.TP
+\fB\fICCN_DIGEST_SHA256 \fP\fP
+.TP
+\fB\fICCN_DIGEST_SHA384 \fP\fP
+.TP
+\fB\fICCN_DIGEST_SHA512 \fP\fP
+
+.PP
+Definition at line 33 of file digest.h.
+.SH "Function Documentation"
+.PP 
+.SS "struct ccn_digest* ccn_digest_create (enum ccn_digest_id)\fC [read]\fP"
+.PP
+Definition at line 32 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "void ccn_digest_destroy (struct ccn_digest **)"
+.PP
+Definition at line 54 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), and ccn_locate_key().
+.SS "int ccn_digest_final (struct ccn_digest *, unsigned char *, size_t)"
+.PP
+Definition at line 92 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "enum \fBccn_digest_id\fP ccn_digest_getid (struct ccn_digest *)"
+.PP
+Definition at line 63 of file ccn_digest.c.
+.SS "void ccn_digest_init (struct ccn_digest *)"
+.PP
+Definition at line 75 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "size_t ccn_digest_size (struct ccn_digest *)"
+.PP
+Definition at line 69 of file ccn_digest.c.
+.PP
+Referenced by ccn_locate_key(), and main().
+.SS "int ccn_digest_update (struct ccn_digest *, const void *, size_t)"
+.PP
+Definition at line 82 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

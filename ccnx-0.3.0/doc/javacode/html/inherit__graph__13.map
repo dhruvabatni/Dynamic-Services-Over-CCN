@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_generic_x_m_l_handler.html" title="org.ccnx.ccn.impl.encoding.GenericXMLHandler" alt="" coords="5,116,248,140"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_generic_x_m_l_decoder.html" title="This class contains methods for content encoding/decoding common to all or many codecs..." alt="" coords="297,92,540,116"/>
+<area shape="rect" id="node9" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_generic_x_m_l_encoder.html" title="This class contains methods for content encoding/decoding common to all or many codecs..." alt="" coords="297,140,540,164"/>
+<area shape="rect" id="node5" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_binary_x_m_l_decoder.html" title="An implementation of XMLDecoder for the Binary (ccnb) codec." alt="" coords="589,5,829,29"/>
+<area shape="rect" id="node7" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_text_x_m_l_decoder.html" title="An implementation of XMLDecoder for the Text codec." alt="" coords="596,79,823,103"/>
+<area shape="rect" id="node11" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_binary_x_m_l_encoder.html" title="An implementation of XMLEncoder for the Binary (ccnb) codec." alt="" coords="589,165,829,189"/>
+<area shape="rect" id="node13" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_text_x_m_l_encoder.html" title="An implementation of XMLEncoder for the Text codec." alt="" coords="596,215,823,239"/>
+<area shape="rect" id="node14" href="$interfaceorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_x_m_l_decoder.html" title="Each XMLCodec consists effectively of an encoder/decoder pair." alt="" coords="23,43,231,67"/>
+<area shape="rect" id="node18" href="$interfaceorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_x_m_l_encoder.html" title="org.ccnx.ccn.impl.encoding.XMLEncoder" alt="" coords="23,189,231,213"/>
+</map>

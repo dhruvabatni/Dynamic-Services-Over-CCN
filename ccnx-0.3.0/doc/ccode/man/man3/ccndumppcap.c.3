@@ -1,0 +1,199 @@
+.TH "cmd/ccndumppcap.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccndumppcap.c \- 
+.PP
+Reads in a one or more ccnbs from stdin (e.g.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLLC_LENGTH\fP   4"
+.br
+.ti -1c
+.RI "#define \fBIP_OFFSET\fP   LLC_LENGTH"
+.br
+.ti -1c
+.RI "#define \fBIP_ADDR_LENGTH\fP   4"
+.br
+.ti -1c
+.RI "#define \fBIP_HDR_LENGTH\fP   20"
+.br
+.ti -1c
+.RI "#define \fBIP_LENGTH_OFFSET\fP   IP_OFFSET + 2"
+.br
+.ti -1c
+.RI "#define \fBIP_CHKSUM_OFFSET\fP   IP_OFFSET + 10"
+.br
+.ti -1c
+.RI "#define \fBIP_SRC_ADDR_OFFSET\fP   IP_CHKSUM_OFFSET + 2"
+.br
+.ti -1c
+.RI "#define \fBIP_DEST_ADDR_OFFSET\fP   IP_CHKSUM_OFFSET + IP_ADDR_LENGTH"
+.br
+.ti -1c
+.RI "#define \fBUDP_OFFSET\fP   IP_OFFSET + IP_HDR_LENGTH"
+.br
+.ti -1c
+.RI "#define \fBUDP_HDR_LENGTH\fP   8"
+.br
+.ti -1c
+.RI "#define \fBUDP_LENGTH_OFFSET\fP   UDP_OFFSET + 4"
+.br
+.ti -1c
+.RI "#define \fBUDP_CHKSUM_OFFSET\fP   UDP_OFFSET + 6"
+.br
+.ti -1c
+.RI "#define \fBDATA_OFFSET\fP   UDP_OFFSET + UDP_HDR_LENGTH"
+.br
+.ti -1c
+.RI "#define \fBMAX_PACKET\fP   65536"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_SRC_PORT\fP   55555"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_DEST_PORT\fP   CCN_DEFAULT_UNICAST_PORT_NUMBER"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "static int \fBdump_udp_packet\fP (pcap_dumper_t *dump_file, unsigned char *ip_src_addr, unsigned char *ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port, const unsigned char *data, size_t data_len, struct timeval *ts)"
+.br
+.ti -1c
+.RI "static int \fBprocess_test\fP (pcap_dumper_t *pcap_out, int content_only, unsigned char *ip_src_addr, unsigned char *ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port, unsigned char *data, size_t n)"
+.br
+.ti -1c
+.RI "static int \fBprocess_fd\fP (pcap_dumper_t *pcap_out, int fd, int content_only, unsigned char *ip_src_addr, unsigned char *ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Reads in a one or more ccnbs from stdin (e.g. 
+
+as dumped by ccndump), and writes them to a pcap file. Uses the splitting code from ccn_splitccnb.
+.PP
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccndumppcap.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define DATA_OFFSET   UDP_OFFSET + UDP_HDR_LENGTH"
+.PP
+Definition at line 51 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define DEFAULT_DEST_PORT   CCN_DEFAULT_UNICAST_PORT_NUMBER"
+.PP
+Definition at line 54 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define DEFAULT_SRC_PORT   55555"
+.PP
+Definition at line 53 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_ADDR_LENGTH   4"
+.PP
+Definition at line 40 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_CHKSUM_OFFSET   IP_OFFSET + 10"
+.PP
+Definition at line 43 of file ccndumppcap.c.
+.SS "#define IP_DEST_ADDR_OFFSET   IP_CHKSUM_OFFSET + IP_ADDR_LENGTH"
+.PP
+Definition at line 45 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_HDR_LENGTH   20"
+.PP
+Definition at line 41 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_LENGTH_OFFSET   IP_OFFSET + 2"
+.PP
+Definition at line 42 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_OFFSET   LLC_LENGTH"
+.PP
+Definition at line 39 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define IP_SRC_ADDR_OFFSET   IP_CHKSUM_OFFSET + 2"
+.PP
+Definition at line 44 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define LLC_LENGTH   4"
+.PP
+Definition at line 38 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define MAX_PACKET   65536"
+.PP
+Definition at line 52 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet(), and main().
+.SS "#define UDP_CHKSUM_OFFSET   UDP_OFFSET + 6"
+.PP
+Definition at line 50 of file ccndumppcap.c.
+.SS "#define UDP_HDR_LENGTH   8"
+.PP
+Definition at line 48 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define UDP_LENGTH_OFFSET   UDP_OFFSET + 4"
+.PP
+Definition at line 49 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SS "#define UDP_OFFSET   IP_OFFSET + IP_HDR_LENGTH"
+.PP
+Definition at line 47 of file ccndumppcap.c.
+.PP
+Referenced by dump_udp_packet().
+.SH "Function Documentation"
+.PP 
+.SS "static int dump_udp_packet (pcap_dumper_t * dump_file, unsigned char * ip_src_addr, unsigned char * ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port, const unsigned char * data, size_t data_len, struct timeval * ts)\fC [static]\fP"
+.PP
+Definition at line 69 of file ccndumppcap.c.
+.PP
+Referenced by process_test().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 248 of file ccndumppcap.c.
+.SS "static int process_fd (pcap_dumper_t * pcap_out, int fd, int content_only, unsigned char * ip_src_addr, unsigned char * ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port)\fC [static]\fP"
+.PP
+Definition at line 223 of file ccndumppcap.c.
+.PP
+Referenced by main().
+.SS "static int process_test (pcap_dumper_t * pcap_out, int content_only, unsigned char * ip_src_addr, unsigned char * ip_dest_addr, unsigned short udp_src_port, unsigned short udp_dest_port, unsigned char * data, size_t n)\fC [static]\fP"
+.PP
+Definition at line 139 of file ccndumppcap.c.
+.PP
+Referenced by process_fd().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 57 of file ccndumppcap.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

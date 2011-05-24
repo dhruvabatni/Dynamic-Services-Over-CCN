@@ -1,0 +1,1 @@
+..//ccnd/../generic.mk

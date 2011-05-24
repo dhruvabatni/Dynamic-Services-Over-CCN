@@ -1,0 +1,85 @@
+.TH "ccn_forwarding_entry" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_forwarding_entry \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBaction\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBname_prefix\fP"
+.br
+.ti -1c
+.RI "const unsigned char * \fBccnd_id\fP"
+.br
+.ti -1c
+.RI "size_t \fBccnd_id_size\fP"
+.br
+.ti -1c
+.RI "unsigned \fBfaceid\fP"
+.br
+.ti -1c
+.RI "int \fBflags\fP"
+.br
+.ti -1c
+.RI "int \fBlifetime\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBstore\fP [48]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 26 of file reg_mgmt.h.
+.SH "Field Documentation"
+.PP 
+.SS "const char* \fBccn_forwarding_entry::action\fP"
+.PP
+Definition at line 27 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), main(), and register_unregister_prefix().
+.SS "const unsigned char* \fBccn_forwarding_entry::ccnd_id\fP"
+.PP
+Definition at line 29 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), and register_unregister_prefix().
+.SS "size_t \fBccn_forwarding_entry::ccnd_id_size\fP"
+.PP
+Definition at line 30 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), and register_unregister_prefix().
+.SS "unsigned \fBccn_forwarding_entry::faceid\fP"
+.PP
+Definition at line 31 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), main(), and register_unregister_prefix().
+.SS "int \fBccn_forwarding_entry::flags\fP"
+.PP
+Definition at line 32 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), and register_unregister_prefix().
+.SS "int \fBccn_forwarding_entry::lifetime\fP"
+.PP
+Definition at line 33 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), handle_prefix_reg_reply(), main(), process_command_tokens(), and register_unregister_prefix().
+.SS "struct \fBccn_charbuf\fP* \fBccn_forwarding_entry::name_prefix\fP\fC [read]\fP"
+.PP
+Definition at line 28 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccn_initiate_prefix_reg(), ccnb_append_forwarding_entry(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), main(), and register_unregister_prefix().
+.SS "unsigned char \fBccn_forwarding_entry::store\fP[48]"
+.PP
+Definition at line 34 of file reg_mgmt.h.
+.PP
+Referenced by ccn_forwarding_entry_parse().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

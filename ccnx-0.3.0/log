@@ -1,0 +1,402 @@
+for i in doc/manpages doc/technical csrc schema javasrc apps/ccnChat apps/ccnFileProxy; do         \
+	  (cd "$i" && pwd && make default) || exit 1;	\
+	done
+/home/dhruva/code/ccnx-0.3.0/doc/manpages
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/doc/manpages'
+: To build the documentation: make documentation
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/doc/manpages'
+/home/dhruva/code/ccnx-0.3.0/doc/technical
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/doc/technical'
+: To build the documentation: make documentation
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/doc/technical'
+/home/dhruva/code/ccnx-0.3.0/csrc
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+test -d include/ccn || (test -d ../include/ccn && mkdir -p include && ln -s ../../include/ccn include/ccn)
+for i in lib ccnd libexec cmd util tests; do         \
+	  (cd "$i" && pwd && make -f ../conf.mk -f dir.mk -f ../subr.mk "COPT=-g" CFLAGS='$(REAL_CFLAGS)' SRCDIR=..//$i default) || exit 1;	\
+	done
+/home/dhruva/code/ccnx-0.3.0/csrc/lib
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_client.o ccn_client.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_charbuf.o ccn_charbuf.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_indexbuf.o ccn_indexbuf.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_coding.o ccn_coding.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_dtag_table.o ccn_dtag_table.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_schedule.o ccn_schedule.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_matrix.o ccn_matrix.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_extend_dict.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_buf_decoder.o ccn_buf_decoder.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_uri.o ccn_uri.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_buf_encoder.o ccn_buf_encoder.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_bloom.o ccn_bloom.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_name_util.o ccn_name_util.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_face_mgmt.o ccn_face_mgmt.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_reg_mgmt.o ccn_reg_mgmt.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_digest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_interest.o ccn_interest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_keystore.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_seqwriter.o ccn_seqwriter.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_signing.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -c ccn_sockcreate.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_traverse.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_match.o ccn_match.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o hashtb.o hashtb.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c ccn_merkle_path_asn1.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_sockaddrutil.o ccn_sockaddrutil.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_setup_sockaddr_un.o ccn_setup_sockaddr_un.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_bulkdata.o ccn_bulkdata.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_versioning.o ccn_versioning.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -c ccn_header.c
+ar cru libccn.a ccn_client.o ccn_charbuf.o ccn_indexbuf.o ccn_coding.o ccn_dtag_table.o ccn_schedule.o ccn_matrix.o ccn_extend_dict.o ccn_buf_decoder.o ccn_uri.o ccn_buf_encoder.o ccn_bloom.o ccn_name_util.o ccn_face_mgmt.o ccn_reg_mgmt.o ccn_digest.o ccn_interest.o ccn_keystore.o ccn_seqwriter.o ccn_signing.o ccn_sockcreate.o ccn_traverse.o ccn_match.o hashtb.o ccn_merkle_path_asn1.o ccn_sockaddrutil.o ccn_setup_sockaddr_un.o ccn_bulkdata.o ccn_versioning.o ccn_header.o
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o hashtbtest.o hashtbtest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o hashtbtest hashtbtest.o -L../lib  -lccn
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o matrixtest.o matrixtest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o matrixtest matrixtest.o -L../lib  -lccn
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o skel_decode_test.o skel_decode_test.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o skel_decode_test skel_decode_test.o -L../lib  -lccn
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o smoketestclientlib.o smoketestclientlib.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o smoketestclientlib smoketestclientlib.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o encodedecodetest.o encodedecodetest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o encodedecodetest encodedecodetest.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC  -c signbenchtest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o signbenchtest signbenchtest.o -L../lib  -lccn  -lcrypto 
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o basicparsetest.o basicparsetest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o basicparsetest basicparsetest.o -L../lib  -lccn  -lcrypto
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+/home/dhruva/code/ccnx-0.3.0/csrc/ccnd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnd_main.o ccnd_main.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnd.o ccnd.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnd_msg.o ccnd_msg.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnd_stats.o ccnd_stats.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnd_internal_client.o ccnd_internal_client.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnd ccnd_main.o ccnd.o ccnd_msg.o ccnd_stats.o ccnd_internal_client.o -L../lib  -lccn  -lcrypto
+sh ./ccnd_built.sh
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccndsmoketest.o ccndsmoketest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccndsmoketest ccndsmoketest.o -L../lib  -lccn
+sed -e 's@/bin/sh@'`which sh`'@g' ccnd-init-keystore-helper.sh > ccnd-init-keystore-helper
+chmod +x ccnd-init-keystore-helper
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+/home/dhruva/code/ccnx-0.3.0/csrc/libexec
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccndc.o ccndc.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccndc ccndc.o -L../lib  -lccn  -lresolv -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o udplink.o udplink.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o udplink udplink.o -L../lib  -lccn   -lcrypto
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+/home/dhruva/code/ccnx-0.3.0/csrc/cmd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_ccnbtoxml.o ccn_ccnbtoxml.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccn_ccnbtoxml ccn_ccnbtoxml.o -L../lib  -lccn
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_splitccnb.o ccn_splitccnb.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccn_splitccnb ccn_splitccnb.o -L../lib  -lccn
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccndumpnames.o ccndumpnames.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccndumpnames ccndumpnames.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnrm.o ccnrm.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnrm ccnrm.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnls.o ccnls.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnls ccnls.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnslurp.o ccnslurp.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnslurp ccnslurp.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnbx.o ccnbx.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnbx ccnbx.o -L../lib  -lccn    -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccncat.o ccncat.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccncat ccncat.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnbasicconfig.o ccnbasicconfig.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnbasicconfig ccnbasicconfig.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnsendchunks.o ccnsendchunks.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnsendchunks ccnsendchunks.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccncatchunks.o ccncatchunks.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccncatchunks ccncatchunks.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccncatchunks2.o ccncatchunks2.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccncatchunks2 ccncatchunks2.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnput.o ccnput.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnput ccnput.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnget.o ccnget.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnget ccnget.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnhexdumpdata.o ccnhexdumpdata.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnhexdumpdata ccnhexdumpdata.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccn_xmltoccnb.o ccn_xmltoccnb.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccn_xmltoccnb ccn_xmltoccnb.o -L../lib  -lccn -lexpat
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccndumppcap.o ccndumppcap.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccndumppcap ccndumppcap.o -L../lib  -lccn  -lcrypto -lpcap
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnbuzz.o ccnbuzz.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnbuzz ccnbuzz.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o dataresponsetest.o dataresponsetest.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o dataresponsetest dataresponsetest.o -L../lib  -lccn  -lcrypto
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC   -c -o ccnseqwriter.o ccnseqwriter.c
+cc -g -Wall -Wpointer-arith -Wreturn-type -Wstrict-prototypes -I../include -D_REENTRANT -fPIC -o ccnseqwriter ccnseqwriter.o -L../lib  -lccn  -lcrypto
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+/home/dhruva/code/ccnx-0.3.0/csrc/util
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+./shebang /bin/sh ccndstart.sh > ccndstart
+chmod +x ccndstart
+./shebang /bin/sh ccndstop.sh > ccndstop
+chmod +x ccndstop
+./shebang /bin/sh ccndstatus.sh > ccndstatus
+chmod +x ccndstatus
+./shebang /bin/sh ccntestloop.sh > ccntestloop
+chmod +x ccntestloop
+./shebang /bin/sh ccndlogging.sh > ccndlogging
+chmod +x ccndlogging
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+/home/dhruva/code/ccnx-0.3.0/csrc/tests
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+../util/shebang /bin/sh testdriver.sh > testdriver
+chmod +x testdriver
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+/home/dhruva/code/ccnx-0.3.0/schema
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/schema'
+for i in validation; do         \
+	  (cd "$i" && pwd && make default) || break;			\
+	done
+/home/dhruva/code/ccnx-0.3.0/schema/validation
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/schema/validation'
+make[2]: Nothing to be done for `default'.
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/schema/validation'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/schema'
+/home/dhruva/code/ccnx-0.3.0/javasrc
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+`command -v ant || echo echo SKIPPING ant` -k jar
+Buildfile: build.xml
+
+compile:
+    [mkdir] Created dir: /home/dhruva/code/ccnx-0.3.0/javasrc/build
+    [javac] Compiling 355 source files to /home/dhruva/code/ccnx-0.3.0/javasrc/build
+     [copy] Copying 15 files to /home/dhruva/code/ccnx-0.3.0/javasrc/build
+
+jar:
+      [jar] Building jar: /home/dhruva/code/ccnx-0.3.0/javasrc/ccn.jar
+
+BUILD SUCCESSFUL
+Total time: 12 seconds
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+/home/dhruva/code/ccnx-0.3.0/apps/ccnChat
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+`command -v ant || echo echo SKIPPING ant` -k jar
+Buildfile: build.xml
+
+compile:
+    [mkdir] Created dir: /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/build
+    [javac] Compiling 3 source files to /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/build
+
+jar:
+      [jar] Building jar: /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/ccnChat.jar
+
+BUILD SUCCESSFUL
+Total time: 1 second
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+`command -v ant || echo echo SKIPPING ant` -k jar
+Buildfile: build.xml
+
+compile:
+    [mkdir] Created dir: /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/build
+    [javac] Compiling 4 source files to /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/build
+
+jar:
+      [jar] Building jar: /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/ccnFileProxy.jar
+
+BUILD SUCCESSFUL
+Total time: 2 seconds
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+(cd csrc/lib && { test -f "$HOME/.ccnx/.ccnx_keystore" || make test; }; )
+mkdir -p ./lib ./bin
+test -d ./include || ln -s ./csrc/include
+(cd csrc && make install INSTALL_BASE=`pwd`/..)
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+test -d include/ccn || (test -d ../include/ccn && mkdir -p include && ln -s ../../include/ccn include/ccn)
+for i in lib ccnd libexec cmd util tests; do         \
+	  (cd "$i" && pwd && make -f ../conf.mk -f dir.mk -f ../subr.mk "COPT=-g" CFLAGS='$(REAL_CFLAGS)' SRCDIR=..//$i install) || exit 1;	\
+	done
+/home/dhruva/code/ccnx-0.3.0/csrc/lib
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../include
+mkdir -p /home/dhruva/code/ccnx-0.3.0/csrc/../include/ccn
+for i in `cd ../include/ccn && echo *.h`; do                \
+	    cmp -s ../include/ccn/$i /home/dhruva/code/ccnx-0.3.0/csrc/../include/ccn/$i || \
+	        cp ../include/ccn/$i /home/dhruva/code/ccnx-0.3.0/csrc/../include/ccn/$i || \
+	        exit 1;                                             \
+	done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in libccn.a ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+/home/dhruva/code/ccnx-0.3.0/csrc/ccnd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in ccnd ccndsmoketest ccnd-init-keystore-helper ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+/home/dhruva/code/ccnx-0.3.0/csrc/libexec
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in ccndc ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+/home/dhruva/code/ccnx-0.3.0/csrc/cmd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in ccn_ccnbtoxml ccn_splitccnb ccndumpnames ccnrm ccnls ccnslurp ccnbx ccncat ccnbasicconfig ccnsendchunks ccncatchunks ccncatchunks2 ccnput ccnget ccnhexdumpdata ccn_xmltoccnb ccndumppcap ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+/home/dhruva/code/ccnx-0.3.0/csrc/util
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in ccndstart ccndstop ccndstatus ccntestloop ccndlogging ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+/home/dhruva/code/ccnx-0.3.0/csrc/tests
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../lib
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/csrc/../bin
+for i in  ""; do test -z "$i" || install $i /home/dhruva/code/ccnx-0.3.0/csrc/../bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+(cd javasrc && make install INSTALL_BASE=`pwd`/..)
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+test -d /home/dhruva/code/ccnx-0.3.0/javasrc/../lib 
+for i in ccn.jar lib/bcprov-jdk16-143.jar lib/kxml2-2.3.0.jar `find lib/bcprov-jdk15-143.jar -print 2>/dev/null` ""; do test -z "$i" || cp  $i /home/dhruva/code/ccnx-0.3.0/javasrc/../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/javasrc/../bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /home/dhruva/code/ccnx-0.3.0/javasrc/../bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+(cd apps/ccnChat && make install INSTALL_BASE=`pwd`/../..)
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+test -d /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/../../lib 
+for i in ccnChat.jar ""; do test -z "$i" || cp  $i /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/../../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/../../bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /home/dhruva/code/ccnx-0.3.0/apps/ccnChat/../../bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+(cd apps/ccnFileProxy && make install INSTALL_BASE=`pwd`/../..)
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+test -d /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/../../lib 
+for i in ccnFileProxy.jar ""; do test -z "$i" || cp  $i /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/../../lib; done
+test -d /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/../../bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy/../../bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+
+---------------------------------------------------------------------------------------
+for i in doc/manpages doc/technical csrc schema javasrc apps/ccnChat apps/ccnFileProxy; do         \
+	  (cd "$i" && pwd && make install) || exit 1;	\
+	done
+/home/dhruva/code/ccnx-0.3.0/doc/manpages
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/doc/manpages'
+make[1]: Nothing to be done for `install'.
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/doc/manpages'
+/home/dhruva/code/ccnx-0.3.0/doc/technical
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/doc/technical'
+make[1]: Nothing to be done for `install'.
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/doc/technical'
+/home/dhruva/code/ccnx-0.3.0/csrc
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+test -d include/ccn || (test -d ../include/ccn && mkdir -p include && ln -s ../../include/ccn include/ccn)
+for i in lib ccnd libexec cmd util tests; do         \
+	  (cd "$i" && pwd && make -f ../conf.mk -f dir.mk -f ../subr.mk "COPT=-g" CFLAGS='$(REAL_CFLAGS)' SRCDIR=..//$i install) || exit 1;	\
+	done
+/home/dhruva/code/ccnx-0.3.0/csrc/lib
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+test -d /usr/local/include
+mkdir -p /usr/local/include/ccn
+for i in `cd ../include/ccn && echo *.h`; do                \
+	    cmp -s ../include/ccn/$i /usr/local/include/ccn/$i || \
+	        cp ../include/ccn/$i /usr/local/include/ccn/$i || \
+	        exit 1;                                             \
+	done
+test -d /usr/local/lib
+for i in libccn.a ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in  ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/lib'
+/home/dhruva/code/ccnx-0.3.0/csrc/ccnd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+test -d /usr/local/lib
+for i in  ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in ccnd ccndsmoketest ccnd-init-keystore-helper ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/ccnd'
+/home/dhruva/code/ccnx-0.3.0/csrc/libexec
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+test -d /usr/local/lib
+for i in  ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in ccndc ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/libexec'
+/home/dhruva/code/ccnx-0.3.0/csrc/cmd
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+test -d /usr/local/lib
+for i in  ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in ccn_ccnbtoxml ccn_splitccnb ccndumpnames ccnrm ccnls ccnslurp ccnbx ccncat ccnbasicconfig ccnsendchunks ccncatchunks ccncatchunks2 ccnput ccnget ccnhexdumpdata ccn_xmltoccnb ccndumppcap ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/cmd'
+/home/dhruva/code/ccnx-0.3.0/csrc/util
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+test -d /usr/local/lib
+for i in  ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in ccndstart ccndstop ccndstatus ccntestloop ccndlogging ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/util'
+/home/dhruva/code/ccnx-0.3.0/csrc/tests
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+test -d /usr/local/lib
+for i in  ""; do test -z "$i" || install $i /usr/local/lib; done
+test -d /usr/local/bin
+for i in  ""; do test -z "$i" || install $i /usr/local/bin; done
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc/tests'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/csrc'
+/home/dhruva/code/ccnx-0.3.0/schema
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/schema'
+for i in validation; do         \
+	  (cd "$i" && pwd && make install) || break;			\
+	done
+/home/dhruva/code/ccnx-0.3.0/schema/validation
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/schema/validation'
+make[2]: Nothing to be done for `install'.
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/schema/validation'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/schema'
+/home/dhruva/code/ccnx-0.3.0/javasrc
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+test -d /usr/local/lib 
+for i in ccn.jar lib/bcprov-jdk16-143.jar lib/kxml2-2.3.0.jar `find lib/bcprov-jdk15-143.jar -print 2>/dev/null` ""; do test -z "$i" || cp  $i /usr/local/lib; done
+test -d /usr/local/bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /usr/local/bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/javasrc'
+/home/dhruva/code/ccnx-0.3.0/apps/ccnChat
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+test -d /usr/local/lib 
+for i in ccnChat.jar ""; do test -z "$i" || cp  $i /usr/local/lib; done
+test -d /usr/local/bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /usr/local/bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnChat'
+/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy
+make[1]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+make[2]: Entering directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+test -d /usr/local/lib 
+for i in ccnFileProxy.jar ""; do test -z "$i" || cp  $i /usr/local/lib; done
+test -d /usr/local/bin
+# Using -R on . dir to preserve sym links
+cp -R tools/. /usr/local/bin
+make[2]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'
+make[1]: Leaving directory `/home/dhruva/code/ccnx-0.3.0/apps/ccnFileProxy'

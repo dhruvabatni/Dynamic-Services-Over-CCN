@@ -1,0 +1,76 @@
+.TH "cmd/ccnrm.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnrm.c \- 
+.PP
+Mark as stale any local items a matching given prefixes.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBlocal_scope_rm_template\fP (void)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static struct \fBccn_closure\fP \fBincoming_content_action\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Mark as stale any local items a matching given prefixes. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnrm.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 66 of file ccnrm.c.
+.SS "struct \fBccn_charbuf\fP* local_scope_rm_template (void)\fC [read]\fP"
+.PP
+Definition at line 46 of file ccnrm.c.
+.PP
+Referenced by main().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 94 of file ccnrm.c.
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 28 of file ccnrm.c.
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBccn_closure\fP \fBincoming_content_action\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+ {
+    .p = &incoming_content,
+    .data = &mydata
+}
+.fi
+.PP
+Definition at line 88 of file ccnrm.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

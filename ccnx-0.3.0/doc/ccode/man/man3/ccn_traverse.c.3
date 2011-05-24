@@ -1,0 +1,166 @@
+.TH "lib/ccn_traverse.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_traverse.c \- 
+.PP
+Support for traversing a branch of the ccn name hierarchy.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEXCLUDE_LOW\fP   1"
+.br
+.ti -1c
+.RI "#define \fBEXCLUDE_HIGH\fP   2"
+.br
+.ti -1c
+.RI "#define \fBMUST_VERIFY\fP   4"
+.br
+.ti -1c
+.RI "#define \fBLOCAL_SCOPE\fP   8"
+.br
+.ti -1c
+.RI "#define \fBALLOW_STALE\fP   0x10"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBnamecompare\fP (const void *a, const void *b)"
+.br
+.RI "\fIComparison operator for sorting the excl list with qsort. \fP"
+.ti -1c
+.RI "static struct ccn_traversal * \fBget_my_data\fP (struct \fBccn_closure\fP *selfp)"
+.br
+.ti -1c
+.RI "static void \fBappend_Any_filter\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAppend an Any filter, useful for excluding everything between two 'fenceposts' in an Exclude construct. \fP"
+.ti -1c
+.RI "static int \fBexpress_my_interest\fP (struct ccn *h, struct \fBccn_closure\fP *selfp, struct \fBccn_charbuf\fP *name)"
+.br
+.ti -1c
+.RI "static struct \fBccn_closure\fP * \fBsplit_my_excludes\fP (struct \fBccn_closure\fP *selfp)"
+.br
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBccn_charbuf_duplicate\fP (struct \fBccn_charbuf\fP *)"
+.br
+.ti -1c
+.RI "static void \fBanswer_passive\fP (struct \fBccn_charbuf\fP *templ, int allow_stale)"
+.br
+.ti -1c
+.RI "static void \fBlocal_scope\fP (struct \fBccn_charbuf\fP *templ)"
+.br
+.ti -1c
+.RI "void \fBccn_dump_names\fP (struct ccn *h, struct \fBccn_charbuf\fP *name_prefix, int local_scope, int allow_stale)"
+.br
+.RI "\fITemporary driver - exits when done! \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for traversing a branch of the ccn name hierarchy. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_traverse.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define ALLOW_STALE   0x10"
+.PP
+Definition at line 51 of file ccn_traverse.c.
+.PP
+Referenced by ccn_dump_names(), and express_my_interest().
+.SS "#define EXCLUDE_HIGH   2"
+.PP
+Definition at line 48 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest(), incoming_content(), and split_my_excludes().
+.SS "#define EXCLUDE_LOW   1"
+.PP
+Definition at line 47 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest(), incoming_content(), and split_my_excludes().
+.SS "#define LOCAL_SCOPE   8"
+.PP
+Definition at line 50 of file ccn_traverse.c.
+.PP
+Referenced by ccn_dump_names(), and express_my_interest().
+.SS "#define MUST_VERIFY   4"
+.PP
+Definition at line 49 of file ccn_traverse.c.
+.PP
+Referenced by ccnd_answer_req(), incoming_content(), and main().
+.SH "Function Documentation"
+.PP 
+.SS "static void answer_passive (struct \fBccn_charbuf\fP * templ, int allow_stale)\fC [static]\fP"
+.PP
+Definition at line 347 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest().
+.SS "static void append_Any_filter (struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+Append an Any filter, useful for excluding everything between two 'fenceposts' in an Exclude construct. 
+.PP
+Definition at line 328 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest().
+.SS "static struct \fBccn_charbuf\fP * ccn_charbuf_duplicate (struct \fBccn_charbuf\fP * c)\fC [static, read]\fP"
+.PP
+Definition at line 335 of file ccn_traverse.c.
+.PP
+Referenced by split_my_excludes().
+.SS "void ccn_dump_names (struct ccn * h, struct \fBccn_charbuf\fP * name_prefix, int local_scope, int allow_stale)"
+.PP
+Temporary driver - exits when done! This is a temporary interface, don't even bother to put it in a header file. 
+.PP
+Definition at line 373 of file ccn_traverse.c.
+.PP
+Referenced by main().
+.SS "static int express_my_interest (struct ccn * h, struct \fBccn_closure\fP * selfp, struct \fBccn_charbuf\fP * name)\fC [static]\fP"
+.PP
+Definition at line 239 of file ccn_traverse.c.
+.PP
+Referenced by ccn_dump_names(), and incoming_content().
+.SS "static struct ccn_traversal * get_my_data (struct \fBccn_closure\fP * selfp)\fC [static, read]\fP"
+.PP
+Definition at line 85 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest(), incoming_content(), and split_my_excludes().
+.SS "static enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 125 of file ccn_traverse.c.
+.PP
+Referenced by ccn_dump_names(), incoming_content(), main(), and split_my_excludes().
+.SS "static void local_scope (struct \fBccn_charbuf\fP * templ)\fC [static]\fP"
+.PP
+Definition at line 360 of file ccn_traverse.c.
+.PP
+Referenced by express_my_interest().
+.SS "static int namecompare (const void * a, const void * b)\fC [static]\fP"
+.PP
+Comparison operator for sorting the excl list with qsort. For convenience, the items in the excl array are charbufs containing ccnb-encoded Names of one component each. (This is not the most efficient representation.) 
+.PP
+Definition at line 75 of file ccn_traverse.c.
+.PP
+Referenced by incoming_content().
+.SS "static struct \fBccn_closure\fP * split_my_excludes (struct \fBccn_closure\fP * selfp)\fC [static, read]\fP"
+.PP
+Definition at line 288 of file ccn_traverse.c.
+.PP
+Referenced by incoming_content().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

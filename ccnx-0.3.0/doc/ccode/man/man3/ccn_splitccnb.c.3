@@ -1,0 +1,77 @@
+.TH "cmd/ccn_splitccnb.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccn_splitccnb.c \- 
+.PP
+Utility to break up a file filled with ccnb-encoded data items into one data item per file.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static char * \fBsegment_prefix\fP (char *path)"
+.br
+.ti -1c
+.RI "static int \fBwrite_segment\fP (unsigned char *data, size_t s, struct fstate *perfilestate)"
+.br
+.ti -1c
+.RI "static int \fBprocess_test\fP (unsigned char *data, size_t n, struct fstate *perfilestate)"
+.br
+.ti -1c
+.RI "static int \fBprocess_fd\fP (int fd, struct fstate *perfilestate)"
+.br
+.ti -1c
+.RI "static int \fBprocess_file\fP (char *path, struct fstate *perfilestate)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility to break up a file filled with ccnb-encoded data items into one data item per file. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccn_splitccnb.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char * argv[])"
+.PP
+Definition at line 160 of file ccn_splitccnb.c.
+.SS "static int process_fd (int fd, struct fstate * perfilestate)\fC [static]\fP"
+.PP
+Definition at line 119 of file ccn_splitccnb.c.
+.PP
+Referenced by process_file().
+.SS "static int process_file (char * path, struct fstate * perfilestate)\fC [static]\fP"
+.PP
+Definition at line 138 of file ccn_splitccnb.c.
+.PP
+Referenced by main().
+.SS "static int process_test (unsigned char * data, size_t n, struct fstate * perfilestate)\fC [static]\fP"
+.PP
+Definition at line 79 of file ccn_splitccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static char* segment_prefix (char * path)\fC [static]\fP"
+.PP
+Definition at line 41 of file ccn_splitccnb.c.
+.PP
+Referenced by process_file().
+.SS "static int write_segment (unsigned char * data, size_t s, struct fstate * perfilestate)\fC [static]\fP"
+.PP
+Definition at line 55 of file ccn_splitccnb.c.
+.PP
+Referenced by process_test().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

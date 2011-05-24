@@ -1,0 +1,67 @@
+.TH "cmd/ccncat.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccncat.c \- 
+.PP
+Reads streams at the given CCNx URIs and writes to stdout.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.RI "\fIProvide usage hints for the program and then exit with a non-zero status. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBmake_template\fP (struct mydata *md, struct \fBccn_upcall_info\fP *info)"
+.br
+.RI "\fIConstruct a template suitable for use with ccn_express_interest indicating at least one suffix component, and stale data if so requested. \fP"
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.RI "\fIHandle the incoming content messages. \fP"
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.RI "\fIProcess options and then loop through command line CCNx URIs retrieving the data and writing it to stdout. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Reads streams at the given CCNx URIs and writes to stdout. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccncat.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Handle the incoming content messages. Extracts the data, and requests the next block in sequence if the received block was not the final one. 
+.PP
+Definition at line 80 of file ccncat.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Process options and then loop through command line CCNx URIs retrieving the data and writing it to stdout. 
+.PP
+Definition at line 184 of file ccncat.c.
+.SS "struct \fBccn_charbuf\fP* make_template (struct mydata * md, struct \fBccn_upcall_info\fP * info)\fC [read]\fP"
+.PP
+Construct a template suitable for use with ccn_express_interest indicating at least one suffix component, and stale data if so requested. 
+.PP
+Definition at line 55 of file ccncat.c.
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Provide usage hints for the program and then exit with a non-zero status. 
+.PP
+Definition at line 33 of file ccncat.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

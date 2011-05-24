@@ -1,0 +1,119 @@
+.TH "include/ccn/signing.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/signing.h \- 
+.PP
+Message signing interface.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_sigc * \fBccn_sigc_create\fP (void)"
+.br
+.ti -1c
+.RI "int \fBccn_sigc_init\fP (struct ccn_sigc *ctx, const char *digest)"
+.br
+.ti -1c
+.RI "void \fBccn_sigc_destroy\fP (struct ccn_sigc **)"
+.br
+.ti -1c
+.RI "int \fBccn_sigc_update\fP (struct ccn_sigc *ctx, const void *data, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_sigc_final\fP (struct ccn_sigc *ctx, struct ccn_signature *signature, size_t *size, const struct ccn_pkey *priv_key)"
+.br
+.ti -1c
+.RI "size_t \fBccn_sigc_signature_max_size\fP (struct ccn_sigc *ctx, const struct ccn_pkey *priv_key)"
+.br
+.ti -1c
+.RI "int \fBccn_verify_signature\fP (const unsigned char *msg, size_t size, const struct \fBccn_parsed_ContentObject\fP *co, const struct ccn_pkey *verification_pubkey)"
+.br
+.ti -1c
+.RI "struct ccn_pkey * \fBccn_d2i_pubkey\fP (const unsigned char *p, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_pubkey_free\fP (struct ccn_pkey *i_pubkey)"
+.br
+.ti -1c
+.RI "size_t \fBccn_pubkey_size\fP (const struct ccn_pkey *i_pubkey)"
+.br
+.ti -1c
+.RI "int \fBccn_append_pubkey_blob\fP (struct \fBccn_charbuf\fP *c, const struct ccn_pkey *i_pubkey)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Message signing interface. 
+
+This is a veneer so that the ccn code can use various underlying implementations of the signature functions without muss and fuss.
+.PP
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBsigning.h\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_append_pubkey_blob (struct \fBccn_charbuf\fP * c, const struct ccn_pkey * i_pubkey)"
+.PP
+Definition at line 316 of file ccn_signing.c.
+.PP
+Referenced by ccn_get_public_key(), ccn_sign_content(), main(), and signed_info_create().
+.SS "struct ccn_pkey* ccn_d2i_pubkey (const unsigned char * p, size_t size)\fC [read]\fP"
+.PP
+Definition at line 291 of file ccn_signing.c.
+.PP
+Referenced by ccn_cache_key(), and ccn_locate_key().
+.SS "void ccn_pubkey_free (struct ccn_pkey * i_pubkey)"
+.PP
+Definition at line 300 of file ccn_signing.c.
+.PP
+Referenced by finalize_pkey().
+.SS "size_t ccn_pubkey_size (const struct ccn_pkey * i_pubkey)"
+.PP
+Definition at line 307 of file ccn_signing.c.
+.SS "struct ccn_sigc* ccn_sigc_create (void)\fC [read]\fP"
+.PP
+Definition at line 37 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "void ccn_sigc_destroy (struct ccn_sigc **)"
+.PP
+Definition at line 43 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "int ccn_sigc_final (struct ccn_sigc * ctx, struct ccn_signature * signature, size_t * size, const struct ccn_pkey * priv_key)"
+.PP
+Definition at line 80 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "int ccn_sigc_init (struct ccn_sigc * ctx, const char * digest)"
+.PP
+Definition at line 54 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "size_t ccn_sigc_signature_max_size (struct ccn_sigc * ctx, const struct ccn_pkey * priv_key)"
+.PP
+Definition at line 91 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "int ccn_sigc_update (struct ccn_sigc * ctx, const void * data, size_t size)"
+.PP
+Definition at line 72 of file ccn_signing.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "int ccn_verify_signature (const unsigned char * msg, size_t size, const struct \fBccn_parsed_ContentObject\fP * co, const struct ccn_pkey * verification_pubkey)"
+.PP
+Definition at line 173 of file ccn_signing.c.
+.PP
+Referenced by ccn_dispatch_message(), ccn_verify_content(), decode_message(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,63 @@
+.TH "cmd/ccnsendchunks.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnsendchunks.c \- 
+.PP
+Injects chunks of data from stdin into ccn.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_interest\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "ssize_t \fBread_full\fP (int fd, unsigned char *buf, size_t size)"
+.br
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Injects chunks of data from stdin into ccn. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnsendchunks.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 37 of file ccnsendchunks.c.
+.SS "enum \fBccn_upcall_res\fP incoming_interest (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 56 of file ccnsendchunks.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 106 of file ccnsendchunks.c.
+.SS "ssize_t read_full (int fd, unsigned char * buf, size_t size)"
+.PP
+Definition at line 76 of file ccnsendchunks.c.
+.PP
+Referenced by main().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 95 of file ccnsendchunks.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,94 @@
+.TH "lib/ccn_sockcreate.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_sockcreate.c \- 
+.PP
+Setting up a socket from a text-based description.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLOGGIT\fP   if (logger) (*logger)"
+.br
+.ti -1c
+.RI "#define \fBGOT_HERE\fP   LOGGIT(logdat, 'at ccn_sockcreate.c:%d', __LINE__);"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBset_multicast_socket_options\fP (int socket_r, int socket_w, struct addrinfo *ai, struct addrinfo *localif_for_mcast_addrinfo, int multicastttl, int ifindex, void(*logger)(void *, const char *,...), void *logdat)"
+.br
+.ti -1c
+.RI "int \fBccn_setup_socket\fP (const struct \fBccn_sockdescr\fP *descr, void(*logger)(void *, const char *,...), void *logdat, int(*getbound)(void *, struct sockaddr *, socklen_t), void *getbounddat, struct \fBccn_sockets\fP *socks)"
+.br
+.RI "\fIUtility for setting up a socket (or pair of sockets) from a text-based description. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Setting up a socket from a text-based description. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_sockcreate.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define GOT_HERE   LOGGIT(logdat, 'at ccn_sockcreate.c:%d', __LINE__);"
+.PP
+Definition at line 42 of file ccn_sockcreate.c.
+.PP
+Referenced by ccn_setup_socket(), ccnd_answer_req(), ccnd_face_status_change(), ccnd_notice_push(), ccnd_start_notice(), incoming_content(), and post_face_notice().
+.SS "#define LOGGIT   if (logger) (*logger)"
+.PP
+Definition at line 41 of file ccn_sockcreate.c.
+.PP
+Referenced by ccn_setup_socket(), and set_multicast_socket_options().
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_setup_socket (const struct \fBccn_sockdescr\fP * descr, void(*)(void *, const char *,...) logger, void * logdat, int(*)(void *, struct sockaddr *, socklen_t) getbound, void * getbounddat, struct \fBccn_sockets\fP * socks)"
+.PP
+Utility for setting up a socket (or pair of sockets) from a text-based description. Currently this is only used for UDP multicast.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdescr\fP hold the information needed to create the socket(s). 
+.br
+\fIlogger\fP should be used for reporting errors, printf-style. 
+.br
+\fIlogdat\fP must be passed as first argument to \fBlogger()\fP. 
+.br
+\fIgetbound\fP is callback for getting already-bound sender socket, should return -1 if none. 
+.br
+\fIgetbounddat\fP is passed as first argument to getbound 
+.br
+\fIsocks\fP will be filled in with the pair of socket file descriptors. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 172 of file ccn_sockcreate.c.
+.PP
+Referenced by setup_multicast().
+.SS "static int set_multicast_socket_options (int socket_r, int socket_w, struct addrinfo * ai, struct addrinfo * localif_for_mcast_addrinfo, int multicastttl, int ifindex, void(*)(void *, const char *,...) logger, void * logdat)\fC [static]\fP"
+.PP
+Definition at line 46 of file ccn_sockcreate.c.
+.PP
+Referenced by ccn_setup_socket().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

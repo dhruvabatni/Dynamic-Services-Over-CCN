@@ -1,0 +1,134 @@
+.TH "propagating_entry" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+propagating_entry \- 
+.PP
+The propagating interest hash table is keyed by Nonce.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct \fBpropagating_entry\fP * \fBnext\fP"
+.br
+.ti -1c
+.RI "struct \fBpropagating_entry\fP * \fBprev\fP"
+.br
+.ti -1c
+.RI "unsigned \fBflags\fP"
+.br
+.RI "\fICCN_PR_xxx. \fP"
+.ti -1c
+.RI "unsigned \fBfaceid\fP"
+.br
+.RI "\fIorigin of the interest, dest for matches \fP"
+.ti -1c
+.RI "int \fBusec\fP"
+.br
+.RI "\fIusec until timeout \fP"
+.ti -1c
+.RI "int \fBsent\fP"
+.br
+.RI "\fIleading faceids of outbound processed \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBoutbound\fP"
+.br
+.RI "\fIin order of use \fP"
+.ti -1c
+.RI "unsigned char * \fBinterest_msg\fP"
+.br
+.RI "\fIpending interest message \fP"
+.ti -1c
+.RI "unsigned \fBsize\fP"
+.br
+.RI "\fIsize in bytes of interest_msg \fP"
+.ti -1c
+.RI "int \fBfgen\fP"
+.br
+.RI "\fIdecide if outbound is stale \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The propagating interest hash table is keyed by Nonce. 
+
+While the interest is pending, the pe is also kept in a doubly-linked list off of a \fBnameprefix_entry\fP.
+.PP
+When the interest is consumed, the pe is removed from the doubly-linked list and is cleaned up by freeing unnecessary bits (including the interest message itself). It remains in the hash table for a time, in order to catch duplicate nonces. 
+.PP
+Definition at line 258 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "unsigned \fBpropagating_entry::faceid\fP"
+.PP
+origin of the interest, dest for matches 
+.PP
+Definition at line 262 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccnd_collect_stats(), consume(), consume_matching_interests(), do_propagate(), nameprefix_for_pe(), nameprefix_seek(), propagate_interest(), and replan_propagation().
+.SS "int \fBpropagating_entry::fgen\fP"
+.PP
+decide if outbound is stale 
+.PP
+Definition at line 268 of file ccnd_private.h.
+.PP
+Referenced by do_propagate(), propagate_interest(), and replan_propagation().
+.SS "unsigned \fBpropagating_entry::flags\fP"
+.PP
+CCN_PR_xxx. 
+.PP
+Definition at line 261 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_stuff_interest(), do_propagate(), propagate_interest(), and replan_propagation().
+.SS "unsigned char* \fBpropagating_entry::interest_msg\fP"
+.PP
+pending interest message 
+.PP
+Definition at line 266 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_stuff_interest(), ccnd_collect_stats(), check_propagating(), consume(), consume_matching_interests(), do_propagate(), and propagate_interest().
+.SS "struct \fBpropagating_entry\fP* \fBpropagating_entry::next\fP\fC [read]\fP"
+.PP
+Definition at line 259 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccnd_collect_stats(), check_nameprefix_entries(), consume(), consume_matching_interests(), finalize_nameprefix(), link_propagating_interest_to_nameprefix(), nameprefix_for_pe(), and nameprefix_seek().
+.SS "struct \fBccn_indexbuf\fP* \fBpropagating_entry::outbound\fP\fC [read]\fP"
+.PP
+in order of use 
+.PP
+Definition at line 265 of file ccnd_private.h.
+.PP
+Referenced by ccn_stuff_interest(), consume(), do_propagate(), promote_outbound(), propagate_interest(), and replan_propagation().
+.SS "struct \fBpropagating_entry\fP* \fBpropagating_entry::prev\fP\fC [read]\fP"
+.PP
+Definition at line 260 of file ccnd_private.h.
+.PP
+Referenced by ccn_stuff_interest(), consume(), link_propagating_interest_to_nameprefix(), and nameprefix_seek().
+.SS "int \fBpropagating_entry::sent\fP"
+.PP
+leading faceids of outbound processed 
+.PP
+Definition at line 264 of file ccnd_private.h.
+.PP
+Referenced by ccn_stuff_interest(), do_propagate(), is_duplicate_flooded(), pe_next_usec(), promote_outbound(), and propagate_interest().
+.SS "unsigned \fBpropagating_entry::size\fP"
+.PP
+size in bytes of interest_msg 
+.PP
+Definition at line 267 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_stuff_interest(), check_propagating(), consume_matching_interests(), do_propagate(), and propagate_interest().
+.SS "int \fBpropagating_entry::usec\fP"
+.PP
+usec until timeout 
+.PP
+Definition at line 263 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), consume(), do_propagate(), pe_next_usec(), and propagate_interest().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

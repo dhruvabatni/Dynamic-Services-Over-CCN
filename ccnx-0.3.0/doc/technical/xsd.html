@@ -1,0 +1,792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
+<title>CCNx Main Schema</title>
+<style type="text/css">
+/* Debug borders */
+p, li, dt, dd, div, pre, h1, h2, h3, h4, h5, h6 {
+/*
+  border: 1px solid red;
+*/
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  font-family: serif;
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+  font-family: sans-serif;
+}
+
+div#footer {
+  font-family: sans-serif;
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > div.content {
+  white-space: pre;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+/* Workarounds for IE6's broken and incomplete CSS2. */
+
+div.sidebar-content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+div.sidebar-title, div.image-title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 0.0em;
+  margin-bottom: 0.5em;
+}
+
+div.listingblock div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock-attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock-content {
+  white-space: pre;
+}
+div.verseblock-attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+
+div.exampleblock-content {
+  border-left: 2px solid silver;
+  padding-left: 0.5em;
+}
+
+/* IE6 sets dynamically generated links as visited. */
+div#toc a:visited { color: blue; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>CCNx Main Schema</h1>
+</div>
+<h2 id="_ccnx_xml_schema">CCNx XML schema</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This corresponds to the DTD <a href="dtd.html">ccnx.dtd</a>.</p></div>
+<div class="listingblock">
+<div class="title">ccnx.xsd</div>
+<div class="content">
+<pre><tt>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE xs:schema PUBLIC "-//W3C//DTD XMLSCHEMA 200102//EN" "XMLSchema.dtd"&gt;
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+&lt;!-- XXX
+        xmlns:ccn="http://www.ccnx.org/content/schema/20090915"
+        targetNamespace="http://www.ccnx.org/content/schema/20090915"
+        elementFormDefault="unqualified"
+        attributeFormDefault="unqualified"
+--&gt;
+
+  &lt;xs:annotation&gt;
+    &lt;xs:documentation xml:lang="en"&gt;
+      Content-Centric Networks data schema.
+    &lt;/xs:documentation&gt;
+  &lt;/xs:annotation&gt;
+
+&lt;!-- Top-level objects that can appear in
+     documents, messages, etc. --&gt;
+&lt;xs:element name="CCNProtocolDataUnit"/&gt; &lt;!-- FIXTHIS - needs a type --&gt;
+&lt;xs:element name="ContentObject" type="ContentObjectType"/&gt;
+&lt;xs:element name="CompleteName" type="CompleteNameType"/&gt;
+&lt;xs:element name="Collection" type="CollectionType"/&gt;
+&lt;xs:element name="Link" type="LinkType"/&gt;
+&lt;xs:element name="KeyValueSet" type="KeyValueSetType"/&gt;
+&lt;xs:element name="Header" type="HeaderType"/&gt;
+&lt;xs:element name="Interest" type="InterestType"/&gt;
+
+&lt;xs:complexType name="CollectionType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Link" type="LinkType" minOccurs="0" maxOccurs="unbounded"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="LinkType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Name" type="NameType"/&gt;
+    &lt;xs:element name="Label" type="xs:string" minOccurs="0" maxOccurs="1" /&gt;
+    &lt;xs:element name="LinkAuthenticator" type="LinkAuthenticatorType" minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="LinkAuthenticatorType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:choice minOccurs="0" maxOccurs="1"&gt;
+        &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherCertificateDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerCertificateDigest" type="DigestType"/&gt;
+    &lt;/xs:choice&gt;
+    &lt;xs:element name="NameComponentCount" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="Timestamp" type="TimestampType" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="Type" type="ContentType" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="ContentDigest" type="Base64BinaryType" minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="NameValueType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Name" type="NameType"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="KeyValuePairType"&gt;
+  &lt;xs:sequence&gt;
+      &lt;xs:element name="Key" type="xs:string"/&gt;
+      &lt;xs:choice&gt;
+        &lt;xs:element name="IntegerValue" type="xs:integer"/&gt;
+        &lt;xs:element name="DecimalValue" type="xs:decimal"/&gt;
+        &lt;xs:element name="StringValue" type="xs:string"/&gt;
+        &lt;xs:element name="BinaryValue" type="Base64BinaryType"/&gt;
+        &lt;xs:element name="NameValue" type="NameValueType"/&gt;
+      &lt;/xs:choice&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Maybe there is a way to drop a level of nesting... --&gt;
+&lt;xs:complexType name="KeyValueSetType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Entry" type="KeyValuePairType" minOccurs="0" maxOccurs="unbounded"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="HeaderType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Start" type="xs:nonNegativeInteger"/&gt;
+    &lt;xs:element name="Count" type="xs:nonNegativeInteger"/&gt;
+    &lt;xs:element name="BlockSize" type="xs:nonNegativeInteger"/&gt;
+    &lt;xs:element name="Length" type="xs:nonNegativeInteger"/&gt;
+    &lt;xs:element name="ContentDigest" type="Base64BinaryType" minOccurs="0"/&gt;
+    &lt;xs:element name="RootDigest" type="Base64BinaryType" minOccurs="0"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="NameType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Component" type="Base64BinaryType"
+                minOccurs="0" maxOccurs="unbounded"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="Base64BinaryType"&gt;
+  &lt;xs:simpleContent&gt;
+    &lt;xs:extension base="xs:base64Binary"&gt;
+      &lt;xs:attribute name="ccnbencoding" type="xs:string" fixed="base64Binary"/&gt;
+    &lt;/xs:extension&gt;
+  &lt;/xs:simpleContent&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Binary representation of time, Unix time epoch, units 2**-12 sec --&gt;
+&lt;!-- The length limit limit of 6 bytes is not actually to be enforced, but
+     it will be a loooooooong time before anyone cares. --&gt;
+
+&lt;xs:simpleType name="BinaryTime12"&gt;
+    &lt;xs:restriction base="xs:base64Binary"&gt;
+      &lt;xs:length value="6" fixed="true"/&gt;
+    &lt;/xs:restriction&gt;
+&lt;/xs:simpleType&gt;
+
+&lt;xs:complexType name="TimestampType"&gt;
+  &lt;xs:simpleContent&gt;
+    &lt;xs:extension base="BinaryTime12"&gt;
+      &lt;xs:attribute name="ccnbencoding" type="xs:string" fixed="base64Binary"/&gt;
+    &lt;/xs:extension&gt;
+  &lt;/xs:simpleContent&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Binary representation of relative time, relative to "now" --&gt;
+&lt;xs:complexType name="FinegrainLifetimeType"&gt;
+  &lt;xs:simpleContent&gt;
+    &lt;xs:extension base="BinaryTime12"&gt;
+      &lt;xs:attribute name="ccnbencoding" type="xs:string" fixed="base64Binary"/&gt;
+    &lt;/xs:extension&gt;
+  &lt;/xs:simpleContent&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Note: SignedInfo was formerly known as ContentAuthenticator --&gt;
+&lt;xs:complexType name="SignedInfoType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType"/&gt;
+    &lt;xs:element name="Timestamp" type="TimestampType"/&gt;
+    &lt;xs:element name="Type" type="ContentType" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;!-- The optional FreshnessSeconds indicates how many seconds a node
+                 should wait after the arrival of this ContentObject before
+                 marking it as stale. --&gt;
+    &lt;xs:element name="FreshnessSeconds" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;!-- The optional FinalBlockID indicates the identifier of the final block
+                 in a sequence of fragments.  It should be present in the
+                 final block itself, and may also be present in other fragments
+                 to provide advanced warning of the end to consumers.  The
+                 value here should be equal to the last explicit Name Component
+                 of the final block. --&gt;
+    &lt;xs:element name="FinalBlockID" type="Base64BinaryType" minOccurs="0" maxOccurs="1"/&gt;
+    &lt;!-- A KeyLocator tells where to find the key to verify this content.
+                 This is signed, but may be omitted when the signer
+                 is really sure that everyone on the path can find the
+                 key. (In theory, does not need to be signed; you can't verify
+                 the signature over it until you have the key, and by then you
+                 know whether it was correct or not. Not signing it would also
+                 allow it to be replaced by updated information known to the
+                 forwarder.  DoS attacks mounted by omitting it can be
+                 mounted whether it is signed or not; as can attacks mounted
+                 by modifying it maliciously.) The PublisherKeyID in the
+                 SignedInfo is what is used as the real fast selector
+                 to identify the signer of this content, not the locator.
+                 The reason for leaving the locator in the signed component
+                 of the packet is the risk of selective DOS attacks - if
+                 credentials attached to a key can be found only by locating
+                 it within a certain namespace, one could replace the
+                 publisher's locator with another that pointed to the same key
+                 but made it seem as if it lacked those credentials. --&gt;
+    &lt;xs:element name="KeyLocator" type="KeyLocatorType" minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Encapsulate some of the possible bits necessary to verify the
+         mapping. --&gt;
+&lt;xs:complexType name="SignatureType"&gt;
+  &lt;xs:sequence&gt;
+        &lt;!-- We either need to include a digest algorithm or a signature
+                 algorithm here. X.509 uses a sigalg up front (and again in
+                 the signature), PKCS#7 and XML signature uses a digest up
+                 front. Most APIs require us to know the signature algorithm,
+                 not the digest algorithm, to begin the verification process.
+                 Putting the signature up front along with this algorithm
+                 forces us to store the signature till we need it, but
+                 allows us to not repeat the algorithm. Expressing just a
+                 digest algorithm forces us to assume that a given key can
+                 only be used for one algorithm (depending on how we encode
+                 the signature). Also, if we digest the content before including
+                 it in the signature, we need to know what digest algorithm to
+                 use. We either have to assume it's the same one as for the
+                 signature, or standard one (with a separate, elided expression
+                 of version to allow later change if this one is broken).
+                 Right now, take the theory that a) signature algorithms
+                 are likely less standard for us than digest algorithms. So
+                 specify a digest algorithm here to increase our options of
+                 eliding it (default = sha-256). b) for now, sign the content
+                 directly rather than re-hashing it, except for aggregated signatures.  --&gt;
+        &lt;xs:element name="DigestAlgorithm" type="xs:string"
+                                         default="2.16.840.1.101.3.4.2.1"
+                                         minOccurs="0" maxOccurs="1" /&gt;
+        &lt;!-- A Witness is additional information necessary to verify the
+                 signature in some algorithms. For elements authenticated
+                 using a Merkle Hash Tree, the witness information would be
+                 the elements of the hash path through the tree. --&gt;
+        &lt;xs:element name="Witness" type="Base64BinaryType" minOccurs="0" maxOccurs="1" /&gt;
+        &lt;!-- The signature over the name, content authenticator, and content. --&gt;
+    &lt;xs:element name="SignatureBits" type="Base64BinaryType"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="ContentObjectType"&gt;
+  &lt;xs:sequence&gt;
+        &lt;!-- Signature over name, content authenticator, and the content.
+                 Place first to allow grouping of Signature+Name
+                 and Name+Authenticator for various applications. --&gt;
+        &lt;xs:element name="Signature" type="SignatureType"/&gt;
+        &lt;xs:element name="Name" type="NameType"/&gt;
+        &lt;xs:element name="SignedInfo" type="SignedInfoType"/&gt;
+        &lt;!-- The content to be signed. As there is no longer a proxy for
+             (digest of) the content explicitly in the authenticator, you
+             need the content itself to verify the signature. Because we
+             generally need to compute the digest of the content anyway,
+             we do so prior to signing. Given that, we either need to pick
+             a standard digest algorithm for content and always use it
+             (presumably SHA-256), at which point we need a version number
+             for messages, in case SHA-256 is broken and we need to change.
+             Or, we need to specify what digest to use in each message. --&gt;
+        &lt;xs:element name="Content" type="Base64BinaryType"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- Sometimes we just need to talk about mappings (everything needed
+     to authenticate a name) without the content itself.  Since we
+     have moved the proxy for the content out of the content
+     authenticator, this information is no longer sufficient to
+     authenticate the content. We will have to look carefully at where
+     and how it is used. --&gt;
+&lt;xs:complexType name="CompleteNameType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Signature" type="SignatureType"/&gt;
+    &lt;xs:element name="Name" type="NameType"/&gt;
+    &lt;xs:element name="SignedInfo" type="SignedInfoType"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;!-- XXX - figure out how to use this type instead of duplicating the choice inline.  --&gt;
+&lt;xs:complexType name="PublisherDigestType"&gt;
+  &lt;xs:choice&gt;
+    &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType"/&gt;
+    &lt;xs:element name="PublisherCertificateDigest" type="DigestType"/&gt;
+    &lt;xs:element name="PublisherIssuerKeyDigest" type="DigestType"/&gt;
+    &lt;xs:element name="PublisherIssuerCertificateDigest" type="DigestType"/&gt;
+  &lt;/xs:choice&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="InterestType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Name" type="NameType"/&gt;
+    &lt;xs:element name="MinSuffixComponents" type="xs:nonNegativeInteger"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="MaxSuffixComponents" type="xs:nonNegativeInteger"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:choice minOccurs="0" maxOccurs="1"&gt;
+        &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherCertificateDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerCertificateDigest" type="DigestType"/&gt;
+    &lt;/xs:choice&gt;
+    &lt;xs:element name="Exclude" type="ExcludeType"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="ChildSelector" type="xs:nonNegativeInteger"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="AnswerOriginKind" type="xs:nonNegativeInteger"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="Scope" type="xs:nonNegativeInteger"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="InterestLifetime" type="FinegrainLifetimeType"
+                        minOccurs="0" maxOccurs="1"/&gt;
+    &lt;xs:element name="Nonce" type="Base64BinaryType"
+                        minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="ExcludeType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:choice minOccurs="0" maxOccurs="1"&gt;
+        &lt;xs:element name="Any" type="EmptyType"/&gt;
+        &lt;xs:element name="Bloom" type="Base64BinaryType"/&gt;
+    &lt;/xs:choice&gt;
+     &lt;xs:sequence minOccurs="0" maxOccurs="unbounded"&gt;
+        &lt;xs:element name="Component" type="Base64BinaryType"/&gt;
+        &lt;xs:choice minOccurs="0" maxOccurs="1"&gt;
+            &lt;xs:element name="Any" type="EmptyType"/&gt;
+            &lt;xs:element name="Bloom" type="Base64BinaryType"/&gt;
+        &lt;/xs:choice&gt;
+     &lt;/xs:sequence&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="EmptyType"&gt;
+  &lt;xs:sequence/&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="DigestType"&gt;
+  &lt;xs:simpleContent&gt;
+    &lt;xs:extension base="SHA256Digest"&gt;
+      &lt;xs:attribute name="ccnbencoding" type="xs:string" fixed="base64Binary"/&gt;
+    &lt;/xs:extension&gt;
+  &lt;/xs:simpleContent&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:simpleType name="SHA256Digest"&gt;
+    &lt;xs:restriction base="xs:base64Binary"&gt;
+      &lt;!-- SHA-256 digest --&gt;
+      &lt;xs:length value="32" fixed="true"/&gt;
+    &lt;/xs:restriction&gt;
+&lt;/xs:simpleType&gt;
+
+&lt;xs:complexType name="ContentType"&gt;
+  &lt;xs:simpleContent&gt;
+    &lt;xs:extension base="ContentTypeType"&gt;
+      &lt;xs:attribute name="ccnbencoding" type="xs:string" fixed="base64Binary"/&gt;
+    &lt;/xs:extension&gt;
+  &lt;/xs:simpleContent&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:simpleType name="ContentTypeType"&gt;
+  &lt;xs:restriction base="xs:base64Binary"&gt;
+    &lt;xs:length value="3" fixed="true"/&gt;
+    &lt;xs:enumeration value="DATA"/&gt; &lt;!-- default when Type element is absent --&gt;
+    &lt;xs:enumeration value="ENCR"/&gt; &lt;!-- content is encrypted --&gt;
+    &lt;xs:enumeration value="GONE"/&gt; &lt;!-- whiteout marker --&gt;
+    &lt;xs:enumeration value="KEY/"/&gt; &lt;!-- public key --&gt;
+    &lt;xs:enumeration value="LINK"/&gt; &lt;!-- link --&gt;
+    &lt;xs:enumeration value="NACK"/&gt; &lt;!-- no content at this time --&gt;
+  &lt;/xs:restriction&gt;
+&lt;/xs:simpleType&gt;
+
+&lt;xs:complexType name="KeyLocatorType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:choice&gt;
+      &lt;xs:element name="Key" type="Base64BinaryType"/&gt;
+      &lt;xs:element name="Certificate" type="Base64BinaryType"/&gt;
+      &lt;xs:element name="KeyName" type="KeyNameType"/&gt;
+    &lt;/xs:choice&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:complexType name="KeyNameType"&gt;
+  &lt;xs:sequence&gt;
+    &lt;xs:element name="Name" type="NameType"/&gt;
+    &lt;xs:choice minOccurs="0" maxOccurs="1"&gt;
+        &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherCertificateDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerKeyDigest" type="DigestType"/&gt;
+        &lt;xs:element name="PublisherIssuerCertificateDigest" type="DigestType"/&gt;
+    &lt;/xs:choice&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:element name="FaceInstance" type="FaceInstanceType"/&gt;
+&lt;xs:complexType name="FaceInstanceType"&gt;
+  &lt;xs:sequence&gt;
+      &lt;xs:element name="Action" type="xs:string" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="FaceID" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="IPProto" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="Host" type="xs:string" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="Port" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="MulticastInterface" type="xs:string" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="MulticastTTL" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="FreshnessSeconds" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;xs:element name="ForwardingEntry" type="ForwardingEntryType"/&gt;
+&lt;xs:complexType name="ForwardingEntryType"&gt;
+  &lt;xs:sequence&gt;
+      &lt;xs:element name="Action" type="xs:string" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="Name" type="NameType" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="PublisherPublicKeyDigest" type="DigestType" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="FaceID" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="ForwardingFlags" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+      &lt;xs:element name="FreshnessSeconds" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1"/&gt;
+  &lt;/xs:sequence&gt;
+&lt;/xs:complexType&gt;
+
+&lt;/xs:schema&gt;</tt></pre>
+</div></div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2010-11-04 13:33:08 PDT
+</div>
+</div>
+</body>
+</html>

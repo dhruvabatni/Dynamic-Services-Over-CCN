@@ -1,0 +1,150 @@
+.TH "lib/ccn_versioning.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_versioning.c \- 
+.PP
+Versioning support.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBFF\fP   0xff"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBappend_filter_all\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIThis appends a filter useful for excluding everything between two 'fenceposts' in an Exclude construct. \fP"
+.ti -1c
+.RI "static void \fBanswer_passive\fP (struct \fBccn_charbuf\fP *templ)"
+.br
+.RI "\fIAppend AnswerOriginKind=1 to partially constructed Interest, meaning do not generate new content. \fP"
+.ti -1c
+.RI "static void \fBanswer_highest\fP (struct \fBccn_charbuf\fP *templ)"
+.br
+.RI "\fIAppend ChildSelector to partially constructed Interest, meaning prefer to send rightmost available. \fP"
+.ti -1c
+.RI "static void \fBappend_future_vcomp\fP (struct \fBccn_charbuf\fP *templ)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBresolve_templ\fP (struct \fBccn_charbuf\fP *templ, unsigned const char *vcomp, int size)"
+.br
+.ti -1c
+.RI "int \fBccn_resolve_version\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, int versioning_flags, int timeout_ms)"
+.br
+.RI "\fIResolve the version, based on existing ccn content. \fP"
+.ti -1c
+.RI "int \fBccn_create_version\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, int versioning_flags, intmax_t secs, int nsecs)"
+.br
+.RI "\fIExtend a Name with a new version stamp. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Versioning support. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_versioning.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define FF   0xff"
+.PP
+Definition at line 31 of file ccn_versioning.c.
+.PP
+Referenced by ccn_resolve_version().
+.SH "Function Documentation"
+.PP 
+.SS "static void answer_highest (struct \fBccn_charbuf\fP * templ)\fC [static]\fP"
+.PP
+Append ChildSelector to partially constructed Interest, meaning prefer to send rightmost available. 
+.PP
+Definition at line 62 of file ccn_versioning.c.
+.PP
+Referenced by resolve_templ().
+.SS "static void answer_passive (struct \fBccn_charbuf\fP * templ)\fC [static]\fP"
+.PP
+Append AnswerOriginKind=1 to partially constructed Interest, meaning do not generate new content. 
+.PP
+Definition at line 49 of file ccn_versioning.c.
+.PP
+Referenced by resolve_templ().
+.SS "static void append_filter_all (struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+This appends a filter useful for excluding everything between two 'fenceposts' in an Exclude construct. 
+.PP
+Definition at line 38 of file ccn_versioning.c.
+.PP
+Referenced by resolve_templ().
+.SS "static void append_future_vcomp (struct \fBccn_charbuf\fP * templ)\fC [static]\fP"
+.PP
+Definition at line 68 of file ccn_versioning.c.
+.PP
+Referenced by resolve_templ().
+.SS "int ccn_create_version (struct ccn * h, struct \fBccn_charbuf\fP * name, int versioning_flags, intmax_t secs, int nsecs)"
+.PP
+Extend a Name with a new version stamp. \fBParameters:\fP
+.RS 4
+\fIh\fP is the the ccn handle. May be NULL. This procedure does not use the connection. 
+.br
+\fIname\fP is a ccnb-encoded Name prefix. By default it gets extended in-place with one additional Component that conforms to the versioning profile and is based on the supplied time, unless a version component is already present. 
+.br
+\fIversioning_flags\fP modifies the default behavior: CCN_V_REPLACE causes the last component to be replaced if it appears to be a version stamp. If CCN_V_HIGH is set as well, an attempt will be made to generate a new version stamp that is later than the existing one, or to return an error. CCN_V_NOW bases the version on the current time rather than the supplied time. CCN_V_NESTOK will allow the new version component to be appended even if there is one there (this makes no difference if CCN_V_REPLACE is also set). 
+.br
+\fIsecs\fP is the desired time, in seconds since epoch (ignored if CCN_V_NOW is set). 
+.br
+\fInsecs\fP is the number of nanoseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, 0 for success. 
+.RE
+.PP
+
+.PP
+Definition at line 215 of file ccn_versioning.c.
+.PP
+Referenced by ccn_seqw_create(), ccnd_init_service_ccnb(), and main().
+.SS "int ccn_resolve_version (struct ccn * h, struct \fBccn_charbuf\fP * name, int versioning_flags, int timeout_ms)"
+.PP
+Resolve the version, based on existing ccn content. \fBParameters:\fP
+.RS 4
+\fIh\fP is the the ccn handle; it may be NULL, but it is preferable to use the handle that the client probably already has. 
+.br
+\fIname\fP is a ccnb-encoded Name prefix. It gets extended in-place with one additional Component such that it names highest extant version that can be found, subject to the supplied timeout. 
+.br
+\fIversioning_flags\fP presently must be CCN_V_HIGH or CCN_V_HIGHEST, possibly combined with CCN_V_NESTOK. If CCN_V_NESTOK is not present and the ending component appears to be a version, the routine returns 0 immediately, on the assumption that an explicit version has already been provided. 
+.br
+\fItimeout_ms\fP is a time value in milliseconds. This is applied per fetch attempt, so the total time may be longer by a factor that depends on the number of (ccn) hops to the source(s). 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, 0 if name could not be extended, 1 if was. 
+.RE
+.PP
+
+.PP
+Definition at line 124 of file ccn_versioning.c.
+.PP
+Referenced by ccn_get_header(), and main().
+.SS "static struct \fBccn_charbuf\fP* resolve_templ (struct \fBccn_charbuf\fP * templ, unsigned const char * vcomp, int size)\fC [static, read]\fP"
+.PP
+Definition at line 79 of file ccn_versioning.c.
+.PP
+Referenced by ccn_resolve_version().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

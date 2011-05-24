@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$interfaceorg_1_1ccnx_1_1ccn_1_1profiles_1_1_c_c_n_profile.html" title="Marker profile." alt="" coords="7,221,172,245"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1repo_1_1_log_struct_repo_store_1_1_log_struct_repo_store_profile.html" title="org.ccnx.ccn.impl.repo.LogStructRepoStore.LogStructRepoStoreProfile" alt="" coords="221,5,565,29"/>
+<area shape="rect" id="node5" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1context_1_1_service_discovery_profile.html" title="The ServiceDiscovery protocol aids in finding data about local (same&#45;machine) and..." alt="" coords="261,53,525,77"/>
+<area shape="rect" id="node7" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1metadata_1_1_metadata_profile.html" title="Includes routines to find correct version of a metadata file based on its base file..." alt="" coords="276,101,511,125"/>
+<area shape="rect" id="node9" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1metadata_1_1_thumbnail_profile.html" title="Access metadata files in the thumbnail namespace." alt="" coords="272,149,515,173"/>
+<area shape="rect" id="node11" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1namespace_1_1_namespace_profile.html" title="org.ccnx.ccn.profiles.namespace.NamespaceProfile" alt="" coords="268,197,519,221"/>
+<area shape="rect" id="node13" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1security_1_1access_1_1_access_control_profile.html" title="This is a Profile defining basic naming and data standards to apply access control..." alt="" coords="253,245,533,269"/>
+<area shape="rect" id="node15" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1security_1_1access_1_1group_1_1_group_access_control_profile.html" title="This is a sub&#45;Profile of AccessControlProfile defining naming conventions used in..." alt="" coords="613,271,952,295"/>
+<area shape="rect" id="node18" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1security_1_1_key_profile.html" title="The Key profile handles low&#45;level functions regarding representing keys in content..." alt="" coords="292,344,495,368"/>
+<area shape="rect" id="node20" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1_segmentation_profile.html" title="We speak in terms of segments, not fragments, as this profile also encompasses packet&#45;oriented..." alt="" coords="288,392,499,416"/>
+<area shape="rect" id="node22" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1_versioning_profile.html" title="Versions, when present, usually occupy the penultimate component of the CCN name..." alt="" coords="296,440,491,464"/>
+</map>

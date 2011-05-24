@@ -1,0 +1,176 @@
+.TH "include/ccn/merklepathasn1.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/merklepathasn1.h \- 
+.PP
+ASN.1 support routines for dealing with the Merkle paths encapsulated in the digest info.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBMP_info_st\fP"
+.br
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_new\fP(cmp)   SKM_sk_new(ASN1_OCTET_STRING, (cmp))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_new_null\fP()   SKM_sk_new_null(ASN1_OCTET_STRING)"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_free\fP(st)   SKM_sk_free(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_num\fP(st)   SKM_sk_num(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_value\fP(st, i)   SKM_sk_value(ASN1_OCTET_STRING, (st), (i))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_set\fP(st, i, val)   SKM_sk_set(ASN1_OCTET_STRING, (st), (i), (val))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_zero\fP(st)   SKM_sk_zero(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_push\fP(st, val)   SKM_sk_push(ASN1_OCTET_STRING, (st), (val))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_unshift\fP(st, val)   SKM_sk_unshift(ASN1_OCTET_STRING, (st), (val))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_find\fP(st, val)   SKM_sk_find(ASN1_OCTET_STRING, (st), (val))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_find_ex\fP(st, val)   SKM_sk_find_ex(ASN1_OCTET_STRING, (st), (val))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_delete\fP(st, i)   SKM_sk_delete(ASN1_OCTET_STRING, (st), (i))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_delete_ptr\fP(st, ptr)   SKM_sk_delete_ptr(ASN1_OCTET_STRING, (st), (ptr))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_insert\fP(st, val, i)   SKM_sk_insert(ASN1_OCTET_STRING, (st), (val), (i))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_set_cmp_func\fP(st, cmp)   SKM_sk_set_cmp_func(ASN1_OCTET_STRING, (st), (cmp))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_dup\fP(st)   SKM_sk_dup(ASN1_OCTET_STRING, st)"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_pop_free\fP(st, free_func)   SKM_sk_pop_free(ASN1_OCTET_STRING, (st), (free_func))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_shift\fP(st)   SKM_sk_shift(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_pop\fP(st)   SKM_sk_pop(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_sort\fP(st)   SKM_sk_sort(ASN1_OCTET_STRING, (st))"
+.br
+.ti -1c
+.RI "#define \fBsk_ASN1_OCTET_STRING_is_sorted\fP(st)   SKM_sk_is_sorted(ASN1_OCTET_STRING, (st))"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBMP_info_st\fP \fBMP_info\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+ASN.1 support routines for dealing with the Merkle paths encapsulated in the digest info. 
+
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBmerklepathasn1.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define sk_ASN1_OCTET_STRING_delete(st, i)   SKM_sk_delete(ASN1_OCTET_STRING, (st), (i))"
+.PP
+Definition at line 44 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_delete_ptr(st, ptr)   SKM_sk_delete_ptr(ASN1_OCTET_STRING, (st), (ptr))"
+.PP
+Definition at line 45 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_dup(st)   SKM_sk_dup(ASN1_OCTET_STRING, st)"
+.PP
+Definition at line 48 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_find(st, val)   SKM_sk_find(ASN1_OCTET_STRING, (st), (val))"
+.PP
+Definition at line 42 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_find_ex(st, val)   SKM_sk_find_ex(ASN1_OCTET_STRING, (st), (val))"
+.PP
+Definition at line 43 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_free(st)   SKM_sk_free(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 35 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_insert(st, val, i)   SKM_sk_insert(ASN1_OCTET_STRING, (st), (val), (i))"
+.PP
+Definition at line 46 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_is_sorted(st)   SKM_sk_is_sorted(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 53 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_new(cmp)   SKM_sk_new(ASN1_OCTET_STRING, (cmp))"
+.PP
+Definition at line 33 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_new_null()   SKM_sk_new_null(ASN1_OCTET_STRING)"
+.PP
+Definition at line 34 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_num(st)   SKM_sk_num(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 36 of file merklepathasn1.h.
+.PP
+Referenced by ccn_merkle_root_hash(), and ccn_verify_signature().
+.SS "#define sk_ASN1_OCTET_STRING_pop(st)   SKM_sk_pop(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 51 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_pop_free(st, free_func)   SKM_sk_pop_free(ASN1_OCTET_STRING, (st), (free_func))"
+.PP
+Definition at line 49 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_push(st, val)   SKM_sk_push(ASN1_OCTET_STRING, (st), (val))"
+.PP
+Definition at line 40 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_set(st, i, val)   SKM_sk_set(ASN1_OCTET_STRING, (st), (i), (val))"
+.PP
+Definition at line 38 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_set_cmp_func(st, cmp)   SKM_sk_set_cmp_func(ASN1_OCTET_STRING, (st), (cmp))"
+.PP
+Definition at line 47 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_shift(st)   SKM_sk_shift(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 50 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_sort(st)   SKM_sk_sort(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 52 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_unshift(st, val)   SKM_sk_unshift(ASN1_OCTET_STRING, (st), (val))"
+.PP
+Definition at line 41 of file merklepathasn1.h.
+.SS "#define sk_ASN1_OCTET_STRING_value(st, i)   SKM_sk_value(ASN1_OCTET_STRING, (st), (i))"
+.PP
+Definition at line 37 of file merklepathasn1.h.
+.PP
+Referenced by ccn_merkle_root_hash(), and ccn_verify_signature().
+.SS "#define sk_ASN1_OCTET_STRING_zero(st)   SKM_sk_zero(ASN1_OCTET_STRING, (st))"
+.PP
+Definition at line 39 of file merklepathasn1.h.
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBMP_info_st\fP  \fBMP_info\fP"
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

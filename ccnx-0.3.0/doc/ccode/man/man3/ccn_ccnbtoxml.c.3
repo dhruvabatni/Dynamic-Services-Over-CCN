@@ -1,0 +1,299 @@
+.TH "cmd/ccn_ccnbtoxml.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccn_ccnbtoxml.c \- 
+.PP
+Utility to convert ccn binary encoded data into XML form.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_NO_SCHEMA\fP   INT_MIN"
+.br
+.ti -1c
+.RI "#define \fBCCN_UNKNOWN_SCHEMA\fP   (INT_MIN+1)"
+.br
+.ti -1c
+.RI "#define \fBFORCE_BINARY\fP   (1 << 0)"
+.br
+.ti -1c
+.RI "#define \fBPREFER_HEX\fP   (1 << 1)"
+.br
+.ti -1c
+.RI "#define \fBVERBOSE_DECODE\fP   (1 << 2)"
+.br
+.ti -1c
+.RI "#define \fBL\fP   (CCN_TT_HBIT & ~CCN_CLOSE)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBccn_decoder_callback\fP )(struct ccn_decoder *d, enum \fBcallback_kind\fP kind, void *data)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBcallback_kind\fP { \fBCALLBACK_INITIAL\fP, \fBCALLBACK_OBJECTEND\fP, \fBCALLBACK_FINAL\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "struct ccn_decoder * \fBccn_decoder_create\fP (int formatting_flags, const struct \fBccn_dict\fP *dtags)"
+.br
+.ti -1c
+.RI "void \fBccn_decoder_set_callback\fP (struct ccn_decoder *d, \fBccn_decoder_callback\fP c, void *data)"
+.br
+.ti -1c
+.RI "struct ccn_decoder_stack_item * \fBccn_decoder_push\fP (struct ccn_decoder *d)"
+.br
+.ti -1c
+.RI "void \fBccn_decoder_pop\fP (struct ccn_decoder *d)"
+.br
+.ti -1c
+.RI "void \fBccn_decoder_destroy\fP (struct ccn_decoder **dp)"
+.br
+.ti -1c
+.RI "static const char * \fBdict_name_from_number\fP (int ndx, const struct \fBccn_dict_entry\fP *dict, int n)"
+.br
+.ti -1c
+.RI "static int \fBis_text_encodable\fP (unsigned char p[], size_t start, size_t length)"
+.br
+.ti -1c
+.RI "static void \fBprint_percent_escaped\fP (const unsigned char *data, size_t size)"
+.br
+.ti -1c
+.RI "ssize_t \fBccn_decoder_decode\fP (struct ccn_decoder *d, unsigned char p[], size_t n)"
+.br
+.ti -1c
+.RI "static int \fBprocess_data\fP (struct ccn_decoder *d, unsigned char *data, size_t n)"
+.br
+.ti -1c
+.RI "static int \fBprocess_fd\fP (struct ccn_decoder *d, int fd)"
+.br
+.ti -1c
+.RI "static int \fBprocess_file\fP (char *path, int formatting_flags, const struct \fBccn_dict\fP *dtags)"
+.br
+.ti -1c
+.RI "static void \fBset_stdout\fP (struct ccn_decoder *d, enum \fBcallback_kind\fP kind, void *data)"
+.br
+.ti -1c
+.RI "static int \fBprocess_split_file\fP (char *base, char *path, int formatting_flags, const struct \fBccn_dict\fP *dtags, int *suffix)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const char \fBBase64\fP []"
+.br
+.ti -1c
+.RI "unsigned char \fBtest1\fP []"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility to convert ccn binary encoded data into XML form. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccn_ccnbtoxml.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_NO_SCHEMA   INT_MIN"
+.PP
+Definition at line 56 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_create().
+.SS "#define CCN_UNKNOWN_SCHEMA   (INT_MIN+1)"
+.PP
+Definition at line 57 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "#define FORCE_BINARY   (1 << 0)"
+.PP
+Definition at line 99 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode(), and main().
+.SS "#define L   (CCN_TT_HBIT & ~CCN_CLOSE)"
+.PP
+Definition at line 737 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by signed_info_create().
+.SS "#define PREFER_HEX   (1 << 1)"
+.PP
+Definition at line 100 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode(), and main().
+.SS "#define VERBOSE_DECODE   (1 << 2)"
+.PP
+Definition at line 101 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode(), and main().
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef void(* \fBccn_decoder_callback\fP)(struct ccn_decoder *d, enum \fBcallback_kind\fP kind, void *data)"
+.PP
+Definition at line 74 of file ccn_ccnbtoxml.c.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBcallback_kind\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICALLBACK_INITIAL \fP\fP
+.TP
+\fB\fICALLBACK_OBJECTEND \fP\fP
+.TP
+\fB\fICALLBACK_FINAL \fP\fP
+
+.PP
+Definition at line 68 of file ccn_ccnbtoxml.c.
+.SH "Function Documentation"
+.PP 
+.SS "struct ccn_decoder* ccn_decoder_create (int formatting_flags, const struct \fBccn_dict\fP * dtags)\fC [read]\fP"
+.PP
+Definition at line 104 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main(), process_file(), and process_split_file().
+.SS "ssize_t ccn_decoder_decode (struct ccn_decoder * d, unsigned char p[], size_t n)"
+.PP
+Definition at line 233 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by process_data().
+.SS "void ccn_decoder_destroy (struct ccn_decoder ** dp)"
+.PP
+Definition at line 162 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main(), process_file(), and process_split_file().
+.SS "void ccn_decoder_pop (struct ccn_decoder * d)"
+.PP
+Definition at line 149 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode(), and ccn_decoder_destroy().
+.SS "struct ccn_decoder_stack_item* ccn_decoder_push (struct ccn_decoder * d)\fC [read]\fP"
+.PP
+Definition at line 134 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "void ccn_decoder_set_callback (struct ccn_decoder * d, \fBccn_decoder_callback\fP c, void * data)"
+.PP
+Definition at line 122 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by process_split_file().
+.SS "static const char* dict_name_from_number (int ndx, const struct \fBccn_dict_entry\fP * dict, int n)\fC [static]\fP"
+.PP
+Definition at line 179 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "static int is_text_encodable (unsigned char p[], size_t start, size_t length)\fC [static]\fP"
+.PP
+Definition at line 192 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 766 of file ccn_ccnbtoxml.c.
+.SS "static void print_percent_escaped (const unsigned char * data, size_t size)\fC [static]\fP"
+.PP
+Definition at line 207 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "static int process_data (struct ccn_decoder * d, unsigned char * data, size_t n)\fC [static]\fP"
+.PP
+Definition at line 611 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main(), and process_fd().
+.SS "static int process_fd (struct ccn_decoder * d, int fd)\fC [static]\fP"
+.PP
+Definition at line 626 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by process_file(), and process_split_file().
+.SS "static int process_file (char * path, int formatting_flags, const struct \fBccn_dict\fP * dtags)\fC [static]\fP"
+.PP
+Definition at line 656 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main().
+.SS "static int process_split_file (char * base, char * path, int formatting_flags, const struct \fBccn_dict\fP * dtags, int * suffix)\fC [static]\fP"
+.PP
+Definition at line 708 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main().
+.SS "static void set_stdout (struct ccn_decoder * d, enum \fBcallback_kind\fP kind, void * data)\fC [static]\fP"
+.PP
+Definition at line 685 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by process_split_file().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 36 of file ccn_ccnbtoxml.c.
+.SH "Variable Documentation"
+.PP 
+.SS "const char \fBBase64\fP[]\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+.fi
+.PP
+Definition at line 188 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by ccn_decoder_decode().
+.SS "unsigned char \fBtest1\fP[]"\fBInitial value:\fP
+.PP
+.nf
+ {
+    (2 << CCN_TT_BITS) + CCN_TAG + L, 'F', 'o', 'o',
+    (0 << CCN_TT_BITS) + CCN_TAG + L, 'a',
+    (1 << CCN_TT_BITS) + CCN_UDATA + L, 'X',
+               CCN_CLOSE,
+    (0 << CCN_TT_BITS) + CCN_TAG + L, 'b',
+    (3 << CCN_TT_BITS) + CCN_ATTR + L, 't', 'y', 'p', 'e',
+    (5 << CCN_TT_BITS) + CCN_UDATA + L, 'e', 'm', 'p', 't', 'y',
+               CCN_CLOSE,
+    (2 << CCN_TT_BITS) + CCN_TAG + L, 'b', 'i', 'n',
+    (4 << CCN_TT_BITS) + CCN_BLOB + L, 1, 0x23, 0x45, 0x67,
+               CCN_CLOSE,
+    (CCN_CLOSE + ((20-1) >> (7-CCN_TT_BITS))),
+    (((20-1) & CCN_TT_MASK) << CCN_TT_BITS) + CCN_TAG + L,
+        'a', 'b', 'c', 'd',  'a', 'b', 'c', 'd', 
+        'a', 'b', 'c', 'd',  'a', 'b', 'c', 'd',
+        'a', 'b', 'c', 'd',
+               CCN_CLOSE,
+    (2 << CCN_TT_BITS) + CCN_TAG + L, 'i', 'n', 't',
+    (3 << CCN_TT_BITS) + CCN_ATTR + L, 't', 'y', 'p', 'e',
+    (3 << CCN_TT_BITS) + CCN_UDATA + L, 'B', 'I', 'G',
+               CCN_CLOSE,
+    (6 << CCN_TT_BITS) + CCN_UDATA + L,
+    'H','i','&','b','y','e',
+               CCN_CLOSE,
+}
+.fi
+.PP
+Definition at line 738 of file ccn_ccnbtoxml.c.
+.PP
+Referenced by main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

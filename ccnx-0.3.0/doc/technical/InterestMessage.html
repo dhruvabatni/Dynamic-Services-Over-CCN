@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
+<title>CCNx Interest Message</title>
+<style type="text/css">
+/* Debug borders */
+p, li, dt, dd, div, pre, h1, h2, h3, h4, h5, h6 {
+/*
+  border: 1px solid red;
+*/
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  font-family: serif;
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+  font-family: sans-serif;
+}
+
+div#footer {
+  font-family: sans-serif;
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > div.content {
+  white-space: pre;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+/* Workarounds for IE6's broken and incomplete CSS2. */
+
+div.sidebar-content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+div.sidebar-title, div.image-title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 0.0em;
+  margin-bottom: 0.5em;
+}
+
+div.listingblock div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock-attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock-content {
+  white-space: pre;
+}
+div.verseblock-attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+
+div.exampleblock-content {
+  border-left: 2px solid silver;
+  padding-left: 0.5em;
+}
+
+/* IE6 sets dynamically generated links as visited. */
+div#toc a:visited { color: blue; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>CCNx Interest Message</h1>
+</div>
+<h2 id="_source_references">Source references</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><a href="xsd.html">ccnx.xsd</a> is the xml schema that describes what the xml rendition of ccn data (including Interest messages) should look like.</p></div>
+<div class="paragraph"><p><a href="dtd.html">ccnx.dtd</a> is a dtd that should describe the same, in a less strongly-typed fashion.</p></div>
+<div class="paragraph"><p><a href="DTAG.html">tagname.csvdict</a> contains the mapping between the DTAG values used in the binary encoding and the element names used in the XML representation.</p></div>
+<div class="paragraph"><p>Below we will use a less formal abstract syntax to indicate how the pieces fit together.</p></div>
+</div>
+<h2 id="_interest">Interest</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>Interest ::= Name
+             MinSuffixComponents?
+             MaxSuffixComponents?
+             PublisherPublicKeyDigest?
+             Exclude?
+             ChildSelector?
+             AnswerOriginKind?
+             Scope?
+             InterestLifetime?
+             Nonce?</tt></pre>
+</div></div>
+<div class="paragraph"><p>The hierarchical <strong>Name</strong> is the only required element in an Interest message.
+The remaining elements fall into several categories:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+those that further qualify the ContentObjects that may match the Interest <strong>MinSuffixComponents</strong>, <strong>MaxSuffixComponents</strong>, <strong>PublisherPublicKeyDigest</strong>, <strong>Exclude</strong>)
+</p>
+</li>
+<li>
+<p>
+those that limit where the answer might come from (<strong>AnswerOriginKind</strong>, <strong>Scope</strong>)
+</p>
+</li>
+<li>
+<p>
+those that advise the selection of what to send when there are multiple ContentObjects that match (<strong>ChildSelector</strong>)
+</p>
+</li>
+<li>
+<p>
+duplicate suppression (<strong>Nonce</strong>)
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>See the <a href="#example">Example</a> for encodings of a minimal Interest
+Message.</p></div>
+</div>
+<h2 id="_name">Name</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>See the <a href="Name.html">CCNx Name Specification</a>.</p></div>
+<div class="paragraph"><p>The Name element in an interest is synonymous with the term <em>prefix</em>.</p></div>
+<div class="paragraph"><p>The Name of every piece of content includes as its final component a <a href="DigestComponent.html">derived digest</a> that serves to make the entire name unique. This may occur in an Interest Name as an ordinary Component (the last).  However, this final component is never included explicitly in the ContentObject as it appears on the wire.</p></div>
+</div>
+<h2 id="_minsuffixcomponents_maxsuffixcomponents">MinSuffixComponents, MaxSuffixComponents</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>MinSuffixComponents ::= nonNegativeInteger
+MaxSuffixComponents ::= nonNegativeInteger</tt></pre>
+</div></div>
+<div class="paragraph"><p>A client may need to say that the Name in the interest is either the full name including the digest, or the full name except for the digest, or that the content it is seeking has a known range of legitimate component counts.  To encode this there are two parameters, named <strong>MinSuffixComponents</strong> and <strong>MaxSuffixComponents</strong>, that specify these limits.  These refer to the number of name components beyond those in the prefix, and counting the implicit digest, that may occur in the matching ContentObject.  The default for <strong>MinSuffixComponents</strong> is 0 and for <strong>MaxSuffixComponents</strong> is effectively infinite.  Often only one of these will be needed to get the desired effect.</p></div>
+</div>
+<h2 id="_publisherpublickeydigest">PublisherPublicKeyDigest</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>PublisherPublicKeyDigest ::= BLOB</tt></pre>
+</div></div>
+<div class="paragraph"><p>If the PublisherPublicKeyDigest element is present in the Interest, the associated value (a SHA-256 digest) must be equal to the value of the PublisherPublicKeyDigest of the ContentObject for there to be a match.
+(The Interest schema admits some other possibilities, but only this form of publisher selection is currently implemented.)</p></div>
+</div>
+<h2 id="_exclude">Exclude</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>Exclude ::= (Any | Bloom)? ( Component (Any | Bloom)? )*
+Any ::= (empty)
+Bloom ::= BLOB</tt></pre>
+</div></div>
+<div class="paragraph"><p>The Exclude element embodies a description of name components that should not appear as a continuation of the Name prefix in the response to the interest.
+The Components in the exclusion list must occur in strictly increasing order according to the <a href="CanonicalOrder.html">canonical CCNx ordering</a>.  Call the pieces in the exclude list B[0], C[1], B[1], C[2], B[2], &#8230; C[m], B[m].  (Here the B[i] are the Bloom elements and the C[i] are the Component elements.  The omission of a Bloom element is equivalent to a bloom filter that describes the empty set.) Furthermore, take C[0] as negative infinity and C[m+1] as infinity. Then a component C is a member of the exclusion set iff C = C[k] for some k in [1..m] or if C[k] &lt; C &lt; C[k+1] for some k in [0..m] and C matches B[k].</p></div>
+<div class="paragraph"><p>A client could choose to simply enumerate the elements of the exclusion set if that is sufficiently compact (using no Bloom filters at all).  At the other extreme, it could simply supply a single Bloom filter to describe the exclusion set.</p></div>
+<div class="paragraph"><p>A seed value is used for the hash functions of the bloom filters.  By using different seeds on different expressions of its interests, an application may minimize the impact of the false positives inherent with bloom filters.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>Bloom ::= BLOB</tt></pre>
+</div></div>
+<div class="paragraph"><p>The Bloom&#8217;s BLOB is of length 8 + ceiling(n/8) bytes, where n is the number of bits in the bloom filter.  We restrict n to be a power of two or zero.  The first 8 bytes of the BLOB contains a header:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>    unsigned char lg_bits;  /* 13 maximum (8 kilobits), 3 minimum (one byte) */
+    unsigned char n_hash;   /* number of hash functions to employ */
+    unsigned char method;   /* allow for various hashing algorithms */
+    unsigned char reserved; /* must be 0 for now */
+    unsigned char seed[4];  /* can seed hashes differently */</tt></pre>
+</div></div>
+<div class="paragraph"><p>and the remaining bytes hold the bits of the bloom filter.  The bits in the filter itself are packed little-endian by byte.  Note that a Bloom filter with 0 hash functions is one way to match everything, and a filter with all ones is another.  But these are not very compact, so the <strong>All</strong> element is provided as a better way to encode this common case.</p></div>
+<div class="paragraph"><p><strong>TODO - The the calculation of the hash functions must also be specified.  At present, referring to the c code is the best option; it should be quite easy to port to other languages.</strong></p></div>
+</div>
+<h2 id="_childselector">ChildSelector</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>ChildSelector ::= nonNegativeInteger</tt></pre>
+</div></div>
+<div class="paragraph"><p>Often a given interest will match more than one ContentObject within a given content store. The <strong>ChildSelector</strong> provides a way of expressing a preference for which of these should be returned.  If the (low order bit of) the value is 0, the leftmost child is preferred. If 1, the rightmost child is preferred. Here leftmost and rightmost refer to the least and greatest components according to the <a href="CanonicalOrder.html">canonical CCNx ordering</a>.  This ordering is only done at the level of the name hierarchy one past the name prefix.</p></div>
+</div>
+<h2 id="_answeroriginkind">AnswerOriginKind</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>AnswerOriginKind ::= nonNegativeInteger</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>AnswerOriginKind</strong> encodes several bitfields that alter the usual response to interest. There is a do-not-answer-from-content-store bit, which also implies a passive bit.  There will eventually need to be some security aspects to this, limiting it by scope and/or by interest signing, but we are choosing to ignore these for now. There is also utility in the passive bit alone - it means do not generate any newly-signed content in response to this interest.
+Wire representation: the AnswerOriginKind element holds a nonNegativeInteger with bitmasks having the following interpretation:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+1 = Answer from existing content store
+</p>
+</li>
+<li>
+<p>
+2 = Answers may be generated
+</p>
+</li>
+<li>
+<p>
+4 = Answer may be "stale"
+</p>
+</li>
+<li>
+<p>
+16 = Mark as stale in content store (must have Scope 0) <em>Status:</em> <em>hack</em>
+</p>
+</li>
+<li>
+<p>
+The default is 3, giving normal behavior.  The two low-order bits in combination mean:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+0 = do-not-answer-from-content-store
+</p>
+</li>
+<li>
+<p>
+1 = passive
+</p>
+</li>
+<li>
+<p>
+2 is disallowed
+</p>
+</li>
+<li>
+<p>
+3 = normal
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<h2 id="_scope">Scope</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>Scope ::= nonNegativeInteger</tt></pre>
+</div></div>
+<div class="paragraph"><p>This limits where the Interest may propagate. Scope 0 prevents propagation beyond the local ccnd (even to other applications on the same host).  Scope 1 limits propagation to the appications on the originating host. Scope 2 limits propagation to no further than the next host. Other values are not currently defined, and will cause the Interest message to be dropped.</p></div>
+<div class="paragraph"><p>Note that this is not a hop count - the value is not decremented as the interest is forwarded.</p></div>
+</div>
+<h2 id="_interestlifetime">InterestLifetime</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>InterestLifetime ::= BLOB</tt></pre>
+</div></div>
+<div class="paragraph"><p>InterestLifetime indicates the (approximate) time remaining before the interest times out.  The value is encoded as an unsigned big-endian binary number, and is allowed to have leading zero bytes. The time unit is the same as used for the Timestamp in ContentObject, 1/4096 second.  The timeout is relative to the arrival time of the interest at the current node.</p></div>
+<div class="paragraph"><p>Although this format allows for high precision, the values that appear on the wire should be quantized to a small set of possibilities so that the suppression of similar interests from various sources can be done effectively.  It is recommended that the value be either a positive integral number of seconds (low order 12 bits all 0), or a power of two (1/2 sec, 1/4 sec, etc.).</p></div>
+<div class="paragraph"><p>Nodes that forward interests may decrease the lifetime to account for time spent in the node before forwarding, but are not required to do so.  It is recommended that these adjustments be done only for relatively large delays (measured in seconds).</p></div>
+<div class="paragraph"><p>If the InterestLifetime element is omitted, the value of 4 seconds is used (0x4000).  The missing element may be added before forwarding.</p></div>
+<div class="paragraph"><p>It is the application that chooses the value for InterestLifetime.</p></div>
+</div>
+<h2 id="_nonce">Nonce</h2>
+<div class="sectionbody">
+<div class="literalblock">
+<div class="content">
+<pre><tt>Nonce ::= BLOB</tt></pre>
+</div></div>
+<div class="paragraph"><p>The Nonce carries a randomly-genenerated bytestring that is used to detect and discard duplicate Interest messages.  Applications generally do not need to generate or check the Nonce.  Note that the Nonce is not the only basis for detecting and discarding duplicate Interest messages that arrive at a node, but can be used to improve the efficiency of the detection.</p></div>
+</div>
+<h2 id="example">Example</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Here is an example of an Interest containing a name prefix with 2
+ components.</p></div>
+<div class="paragraph"><p>In the <a href="URI.html">CCNx URI scheme</a> the name for this example is
+<tt>ccnx:/PARC/%00%01%02</tt>.</p></div>
+<div class="paragraph"><p>In XML, the Interest Message is:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>&lt;Interest&gt;
+  &lt;Name&gt;
+    &lt;Component ccnbencoding="base64Binary"&gt;UEFSQw==&lt;/Component&gt;
+    &lt;Component ccnbencoding="base64Binary"&gt;AAEC&lt;/Component&gt;
+  &lt;/Name&gt;
+&lt;/Interest&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>or, equivalently,</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>&lt;Interest&gt;
+  &lt;Name&gt;
+    &lt;Component ccnbencoding="text"&gt;PARC&lt;/Component&gt;
+    &lt;Component ccnbencoding="base64Binary"&gt;AAEC&lt;/Component&gt;
+  &lt;/Name&gt;
+&lt;/Interest&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <a href="BinaryEncoding.html">ccnb binary encoding</a> for this message would appear
+in hexdump form as</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>00000000  01 d2 f2 fa a5 50 41 52  43 00 fa 9d 00 01 02 00  |.....PARC.......|
+00000010  00 00                                             |..|</tt></pre>
+</div></div>
+<div class="paragraph"><p>This is the form that actually appears on the wire.</p></div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2010-11-04 13:33:08 PDT
+</div>
+</div>
+</body>
+</html>

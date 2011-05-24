@@ -1,0 +1,70 @@
+.TH "include/ccn/extend_dict.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/extend_dict.h \- 
+.PP
+Dictionary extension routines.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBccn_destroy_dict\fP (struct \fBccn_dict\fP **dp)"
+.br
+.RI "\fIDestroy a dictionary dynamically allocated by ccn_extend_dict. \fP"
+.ti -1c
+.RI "int \fBccn_extend_dict\fP (const char *dict_file, struct \fBccn_dict\fP *d, struct \fBccn_dict\fP **rdp)"
+.br
+.RI "\fICreate a dictionary by combining a file of key/value pairs with an existing dictionary. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Dictionary extension routines. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBextend_dict.h\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_destroy_dict (struct \fBccn_dict\fP ** dp)"
+.PP
+Destroy a dictionary dynamically allocated by ccn_extend_dict. \fBParameters:\fP
+.RS 4
+\fIdp\fP Pointer to a pointer to a \fBccn_dict\fP which will be freed and set to NULL 
+.RE
+.PP
+
+.PP
+Definition at line 59 of file ccn_extend_dict.c.
+.SS "int ccn_extend_dict (const char * dict_file, struct \fBccn_dict\fP * d, struct \fBccn_dict\fP ** rdp)"
+.PP
+Create a dictionary by combining a file of key/value pairs with an existing dictionary. \fBParameters:\fP
+.RS 4
+\fIdict_file\fP the name of a file containing integer,name pairs one per line 
+.br
+\fId\fP a pre-existing dictionary that will be copied in the result 
+.br
+\fIrdp\fP a pointer to storage into which a pointer to the result dictionary will be stored 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if the new dictionary was created successfully, otherwise -1. 
+.RE
+.PP
+
+.PP
+Definition at line 84 of file ccn_extend_dict.c.
+.PP
+Referenced by main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

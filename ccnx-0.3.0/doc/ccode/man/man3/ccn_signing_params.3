@@ -1,0 +1,86 @@
+.TH "ccn_signing_params" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_signing_params \- 
+.PP
+Parameters for creating signed content objects.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBapi_version\fP"
+.br
+.ti -1c
+.RI "int \fBsp_flags\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBtemplate_ccnb\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBpubid\fP [32]"
+.br
+.ti -1c
+.RI "enum \fBccn_content_type\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "int \fBfreshness\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Parameters for creating signed content objects. 
+
+A pointer to one of these may be passed to \fBccn_sign_content()\fP for cases where the default signing behavior does not suffice. For the default (sign with the user's default key pair), pass NULL for the pointer.
+.PP
+The recommended way to us this is to create a local variable:
+.PP
+struct \fBccn_signing_params\fP myparams = CCN_SIGNING_PARAMS_INIT;
+.PP
+and then fill in the desired fields. This way if additional parameters are added, it won't be necessary to go back and modify exiting clients.
+.PP
+The template_ccnb may contain a ccnb-encoded SignedInfo to supply selected fields from under the direction of sp_flags. It is permitted to omit unneeded fields from the template, even if the schema says they are manditory.
+.PP
+If the pubid is all zero, the user's default key pair is used for signing. Otherwise the corresponding private key must have already been supplied to the handle using \fBccn_load_private_key()\fP or equivalent.
+.PP
+The default signing key is obtained from ~/.ccnx/.ccnx_keystore unless the CCNX_DIR is used to override the directory location. 
+.PP
+Definition at line 701 of file ccn.h.
+.SH "Field Documentation"
+.PP 
+.SS "int \fBccn_signing_params::api_version\fP"
+.PP
+Definition at line 702 of file ccn.h.
+.SS "int \fBccn_signing_params::freshness\fP"
+.PP
+Definition at line 707 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_sign_content(), ccnd_answer_req(), and ccnd_init_service_ccnb().
+.SS "unsigned char \fBccn_signing_params::pubid\fP[32]"
+.PP
+Definition at line 705 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_get_public_key(), ccn_sign_content(), and ccnd_init_internal_keystore().
+.SS "int \fBccn_signing_params::sp_flags\fP"
+.PP
+Definition at line 703 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_sign_content(), ccnd_init_service_ccnb(), main(), and seqw_next_cob().
+.SS "struct \fBccn_charbuf\fP* \fBccn_signing_params::template_ccnb\fP\fC [read]\fP"
+.PP
+Definition at line 704 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccnd_init_service_ccnb(), and main().
+.SS "enum \fBccn_content_type\fP \fBccn_signing_params::type\fP"
+.PP
+Definition at line 706 of file ccn.h.
+.PP
+Referenced by ccn_sign_content(), ccnd_init_service_ccnb(), and main().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

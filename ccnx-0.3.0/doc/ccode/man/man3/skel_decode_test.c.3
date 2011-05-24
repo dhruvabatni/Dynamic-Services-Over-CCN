@@ -1,0 +1,102 @@
+.TH "lib/skel_decode_test.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/skel_decode_test.c \- 
+.PP
+A simple test program for exercising \fBccn_skeleton_decoder\fP.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSHOW_HEX_STATE\fP   1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBprocess_test\fP (unsigned char *data, size_t n, int flags)"
+.br
+.ti -1c
+.RI "static int \fBprocess_fd\fP (int fd, int flags)"
+.br
+.ti -1c
+.RI "static int \fBprocess_file\fP (char *path, int flags)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBtt_name\fP [8]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A simple test program for exercising \fBccn_skeleton_decoder\fP. 
+
+A CCNx program.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBskel_decode_test.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define SHOW_HEX_STATE   1"
+.PP
+Definition at line 43 of file skel_decode_test.c.
+.PP
+Referenced by main(), and process_test().
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 138 of file skel_decode_test.c.
+.SS "static int process_fd (int fd, int flags)\fC [static]\fP"
+.PP
+Definition at line 90 of file skel_decode_test.c.
+.PP
+Referenced by process_file().
+.SS "static int process_file (char * path, int flags)\fC [static]\fP"
+.PP
+Definition at line 120 of file skel_decode_test.c.
+.PP
+Referenced by main().
+.SS "static int process_test (unsigned char * data, size_t n, int flags)\fC [static]\fP"
+.PP
+Definition at line 46 of file skel_decode_test.c.
+.PP
+Referenced by process_fd().
+.SH "Variable Documentation"
+.PP 
+.SS "const char* \fBtt_name\fP[8]\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+ {
+    [CCN_EXT] = 'CCN_EXT',
+    [CCN_TAG] = 'CCN_TAG',
+    [CCN_DTAG] = 'CCN_DTAG',
+    [CCN_ATTR] = 'CCN_ATTR',
+    [CCN_DATTR] = 'CCN_DATTR',
+    [CCN_BLOB] = 'CCN_BLOB',
+    [CCN_UDATA] = 'CCN_UDATA',
+    [CCN_NO_TOKEN] = 'CCN_CLOSE'
+}
+.fi
+.PP
+Definition at line 32 of file skel_decode_test.c.
+.PP
+Referenced by process_test().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

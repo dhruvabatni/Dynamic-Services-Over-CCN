@@ -1,0 +1,310 @@
+.TH "lib/ccn_buf_encoder.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_buf_encoder.c \- 
+.PP
+Support for constructing various ccnb-encoded objects.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBccn_signed_info_create\fP (struct \fBccn_charbuf\fP *c, const void *publisher_key_id, size_t publisher_key_id_size, const struct \fBccn_charbuf\fP *timestamp, enum \fBccn_content_type\fP type, int freshness, const struct \fBccn_charbuf\fP *finalblockid, const struct \fBccn_charbuf\fP *key_locator)"
+.br
+.RI "\fICreate SignedInfo. \fP"
+.ti -1c
+.RI "static int \fBccn_encode_Signature\fP (struct \fBccn_charbuf\fP *buf, const char *digest_algorithm, const void *witness, size_t witness_size, const struct ccn_signature *signature, size_t signature_size)"
+.br
+.ti -1c
+.RI "int \fBccn_encode_ContentObject\fP (struct \fBccn_charbuf\fP *buf, const struct \fBccn_charbuf\fP *Name, const struct \fBccn_charbuf\fP *SignedInfo, const void *data, size_t size, const char *digest_algorithm, const struct ccn_pkey *private_key)"
+.br
+.RI "\fIEncode and sign a ContentObject. \fP"
+.ti -1c
+.RI "int \fBccn_charbuf_append_tt\fP (struct \fBccn_charbuf\fP *c, size_t val, enum \fBccn_tt\fP tt)"
+.br
+.RI "\fIAppend a ccnb start marker. \fP"
+.ti -1c
+.RI "int \fBccn_charbuf_append_closer\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAppend a CCN_CLOSE. \fP"
+.ti -1c
+.RI "int \fBccnb_append_number\fP (struct \fBccn_charbuf\fP *c, int nni)"
+.br
+.RI "\fIAppend a non-negative integer as a UDATA. \fP"
+.ti -1c
+.RI "int \fBccnb_append_timestamp_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP marker, intmax_t secs, int nsecs)"
+.br
+.RI "\fIAppend a binary timestamp as a BLOB using the ccn binary Timestamp representation (12-bit fraction). \fP"
+.ti -1c
+.RI "int \fBccnb_append_now_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP marker)"
+.br
+.RI "\fIAppend a binary timestamp, using the current time. \fP"
+.ti -1c
+.RI "int \fBccnb_element_begin\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag)"
+.br
+.RI "\fIAppend a start-of-element marker. \fP"
+.ti -1c
+.RI "int \fBccnb_element_end\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAppend an end-of-element marker. \fP"
+.ti -1c
+.RI "int \fBccnb_append_tagged_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag, const void *data, size_t size)"
+.br
+.RI "\fIAppend a tagged BLOB. \fP"
+.ti -1c
+.RI "int \fBccnb_tagged_putf\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag, const char *fmt,...)"
+.br
+.RI "\fIAppend a tagged UDATA string, with printf-style formatting. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for constructing various ccnb-encoded objects. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_buf_encoder.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_charbuf_append_closer (struct \fBccn_charbuf\fP * c)"
+.PP
+Append a CCN_CLOSE. Use this to close off an element in ccnb-encoded data. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 249 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_passive(), append_Any_filter(), append_bf_all(), append_bloom_element(), append_filter_all(), append_future_vcomp(), ccn_construct_interest(), ccn_create_version(), ccn_encode_ContentObject(), ccn_encode_Signature(), ccn_initiate_key_fetch(), ccn_name_append_components(), ccn_name_from_uri(), ccn_name_init(), ccn_sign_content(), ccn_signed_info_create(), ccnb_append_tagged_blob(), ccnb_element_end(), ccnb_tagged_putf(), ccnd_answer_req(), ccnd_append_plain_nonce(), ccnd_init_service_ccnb(), create_passive_templ(), express_bulkdata_interest(), express_my_interest(), find_first_match_candidate(), incoming_content(), initialize_global_data(), local_scope(), local_scope_rm_template(), main(), make_template(), process_incoming_content(), resolve_templ(), send_content(), signed_info_create(), and stuff_and_send().
+.SS "int ccn_charbuf_append_tt (struct \fBccn_charbuf\fP * c, size_t val, enum \fBccn_tt\fP tt)"
+.PP
+Append a ccnb start marker. This forms the basic building block of ccnb-encoded data. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIval\fP is the numval, intepreted according to tt (see enum ccn_tt). 
+.br
+\fItt\fP is the type field. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 231 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_passive(), append_Any_filter(), append_bf_all(), append_bloom_element(), append_filter_all(), append_future_vcomp(), ccn_append_pubkey_blob(), ccn_construct_interest(), ccn_create_version(), ccn_encode_ContentObject(), ccn_encode_Signature(), ccn_initiate_key_fetch(), ccn_name_append(), ccn_name_init(), ccn_sign_content(), ccn_signed_info_create(), ccnb_append_number(), ccnb_append_tagged_blob(), ccnb_append_timestamp_blob(), ccnb_element_begin(), ccnb_tagged_putf(), ccnd_append_plain_nonce(), ccnd_init_service_ccnb(), create_passive_templ(), express_bulkdata_interest(), express_my_interest(), incoming_content(), initialize_global_data(), local_scope(), local_scope_rm_template(), main(), make_template(), process_incoming_content(), resolve_templ(), send_content(), signed_info_create(), and stuff_and_send().
+.SS "int ccn_encode_ContentObject (struct \fBccn_charbuf\fP * buf, const struct \fBccn_charbuf\fP * Name, const struct \fBccn_charbuf\fP * SignedInfo, const void * data, size_t size, const char * digest_algorithm, const struct ccn_pkey * private_key)"
+.PP
+Encode and sign a ContentObject. \fBParameters:\fP
+.RS 4
+\fIbuf\fP is the output buffer where encoded object is written. 
+.br
+\fIName\fP is the ccnb-encoded name from ccn_name_init and friends. 
+.br
+\fISignedInfo\fP is the ccnb-encoded info from ccn_signed_info_create. 
+.br
+\fIdata\fP pintes to the raw data to be encoded. 
+.br
+\fIsize\fP is the size, in bytes, of the raw data to be encoded. 
+.br
+\fIdigest_algorithm\fP may be NULL for default. 
+.br
+\fIprivate_key\fP is the private key to use for signing. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 160 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_sign_content(), create_face(), encode_message(), main(), and register_unregister_prefix().
+.SS "static int ccn_encode_Signature (struct \fBccn_charbuf\fP * buf, const char * digest_algorithm, const void * witness, size_t witness_size, const struct ccn_signature * signature, size_t signature_size)\fC [static]\fP"
+.PP
+Definition at line 110 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_encode_ContentObject().
+.SS "int ccn_signed_info_create (struct \fBccn_charbuf\fP * c, const void * publisher_key_id, size_t publisher_key_id_size, const struct \fBccn_charbuf\fP * timestamp, enum \fBccn_content_type\fP type, int freshness, const struct \fBccn_charbuf\fP * finalblockid, const struct \fBccn_charbuf\fP * key_locator)"
+.PP
+Create SignedInfo. \fBParameters:\fP
+.RS 4
+\fIc\fP is used to hold the result. 
+.br
+\fIpublisher_key_id\fP points to the digest of the publisher key id. 
+.br
+\fIpublisher_key_id_size\fP is the size in bytes(32) of the pub key digest 
+.br
+\fItimestamp\fP holds the timestamp, as a ccnb-encoded blob, or is NULL to use the current time. 
+.br
+\fItype\fP indicates the Type of the ContentObject. 
+.br
+\fIfreshness\fP is the FreshnessSeconds value, or -1 to omit. 
+.br
+\fIfinalblockid\fP holds the FinalBlockID, as a ccnb-encoded blob, or is NULL to omit. 
+.br
+\fIkey_locator\fP is the ccnb-encoded KeyLocator element, or NULL to omit. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 48 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_sign_content(), main(), and signed_info_create().
+.SS "int ccnb_append_now_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker)"
+.PP
+Append a binary timestamp, using the current time. Like \fBccnb_append_timestamp_blob()\fP but uses current time 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fImarker\fP - see \fBccnb_append_timestamp_blob()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 331 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_create_version(), and ccn_signed_info_create().
+.SS "int ccnb_append_number (struct \fBccn_charbuf\fP * c, int nni)"
+.PP
+Append a non-negative integer as a UDATA. \fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fInni\fP is a non-negative value. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 264 of file ccn_buf_encoder.c.
+.PP
+Referenced by main(), and make_template().
+.SS "int ccnb_append_tagged_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag, const void * data, size_t size)"
+.PP
+Append a tagged BLOB. This is a ccnb-encoded element with containing the BLOB as content 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIdtag\fP is the element's dtab 
+.br
+\fIdata\fP points to the binary data 
+.br
+\fIsize\fP is the size of the data, in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 371 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_encode_ContentObject(), ccnb_append_face_instance(), ccnb_append_forwarding_entry(), ccnb_append_header(), ccnd_append_debug_nonce(), and main().
+.SS "int ccnb_append_timestamp_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker, intmax_t secs, int nsecs)"
+.PP
+Append a binary timestamp as a BLOB using the ccn binary Timestamp representation (12-bit fraction). \fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fImarker\fP If marker >= 0, the low-order byte is used as a marker byte, useful for some content naming conventions (versioning, in particular). 
+.br
+\fIsecs\fP - seconds since epoch 
+.br
+\fInsecs\fP - nanoseconds 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 292 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_create_version(), and ccnb_append_now_blob().
+.SS "int ccnb_element_begin (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag)"
+.PP
+Append a start-of-element marker. 
+.PP
+Definition at line 345 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccnb_append_face_instance(), ccnb_append_forwarding_entry(), and ccnb_append_header().
+.SS "int ccnb_element_end (struct \fBccn_charbuf\fP * c)"
+.PP
+Append an end-of-element marker. This is the same as \fBccn_charbuf_append_closer()\fP 
+.PP
+Definition at line 355 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccnb_append_face_instance(), ccnb_append_forwarding_entry(), and ccnb_append_header().
+.SS "int ccnb_tagged_putf (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag, const char * fmt,  ...)"
+.PP
+Append a tagged UDATA string, with printf-style formatting. This is a ccnb-encoded element with containing UDATA as content. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIdtag\fP is the element's dtab. 
+.br
+\fIfmt\fP is a printf-style format string, followed by its values 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 397 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_highest(), answer_passive(), ccn_signed_info_create(), ccnb_append_face_instance(), ccnb_append_forwarding_entry(), ccnb_append_header(), initialize_global_data(), local_scope_rm_template(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

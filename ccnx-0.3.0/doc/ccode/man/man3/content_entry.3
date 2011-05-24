@@ -1,0 +1,116 @@
+.TH "content_entry" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+content_entry \- 
+.PP
+The content hash table is keyed by the initial portion of the ContentObject that contains all the parts of the complete name.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "\fBccn_accession_t\fP \fBaccession\fP"
+.br
+.RI "\fIassigned in arrival order \fP"
+.ti -1c
+.RI "unsigned short * \fBcomps\fP"
+.br
+.RI "\fIName Component byte boundary offsets. \fP"
+.ti -1c
+.RI "int \fBncomps\fP"
+.br
+.RI "\fINumber of name components plus one. \fP"
+.ti -1c
+.RI "int \fBflags\fP"
+.br
+.RI "\fIsee below \fP"
+.ti -1c
+.RI "const unsigned char * \fBkey\fP"
+.br
+.RI "\fIccnb-encoded ContentObject \fP"
+.ti -1c
+.RI "int \fBkey_size\fP"
+.br
+.RI "\fISize of fragment prior to Content. \fP"
+.ti -1c
+.RI "int \fBsize\fP"
+.br
+.RI "\fISize of ContentObject. \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBskiplinks\fP"
+.br
+.RI "\fIskiplist for name-ordered ops \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The content hash table is keyed by the initial portion of the ContentObject that contains all the parts of the complete name. 
+
+The extdata of the hash table holds the rest of the object, so that the whole ContentObject is stored contiguously. The internal form differs from the on-wire form in that the final content-digest name component is represented explicitly, which simplifies the matching logic. The original ContentObject may be reconstructed simply by excising this last name component, which is easily located via the comps array. 
+.PP
+Definition at line 221 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "\fBccn_accession_t\fP \fBcontent_entry::accession\fP"
+.PP
+assigned in arrival order 
+.PP
+Definition at line 222 of file ccnd_private.h.
+.PP
+Referenced by content_from_accession(), content_skiplist_insert(), enroll_content(), face_send_queue_insert(), finalize_content(), mark_stale(), process_incoming_content(), process_incoming_interest(), and set_content_timer().
+.SS "unsigned short* \fBcontent_entry::comps\fP"
+.PP
+Name Component byte boundary offsets. 
+.PP
+Definition at line 223 of file ccnd_private.h.
+.PP
+Referenced by content_matches_interest_prefix(), content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_remove(), finalize_content(), match_interests(), next_child_at_level(), process_incoming_content(), and send_content().
+.SS "int \fBcontent_entry::flags\fP"
+.PP
+see below 
+.PP
+Definition at line 225 of file ccnd_private.h.
+.PP
+Referenced by clean_deamon(), face_send_queue_insert(), mark_stale(), process_incoming_content(), process_incoming_interest(), and remove_content().
+.SS "const unsigned char* \fBcontent_entry::key\fP"
+.PP
+ccnb-encoded ContentObject 
+.PP
+Definition at line 226 of file ccnd_private.h.
+.PP
+Referenced by consume_matching_interests(), content_matches_interest_prefix(), content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_remove(), face_send_queue_insert(), mark_stale(), match_interests(), next_child_at_level(), process_incoming_content(), process_incoming_interest(), remove_content(), send_content(), and set_content_timer().
+.SS "int \fBcontent_entry::key_size\fP"
+.PP
+Size of fragment prior to Content. 
+.PP
+Definition at line 227 of file ccnd_private.h.
+.PP
+Referenced by process_incoming_content(), and remove_content().
+.SS "int \fBcontent_entry::ncomps\fP"
+.PP
+Number of name components plus one. 
+.PP
+Definition at line 224 of file ccnd_private.h.
+.PP
+Referenced by content_matches_interest_prefix(), content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_remove(), match_interests(), next_child_at_level(), process_incoming_content(), process_incoming_interest(), and send_content().
+.SS "int \fBcontent_entry::size\fP"
+.PP
+Size of ContentObject. 
+.PP
+Definition at line 228 of file ccnd_private.h.
+.PP
+Referenced by consume_matching_interests(), content_sender(), face_send_queue_insert(), mark_stale(), next_child_at_level(), process_incoming_content(), process_incoming_interest(), remove_content(), and send_content().
+.SS "struct \fBccn_indexbuf\fP* \fBcontent_entry::skiplinks\fP\fC [read]\fP"
+.PP
+skiplist for name-ordered ops 
+.PP
+Definition at line 229 of file ccnd_private.h.
+.PP
+Referenced by content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_next(), and content_skiplist_remove().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

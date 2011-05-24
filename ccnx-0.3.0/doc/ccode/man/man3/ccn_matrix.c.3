@@ -1,0 +1,83 @@
+.TH "lib/ccn_matrix.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_matrix.c \- 
+.PP
+Support for a sparse matrix (2-D table) of nonnegative integers.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_matrix * \fBccn_matrix_create\fP (void)"
+.br
+.ti -1c
+.RI "void \fBccn_matrix_destroy\fP (struct ccn_matrix **mp)"
+.br
+.ti -1c
+.RI "intptr_t \fBccn_matrix_fetch\fP (struct ccn_matrix *m, uint_least64_t row, unsigned col)"
+.br
+.ti -1c
+.RI "void \fBccn_matrix_store\fP (struct ccn_matrix *m, uint_least64_t row, unsigned col, intptr_t value)"
+.br
+.ti -1c
+.RI "int \fBccn_matrix_getbounds\fP (struct ccn_matrix *m, struct \fBccn_matrix_bounds\fP *result)"
+.br
+.ti -1c
+.RI "int \fBccn_matrix_trim\fP (struct ccn_matrix *m, const struct \fBccn_matrix_bounds\fP *bounds)"
+.br
+.ti -1c
+.RI "int \fBccn_matrix_clear\fP (struct ccn_matrix *m, const struct \fBccn_matrix_bounds\fP *bounds)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for a sparse matrix (2-D table) of nonnegative integers. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_matrix.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_matrix_clear (struct ccn_matrix * m, const struct \fBccn_matrix_bounds\fP * bounds)"
+.PP
+Definition at line 144 of file ccn_matrix.c.
+.SS "struct ccn_matrix* ccn_matrix_create (void)\fC [read]\fP"
+.PP
+Definition at line 39 of file ccn_matrix.c.
+.PP
+Referenced by main().
+.SS "void ccn_matrix_destroy (struct ccn_matrix ** mp)"
+.PP
+Definition at line 52 of file ccn_matrix.c.
+.PP
+Referenced by main().
+.SS "intptr_t ccn_matrix_fetch (struct ccn_matrix * m, uint_least64_t row, unsigned col)"
+.PP
+Definition at line 66 of file ccn_matrix.c.
+.PP
+Referenced by main().
+.SS "int ccn_matrix_getbounds (struct ccn_matrix * m, struct \fBccn_matrix_bounds\fP * result)"
+.PP
+Definition at line 98 of file ccn_matrix.c.
+.PP
+Referenced by Dump().
+.SS "void ccn_matrix_store (struct ccn_matrix * m, uint_least64_t row, unsigned col, intptr_t value)"
+.PP
+Definition at line 78 of file ccn_matrix.c.
+.PP
+Referenced by main().
+.SS "int ccn_matrix_trim (struct ccn_matrix * m, const struct \fBccn_matrix_bounds\fP * bounds)"
+.PP
+Definition at line 134 of file ccn_matrix.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

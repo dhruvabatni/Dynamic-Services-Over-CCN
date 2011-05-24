@@ -1,0 +1,69 @@
+.TH "include/ccn/random.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/random.h \- 
+.PP
+Pseudo-random number generation.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBccn_random_bytes\fP (unsigned char *buf, size_t size)"
+.br
+.RI "\fIGenerate pseudo-random bytes. \fP"
+.ti -1c
+.RI "void \fBccn_add_entropy\fP (const void *buf, size_t size, int bits_of_entropy)"
+.br
+.RI "\fIFeed some entropy to the random number generator. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Pseudo-random number generation. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBrandom.h\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_add_entropy (const void * buf, size_t size, int bits_of_entropy)"
+.PP
+Feed some entropy to the random number generator. \fBParameters:\fP
+.RS 4
+\fIbuf\fP is the source buffer 
+.br
+\fIsize\fP is in bytes 
+.br
+\fIbits_of_entropy\fP is an estimate; use 0 to make me guess 
+.RE
+.PP
+
+.PP
+Definition at line 364 of file ccn_signing.c.
+.PP
+Referenced by main().
+.SS "void ccn_random_bytes (unsigned char * buf, size_t size)"
+.PP
+Generate pseudo-random bytes. \fBParameters:\fP
+.RS 4
+\fIbuf\fP is the destination buffer 
+.br
+\fIsize\fP is in bytes 
+.RE
+.PP
+
+.PP
+Definition at line 347 of file ccn_signing.c.
+.PP
+Referenced by ccn_name_append_nonce(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

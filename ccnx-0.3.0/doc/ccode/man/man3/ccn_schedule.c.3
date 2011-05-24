@@ -1,0 +1,143 @@
+.TH "lib/ccn_schedule.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_schedule.c \- 
+.PP
+Support for scheduling events.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBupdate_epoch\fP (struct ccn_schedule *sched)"
+.br
+.ti -1c
+.RI "static void \fBupdate_time\fP (struct ccn_schedule *sched)"
+.br
+.ti -1c
+.RI "struct ccn_schedule * \fBccn_schedule_create\fP (void *clienth, const struct \fBccn_gettime\fP *ccnclock)"
+.br
+.ti -1c
+.RI "void \fBccn_schedule_destroy\fP (struct ccn_schedule **schedp)"
+.br
+.ti -1c
+.RI "struct \fBccn_gettime\fP * \fBccn_schedule_get_gettime\fP (struct ccn_schedule *schedp)"
+.br
+.ti -1c
+.RI "static void \fBheap_insert\fP (struct ccn_schedule_heap_item *heap, int micros, struct \fBccn_scheduled_event\fP *ev, int h, int n)"
+.br
+.ti -1c
+.RI "static void \fBheap_sift\fP (struct ccn_schedule_heap_item *heap, int n)"
+.br
+.ti -1c
+.RI "static struct \fBccn_scheduled_event\fP * \fBreschedule_event\fP (struct ccn_schedule *sched, int micros, struct \fBccn_scheduled_event\fP *ev)"
+.br
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBccn_schedule_event\fP (struct ccn_schedule *sched, int micros, \fBccn_scheduled_action\fP action, void *evdata, intptr_t evint)"
+.br
+.ti -1c
+.RI "static int \fBccn_schedule_cancelled_event\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.ti -1c
+.RI "int \fBccn_schedule_cancel\fP (struct ccn_schedule *sched, struct \fBccn_scheduled_event\fP *ev)"
+.br
+.RI "\fICancel a scheduled event. \fP"
+.ti -1c
+.RI "static void \fBccn_schedule_run_next\fP (struct ccn_schedule *sched)"
+.br
+.ti -1c
+.RI "int \fBccn_schedule_run\fP (struct ccn_schedule *sched)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for scheduling events. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_schedule.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_schedule_cancel (struct ccn_schedule * sched, struct \fBccn_scheduled_event\fP * ev)"
+.PP
+Cancel a scheduled event. Cancels the event (calling action with CCN_SCHEDULE_CANCEL set) 
+.PP
+\fBReturns:\fP
+.RS 4
+0 if OK, or -1 if this is not possible. 
+.RE
+.PP
+
+.PP
+Definition at line 254 of file ccn_schedule.c.
+.PP
+Referenced by ccnd_internal_client_reschedule(), ccnd_internal_client_stop(), and content_queue_destroy().
+.SS "static int ccn_schedule_cancelled_event (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Definition at line 241 of file ccn_schedule.c.
+.PP
+Referenced by ccn_schedule_cancel().
+.SS "struct ccn_schedule* ccn_schedule_create (void * clienth, const struct \fBccn_gettime\fP * ccnclock)\fC [read]\fP"
+.PP
+Definition at line 88 of file ccn_schedule.c.
+.PP
+Referenced by ccnd_create(), and main().
+.SS "void ccn_schedule_destroy (struct ccn_schedule ** schedp)"
+.PP
+Definition at line 103 of file ccn_schedule.c.
+.PP
+Referenced by ccnd_destroy(), incoming_content(), and main().
+.SS "struct \fBccn_scheduled_event\fP* ccn_schedule_event (struct ccn_schedule * sched, int micros, \fBccn_scheduled_action\fP action, void * evdata, intptr_t evint)\fC [read]\fP"
+.PP
+Definition at line 222 of file ccn_schedule.c.
+.PP
+Referenced by age_forwarding_needed(), ccnd_face_status_change(), ccnd_internal_client_reschedule(), ccnd_internal_client_start(), clean_needed(), face_send_queue_insert(), main(), propagate_interest(), reap_needed(), set_content_timer(), and update_rtt().
+.SS "struct \fBccn_gettime\fP* ccn_schedule_get_gettime (struct ccn_schedule * schedp)\fC [read]\fP"
+.PP
+Definition at line 129 of file ccn_schedule.c.
+.SS "int ccn_schedule_run (struct ccn_schedule * sched)"
+.PP
+Definition at line 301 of file ccn_schedule.c.
+.PP
+Referenced by ccnd_run(), and main().
+.SS "static void ccn_schedule_run_next (struct ccn_schedule * sched)\fC [static]\fP"
+.PP
+Definition at line 269 of file ccn_schedule.c.
+.PP
+Referenced by ccn_schedule_run().
+.SS "static void heap_insert (struct ccn_schedule_heap_item * heap, int micros, struct \fBccn_scheduled_event\fP * ev, int h, int n)\fC [static]\fP"
+.PP
+Definition at line 139 of file ccn_schedule.c.
+.PP
+Referenced by reschedule_event().
+.SS "static void heap_sift (struct ccn_schedule_heap_item * heap, int n)\fC [static]\fP"
+.PP
+Definition at line 162 of file ccn_schedule.c.
+.PP
+Referenced by ccn_schedule_run_next().
+.SS "static struct \fBccn_scheduled_event\fP* reschedule_event (struct ccn_schedule * sched, int micros, struct \fBccn_scheduled_event\fP * ev)\fC [static, read]\fP"
+.PP
+Definition at line 186 of file ccn_schedule.c.
+.PP
+Referenced by ccn_schedule_event(), and ccn_schedule_run_next().
+.SS "static void update_epoch (struct ccn_schedule * sched)\fC [static]\fP"
+.PP
+Definition at line 52 of file ccn_schedule.c.
+.PP
+Referenced by reschedule_event(), and update_time().
+.SS "static void update_time (struct ccn_schedule * sched)\fC [static]\fP"
+.PP
+Definition at line 66 of file ccn_schedule.c.
+.PP
+Referenced by ccn_schedule_create(), ccn_schedule_event(), and ccn_schedule_run().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

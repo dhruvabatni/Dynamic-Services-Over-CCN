@@ -1,0 +1,143 @@
+.TH "cmd/ccnslurp.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnslurp.c \- 
+.PP
+Attempts pull everything in a branch of the ccn name hierarchy.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEXCLUDE_LOW\fP   1"
+.br
+.ti -1c
+.RI "#define \fBEXCLUDE_HIGH\fP   2"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBnamecompare\fP (const void *a, const void *b)"
+.br
+.ti -1c
+.RI "static struct upcalldata * \fBget_my_data\fP (struct \fBccn_closure\fP *selfp)"
+.br
+.ti -1c
+.RI "static void \fBappend_bf_all\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.ti -1c
+.RI "static int \fBexpress_my_interest\fP (struct ccn *h, struct \fBccn_closure\fP *selfp, struct \fBccn_charbuf\fP *name)"
+.br
+.ti -1c
+.RI "static struct \fBccn_closure\fP * \fBsplit_my_excludes\fP (struct \fBccn_closure\fP *selfp)"
+.br
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBccn_charbuf_duplicate\fP (struct \fBccn_charbuf\fP *)"
+.br
+.ti -1c
+.RI "static void \fBanswer_passive\fP (struct \fBccn_charbuf\fP *templ)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBcreate_passive_templ\fP (void)"
+.br
+.ti -1c
+.RI "void \fBusage\fP (const char *prog)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBpassive_templ\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Attempts pull everything in a branch of the ccn name hierarchy. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnslurp.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define EXCLUDE_HIGH   2"
+.PP
+Definition at line 38 of file ccnslurp.c.
+.SS "#define EXCLUDE_LOW   1"
+.PP
+Definition at line 37 of file ccnslurp.c.
+.SH "Function Documentation"
+.PP 
+.SS "static void answer_passive (struct \fBccn_charbuf\fP * templ)\fC [static]\fP"
+.PP
+Definition at line 240 of file ccnslurp.c.
+.PP
+Referenced by create_passive_templ(), and express_my_interest().
+.SS "static void append_bf_all (struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+Definition at line 338 of file ccnslurp.c.
+.PP
+Referenced by express_my_interest().
+.SS "static struct \fBccn_charbuf\fP * ccn_charbuf_duplicate (struct \fBccn_charbuf\fP * c)\fC [static, read]\fP"
+.PP
+Definition at line 350 of file ccnslurp.c.
+.PP
+Referenced by split_my_excludes().
+.SS "static struct \fBccn_charbuf\fP* create_passive_templ (void)\fC [static, read]\fP"
+.PP
+Definition at line 57 of file ccnslurp.c.
+.PP
+Referenced by main().
+.SS "static int express_my_interest (struct ccn * h, struct \fBccn_closure\fP * selfp, struct \fBccn_charbuf\fP * name)\fC [static]\fP"
+.PP
+Definition at line 253 of file ccnslurp.c.
+.PP
+Referenced by incoming_content().
+.SS "static struct upcalldata * get_my_data (struct \fBccn_closure\fP * selfp)\fC [static, read]\fP"
+.PP
+Definition at line 85 of file ccnslurp.c.
+.PP
+Referenced by express_my_interest(), incoming_content(), and split_my_excludes().
+.SS "static enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 125 of file ccnslurp.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 368 of file ccnslurp.c.
+.SS "static int namecompare (const void * a, const void * b)\fC [static]\fP"
+.PP
+Definition at line 75 of file ccnslurp.c.
+.PP
+Referenced by incoming_content().
+.SS "static struct \fBccn_closure\fP * split_my_excludes (struct \fBccn_closure\fP * selfp)\fC [static, read]\fP"
+.PP
+Definition at line 298 of file ccnslurp.c.
+.PP
+Referenced by incoming_content().
+.SS "void usage (const char * prog)"
+.PP
+Definition at line 358 of file ccnslurp.c.
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBccn_charbuf\fP* \fBpassive_templ\fP\fC [static]\fP"
+.PP
+Definition at line 55 of file ccnslurp.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

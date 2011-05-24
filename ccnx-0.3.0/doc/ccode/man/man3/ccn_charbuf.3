@@ -1,0 +1,45 @@
+.TH "ccn_charbuf" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_charbuf \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBlength\fP"
+.br
+.ti -1c
+.RI "size_t \fBlimit\fP"
+.br
+.ti -1c
+.RI "unsigned char * \fBbuf\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 28 of file charbuf.h.
+.SH "Field Documentation"
+.PP 
+.SS "unsigned char* \fBccn_charbuf::buf\fP"
+.PP
+Definition at line 31 of file charbuf.h.
+.PP
+Referenced by age_forwarding(), all_whitespace(), ccn_append_uri_component(), ccn_charbuf_append_charbuf(), ccn_charbuf_append_tt(), ccn_charbuf_as_string(), ccn_charbuf_destroy(), ccn_charbuf_duplicate(), ccn_charbuf_putf(), ccn_charbuf_reserve(), ccn_check_namebuf(), ccn_check_pub_arrival(), ccn_chk_signing_params(), ccn_construct_interest(), ccn_create_version(), ccn_encode_ContentObject(), ccn_express_interest(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_get_header(), ccn_get_public_key(), ccn_initiate_prefix_reg(), ccn_load_private_key(), ccn_name_append(), ccn_name_from_uri(), ccn_name_next_sibling(), ccn_name_split(), ccn_process_input(), ccn_resolve_version(), ccn_seqw_create(), ccn_seqw_write(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccnb_append_forwarding_entry(), ccnb_append_header(), ccnb_tagged_putf(), ccnbx(), ccnd_answer_req(), ccnd_init_service_ccnb(), ccnd_msg(), ccnd_parse_uri_list(), ccnd_reg_ccnx_ccndid(), ccnd_reg_prefix(), ccnd_reg_uri(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), ccnd_stats_handle_http_connection(), ccnd_uri_listen(), collect_forwarding_html(), collect_forwarding_xml(), create_face(), decode_message(), do_deferred_write(), express_bulkdata_interest(), express_my_interest(), find_first_match_candidate(), get_ccndid(), incoming_content(), incoming_interest(), init_all_chars_percent_encoded(), main(), namecompare(), next_child_at_level(), post_face_notice(), prefix_face_list_item_create(), process_fd(), process_incoming_content(), process_input(), process_input_buffer(), propagate_interest(), register_unregister_prefix(), replace_interest_msg(), send_content(), send_http_response(), sequenced_name(), seqw_incoming_interest(), and stuff_and_send().
+.SS "size_t \fBccn_charbuf::length\fP"
+.PP
+Definition at line 29 of file charbuf.h.
+.PP
+Referenced by age_forwarding(), all_whitespace(), append_bloom_element(), ccn_append_pubkey_blob(), ccn_append_uri_component(), ccn_binary_seqfunc(), ccn_charbuf_append(), ccn_charbuf_append_charbuf(), ccn_charbuf_append_sockaddr(), ccn_charbuf_append_value(), ccn_charbuf_duplicate(), ccn_charbuf_putf(), ccn_charbuf_reserve(), ccn_charbuf_reset(), ccn_check_namebuf(), ccn_check_pub_arrival(), ccn_chk_signing_params(), ccn_construct_interest(), ccn_create_version(), ccn_decimal_seqfunc(), ccn_encode_ContentObject(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_get_header(), ccn_get_public_key(), ccn_initiate_prefix_reg(), ccn_load_private_key(), ccn_name_append(), ccn_name_append_components(), ccn_name_chop(), ccn_name_from_uri(), ccn_name_init(), ccn_name_next_sibling(), ccn_name_split(), ccn_parse_tagged_string(), ccn_process_input(), ccn_resolve_version(), ccn_seqw_create(), ccn_seqw_write(), ccn_set_interest_filter_with_flags(), ccn_stuff_interest(), ccnb_append_forwarding_entry(), ccnb_append_header(), ccnb_append_timestamp_blob(), ccnb_tagged_putf(), ccnbx(), ccnd_answer_req(), ccnd_append_plain_nonce(), ccnd_init_internal_keystore(), ccnd_init_service_ccnb(), ccnd_listen_on(), ccnd_parse_uri_list(), ccnd_reg_ccnx_ccndid(), ccnd_reg_prefix(), ccnd_reg_uri(), ccnd_reg_uri_list(), ccnd_req_unreg(), ccnd_stats_handle_http_connection(), ccnd_uri_listen(), charbuf_obtain(), charbuf_release(), collect_faces_html(), collect_faces_xml(), collect_forwarding_html(), collect_forwarding_xml(), create_face(), decode_message(), do_deferred_write(), express_bulkdata_interest(), express_my_interest(), find_first_match_candidate(), incoming_content(), incoming_interest(), init_all_chars_percent_encoded(), main(), namecompare(), next_child_at_level(), post_face_notice(), prefix_face_list_item_create(), process_fd(), process_incoming_content(), process_input(), process_input_buffer(), propagate_interest(), register_unregister_prefix(), replace_interest_msg(), resolve_templ(), send_content(), send_http_response(), sequenced_name(), seqw_incoming_interest(), and stuff_and_send().
+.SS "size_t \fBccn_charbuf::limit\fP"
+.PP
+Definition at line 30 of file charbuf.h.
+.PP
+Referenced by ccn_charbuf_putf(), ccn_charbuf_reserve(), ccn_process_input(), ccnb_tagged_putf(), ccnbx(), main(), process_fd(), and process_input().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,1768 @@
+.TH "include/ccn/ccn.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/ccn.h \- 
+.PP
+This is the low-level interface for CCNx clients.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_closure\fP"
+.br
+.RI "\fIHandle for upcalls that allow clients receive notifications of incoming interests and content. \fP"
+.ti -1c
+.RI "struct \fBccn_upcall_info\fP"
+.br
+.RI "\fIAdditional information provided in the upcall. \fP"
+.ti -1c
+.RI "struct \fBccn_buf_decoder\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_parsed_interest\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_parsed_ContentObject\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_signing_params\fP"
+.br
+.RI "\fIParameters for creating signed content objects. \fP"
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_API_VERSION\fP   3000"
+.br
+.RI "\fIA macro that clients may use to cope with an evolving API. \fP"
+.ti -1c
+.RI "#define \fBCCN_INTEREST_LIFETIME_SEC\fP   4"
+.br
+.RI "\fIInterest lifetime default. \fP"
+.ti -1c
+.RI "#define \fBCCN_INTEREST_LIFETIME_MICROSEC\fP   (CCN_INTEREST_LIFETIME_SEC * 1000000)"
+.br
+.ti -1c
+.RI "#define \fBCCN_GET_NOKEYWAIT\fP   1"
+.br
+.ti -1c
+.RI "#define \fBCCN_AOK_CS\fP   0x1"
+.br
+.ti -1c
+.RI "#define \fBCCN_AOK_NEW\fP   0x2"
+.br
+.ti -1c
+.RI "#define \fBCCN_AOK_DEFAULT\fP   (CCN_AOK_CS | CCN_AOK_NEW)"
+.br
+.ti -1c
+.RI "#define \fBCCN_AOK_STALE\fP   0x4"
+.br
+.ti -1c
+.RI "#define \fBCCN_AOK_EXPIRE\fP   0x10"
+.br
+.ti -1c
+.RI "#define \fBCCN_SIGNING_PARAMS_INIT\fP   { CCN_API_VERSION, 0, NULL, {0}, CCN_CONTENT_DATA, -1 }"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_TEMPL_TIMESTAMP\fP   0x0001"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_TEMPL_FINAL_BLOCK_ID\fP   0x0002"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_TEMPL_FRESHNESS\fP   0x0004"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_TEMPL_KEY_LOCATOR\fP   0x0008"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_FINAL_BLOCK\fP   0x0010"
+.br
+.ti -1c
+.RI "#define \fBCCN_SP_OMIT_KEY_LOCATOR\fP   0x0020"
+.br
+.ti -1c
+.RI "#define \fBCCN_V_REPLACE\fP   1"
+.br
+.RI "\fIVersioning. \fP"
+.ti -1c
+.RI "#define \fBCCN_V_LOW\fP   2"
+.br
+.RI "\fIlook for early version \fP"
+.ti -1c
+.RI "#define \fBCCN_V_HIGH\fP   4"
+.br
+.RI "\fIlook for newer version \fP"
+.ti -1c
+.RI "#define \fBCCN_V_EST\fP   8"
+.br
+.RI "\fIlook for extreme \fP"
+.ti -1c
+.RI "#define \fBCCN_V_LOWEST\fP   (2|8)"
+.br
+.ti -1c
+.RI "#define \fBCCN_V_HIGHEST\fP   (4|8)"
+.br
+.ti -1c
+.RI "#define \fBCCN_V_NEXT\fP   (4|1)"
+.br
+.ti -1c
+.RI "#define \fBCCN_V_PREV\fP   (2|1)"
+.br
+.ti -1c
+.RI "#define \fBCCN_V_NOW\fP   16"
+.br
+.RI "\fIuse current time \fP"
+.ti -1c
+.RI "#define \fBCCN_V_NESTOK\fP   32"
+.br
+.RI "\fIversion within version is ok \fP"
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBccn_upcall_kind\fP { \fBCCN_UPCALL_FINAL\fP, \fBCCN_UPCALL_INTEREST\fP, \fBCCN_UPCALL_CONSUMED_INTEREST\fP, \fBCCN_UPCALL_CONTENT\fP, \fBCCN_UPCALL_INTEREST_TIMED_OUT\fP, \fBCCN_UPCALL_CONTENT_UNVERIFIED\fP, \fBCCN_UPCALL_CONTENT_BAD\fP }"
+.br
+.RI "\fIThis tells what kind of event the upcall is handling. \fP"
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP { \fBCCN_UPCALL_RESULT_ERR\fP =  -1, \fBCCN_UPCALL_RESULT_OK\fP =  0, \fBCCN_UPCALL_RESULT_REEXPRESS\fP =  1, \fBCCN_UPCALL_RESULT_INTEREST_CONSUMED\fP =  2, \fBCCN_UPCALL_RESULT_VERIFY\fP =  3 }"
+.br
+.RI "\fIUpcalls return one of these values. \fP"
+.ti -1c
+.RI "enum \fBccn_marker\fP { \fBCCN_MARKER_NONE\fP =  -1, \fBCCN_MARKER_SEQNUM\fP =  0x00, \fBCCN_MARKER_CONTROL\fP =  0xC1, \fBCCN_MARKER_OSEQNUM\fP =  0xF8, \fBCCN_MARKER_BLKID\fP =  0xFB, \fBCCN_MARKER_VERSION\fP =  0xFD }"
+.br
+.ti -1c
+.RI "enum \fBccn_content_type\fP { \fBCCN_CONTENT_DATA\fP =  0x0C04C0, \fBCCN_CONTENT_ENCR\fP =  0x10D091, \fBCCN_CONTENT_GONE\fP =  0x18E344, \fBCCN_CONTENT_KEY\fP =  0x28463F, \fBCCN_CONTENT_LINK\fP =  0x2C834A, \fBCCN_CONTENT_NACK\fP =  0x34008A }"
+.br
+.ti -1c
+.RI "enum \fBccn_parsed_interest_offsetid\fP { \fBCCN_PI_B_Name\fP, \fBCCN_PI_B_Component0\fP, \fBCCN_PI_B_LastPrefixComponent\fP, \fBCCN_PI_E_LastPrefixComponent\fP, \fBCCN_PI_E_ComponentLast\fP =  CCN_PI_E_LastPrefixComponent, \fBCCN_PI_E_Name\fP, \fBCCN_PI_B_MinSuffixComponents\fP, \fBCCN_PI_E_MinSuffixComponents\fP, \fBCCN_PI_B_MaxSuffixComponents\fP, \fBCCN_PI_E_MaxSuffixComponents\fP, \fBCCN_PI_B_PublisherID\fP, \fBCCN_PI_B_PublisherIDKeyDigest\fP, \fBCCN_PI_E_PublisherIDKeyDigest\fP, \fBCCN_PI_E_PublisherID\fP, \fBCCN_PI_B_Exclude\fP, \fBCCN_PI_E_Exclude\fP, \fBCCN_PI_B_ChildSelector\fP, \fBCCN_PI_E_ChildSelector\fP, \fBCCN_PI_B_AnswerOriginKind\fP, \fBCCN_PI_E_AnswerOriginKind\fP, \fBCCN_PI_B_Scope\fP, \fBCCN_PI_E_Scope\fP, \fBCCN_PI_B_InterestLifetime\fP, \fBCCN_PI_E_InterestLifetime\fP, \fBCCN_PI_B_Nonce\fP, \fBCCN_PI_E_Nonce\fP, \fBCCN_PI_B_OTHER\fP, \fBCCN_PI_E_OTHER\fP, \fBCCN_PI_E\fP }"
+.br
+.ti -1c
+.RI "enum \fBccn_parsed_content_object_offsetid\fP { \fBCCN_PCO_B_Signature\fP, \fBCCN_PCO_B_DigestAlgorithm\fP, \fBCCN_PCO_E_DigestAlgorithm\fP, \fBCCN_PCO_B_Witness\fP, \fBCCN_PCO_E_Witness\fP, \fBCCN_PCO_B_SignatureBits\fP, \fBCCN_PCO_E_SignatureBits\fP, \fBCCN_PCO_E_Signature\fP, \fBCCN_PCO_B_Name\fP, \fBCCN_PCO_B_Component0\fP, \fBCCN_PCO_E_ComponentN\fP, \fBCCN_PCO_E_ComponentLast\fP =  CCN_PCO_E_ComponentN, \fBCCN_PCO_E_Name\fP, \fBCCN_PCO_B_SignedInfo\fP, \fBCCN_PCO_B_PublisherPublicKeyDigest\fP, \fBCCN_PCO_E_PublisherPublicKeyDigest\fP, \fBCCN_PCO_B_Timestamp\fP, \fBCCN_PCO_E_Timestamp\fP, \fBCCN_PCO_B_Type\fP, \fBCCN_PCO_E_Type\fP, \fBCCN_PCO_B_FreshnessSeconds\fP, \fBCCN_PCO_E_FreshnessSeconds\fP, \fBCCN_PCO_B_FinalBlockID\fP, \fBCCN_PCO_E_FinalBlockID\fP, \fBCCN_PCO_B_KeyLocator\fP, \fBCCN_PCO_B_Key_Certificate_KeyName\fP, \fBCCN_PCO_B_KeyName_Name\fP, \fBCCN_PCO_E_KeyName_Name\fP, \fBCCN_PCO_B_KeyName_Pub\fP, \fBCCN_PCO_E_KeyName_Pub\fP, \fBCCN_PCO_E_Key_Certificate_KeyName\fP, \fBCCN_PCO_E_KeyLocator\fP, \fBCCN_PCO_E_SignedInfo\fP, \fBCCN_PCO_B_Content\fP, \fBCCN_PCO_E_Content\fP, \fBCCN_PCO_E\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn * \fBccn_create\fP (void)"
+.br
+.RI "\fICreate a client handle. \fP"
+.ti -1c
+.RI "int \fBccn_connect\fP (struct ccn *h, const char *name)"
+.br
+.RI "\fIConnect to local ccnd. \fP"
+.ti -1c
+.RI "int \fBccn_get_connection_fd\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "int \fBccn_disconnect\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "void \fBccn_destroy\fP (struct ccn **hp)"
+.br
+.ti -1c
+.RI "int \fBccn_name_init\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIReset charbuf to represent an empty Name in binary format. \fP"
+.ti -1c
+.RI "int \fBccn_name_append\fP (struct \fBccn_charbuf\fP *c, const void *component, size_t n)"
+.br
+.RI "\fIAdd a Component to a Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_str\fP (struct \fBccn_charbuf\fP *c, const char *s)"
+.br
+.RI "\fIAdd a Component that is a NUL-terminated string. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_components\fP (struct \fBccn_charbuf\fP *c, const unsigned char *ccnb, size_t start, size_t stop)"
+.br
+.RI "\fIAdd sequence of ccnb-encoded Components to a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_numeric\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP tag, uintmax_t value)"
+.br
+.RI "\fIAdd a binary Component to a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_append_nonce\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAdd nonce Component to ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_split\fP (const struct \fBccn_charbuf\fP *c, struct \fBccn_indexbuf\fP *components)"
+.br
+.RI "\fIFind Component boundaries in a ccnb-encoded Name. \fP"
+.ti -1c
+.RI "int \fBccn_name_chop\fP (struct \fBccn_charbuf\fP *c, struct \fBccn_indexbuf\fP *components, int n)"
+.br
+.RI "\fIChop the name down to n components. \fP"
+.ti -1c
+.RI "int \fBccn_express_interest\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action, struct \fBccn_charbuf\fP *interest_template)"
+.br
+.ti -1c
+.RI "int \fBccn_set_interest_filter\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action)"
+.br
+.ti -1c
+.RI "int \fBccn_set_interest_filter_with_flags\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action, int forw_flags)"
+.br
+.ti -1c
+.RI "int \fBccn_put\fP (struct ccn *h, const void *p, size_t length)"
+.br
+.ti -1c
+.RI "int \fBccn_output_is_pending\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "int \fBccn_run\fP (struct ccn *h, int timeout)"
+.br
+.RI "\fIRun the ccn client event loop. \fP"
+.ti -1c
+.RI "int \fBccn_set_run_timeout\fP (struct ccn *h, int timeout)"
+.br
+.RI "\fIModify ccn_run timeout. \fP"
+.ti -1c
+.RI "int \fBccn_get\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, struct \fBccn_charbuf\fP *interest_template, int timeout_ms, struct \fBccn_charbuf\fP *resultbuf, struct \fBccn_parsed_ContentObject\fP *pcobuf, struct \fBccn_indexbuf\fP *compsbuf, int flags)"
+.br
+.RI "\fIGet a single matching ContentObject This is a convenience for getting a single matching ContentObject. \fP"
+.ti -1c
+.RI "int \fBccn_verify_content\fP (struct ccn *h, const unsigned char *msg, struct \fBccn_parsed_ContentObject\fP *pco)"
+.br
+.RI "\fIVerify a ContentObject using the public key from either the object itself or our cache of keys. \fP"
+.ti -1c
+.RI "struct \fBccn_buf_decoder\fP * \fBccn_buf_decoder_start\fP (struct \fBccn_buf_decoder\fP *d, const unsigned char *buf, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_buf_advance\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_advance_past_element\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_dtag\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_some_dtag\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_some_blob\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_blob\fP (struct \fBccn_buf_decoder\fP *d, const unsigned char **bufp, size_t *sizep)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_udata\fP (struct \fBccn_buf_decoder\fP *d, const char *s)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_attr\fP (struct \fBccn_buf_decoder\fP *d, const char *s)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_required_tagged_BLOB\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_optional_tagged_BLOB\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_nonNegativeInteger\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_optional_tagged_nonNegativeInteger\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_uintmax\fP (struct \fBccn_buf_decoder\fP *d, uintmax_t *result)"
+.br
+.RI "\fIParse a potentially large non-negative integer. \fP"
+.ti -1c
+.RI "int \fBccn_parse_tagged_string\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, struct \fBccn_charbuf\fP *store)"
+.br
+.RI "\fIParses a ccnb-encoded element expected to contain a UDATA string. \fP"
+.ti -1c
+.RI "uintmax_t \fBccn_parse_required_tagged_binary_number\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "uintmax_t \fBccn_parse_optional_tagged_binary_number\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen, uintmax_t default_value)"
+.br
+.ti -1c
+.RI "void \fBccn_buf_check_close\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.RI "\fIEnter an error state if element closer not found. \fP"
+.ti -1c
+.RI "int \fBccn_ref_tagged_BLOB\fP (enum \fBccn_dtag\fP tt, const unsigned char *buf, size_t start, size_t stop, const unsigned char **presult, size_t *psize)"
+.br
+.ti -1c
+.RI "int \fBccn_fetch_tagged_nonNegativeInteger\fP (enum \fBccn_dtag\fP tt, const unsigned char *buf, size_t start, size_t stop)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_interest\fP (const unsigned char *msg, size_t size, struct \fBccn_parsed_interest\fP *interest, struct \fBccn_indexbuf\fP *components)"
+.br
+.ti -1c
+.RI "intmax_t \fBccn_interest_lifetime\fP (const unsigned char *msg, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.ti -1c
+.RI "int \fBccn_interest_lifetime_seconds\fP (const unsigned char *msg, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_ContentObject\fP (const unsigned char *msg, size_t size, struct \fBccn_parsed_ContentObject\fP *x, struct \fBccn_indexbuf\fP *components)"
+.br
+.ti -1c
+.RI "void \fBccn_digest_ContentObject\fP (const unsigned char *msg, struct \fBccn_parsed_ContentObject\fP *pc)"
+.br
+.RI "\fICompute the digest of the entire ContentObject if necessary, caching the result in pc->digest, pc->digest_bytes. \fP"
+.ti -1c
+.RI "int \fBccn_parse_Name\fP (struct \fBccn_buf_decoder\fP *d, struct \fBccn_indexbuf\fP *components)"
+.br
+.RI "\fIParses a ccnb-encoded name. \fP"
+.ti -1c
+.RI "int \fBccn_compare_names\fP (const unsigned char *a, size_t asize, const unsigned char *b, size_t bsize)"
+.br
+.ti -1c
+.RI "int \fBccn_name_comp_strcmp\fP (const unsigned char *data, const struct \fBccn_indexbuf\fP *indexbuf, unsigned int i, const char *val)"
+.br
+.ti -1c
+.RI "int \fBccn_name_comp_get\fP (const unsigned char *data, const struct \fBccn_indexbuf\fP *indexbuf, unsigned int i, const unsigned char **comp, size_t *size)"
+.br
+.RI "\fIExtract a pointer to and size of component at given index i. \fP"
+.ti -1c
+.RI "int \fBccn_name_next_sibling\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAdvance the last Component of a Name to the next possible value. \fP"
+.ti -1c
+.RI "int \fBccn_content_get_value\fP (const unsigned char *data, size_t data_size, const struct \fBccn_parsed_ContentObject\fP *content, const unsigned char **value, size_t *size)"
+.br
+.ti -1c
+.RI "int \fBccn_sign_content\fP (struct ccn *h, struct \fBccn_charbuf\fP *resultbuf, const struct \fBccn_charbuf\fP *name_prefix, const struct \fBccn_signing_params\fP *params, const void *data, size_t size)"
+.br
+.RI "\fICreate a signed ContentObject. \fP"
+.ti -1c
+.RI "int \fBccn_load_private_key\fP (struct ccn *h, const char *keystore_path, const char *keystore_passphrase, struct \fBccn_charbuf\fP *pubid_out)"
+.br
+.RI "\fILoad a private key from a keystore file. \fP"
+.ti -1c
+.RI "int \fBccn_load_default_key\fP (struct ccn *h, const char *keystore_path, const char *keystore_passphrase)"
+.br
+.RI "\fILoad the handle's default signing key from a keystore. \fP"
+.ti -1c
+.RI "int \fBccn_get_public_key\fP (struct ccn *h, const struct \fBccn_signing_params\fP *params, struct \fBccn_charbuf\fP *digest_result, struct \fBccn_charbuf\fP *result)"
+.br
+.RI "\fIPlace the public key associated with the params into result buffer, and its digest into digest_result. \fP"
+.ti -1c
+.RI "int \fBccn_chk_signing_params\fP (struct ccn *h, const struct \fBccn_signing_params\fP *params, struct \fBccn_signing_params\fP *result, struct \fBccn_charbuf\fP **ptimestamp, struct \fBccn_charbuf\fP **pfinalblockid, struct \fBccn_charbuf\fP **pkeylocator)"
+.br
+.RI "\fIThis is mostly for use within the library, but may be useful for some clients. \fP"
+.ti -1c
+.RI "int \fBccn_signed_info_create\fP (struct \fBccn_charbuf\fP *c, const void *publisher_key_id, size_t publisher_key_id_size, const struct \fBccn_charbuf\fP *timestamp, enum \fBccn_content_type\fP type, int freshness, const struct \fBccn_charbuf\fP *finalblockid, const struct \fBccn_charbuf\fP *key_locator)"
+.br
+.RI "\fICreate SignedInfo. \fP"
+.ti -1c
+.RI "int \fBccn_encode_ContentObject\fP (struct \fBccn_charbuf\fP *buf, const struct \fBccn_charbuf\fP *Name, const struct \fBccn_charbuf\fP *SignedInfo, const void *data, size_t size, const char *digest_algorithm, const struct ccn_pkey *private_key)"
+.br
+.RI "\fIEncode and sign a ContentObject. \fP"
+.ti -1c
+.RI "int \fBccn_content_matches_interest\fP (const unsigned char *content_object, size_t content_object_size, int implicit_content_digest, struct \fBccn_parsed_ContentObject\fP *pc, const unsigned char *interest_msg, size_t interest_msg_size, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.RI "\fITest for a match between a ContentObject and an Interest. \fP"
+.ti -1c
+.RI "void \fBccn_perror\fP (struct ccn *h, const char *s)"
+.br
+.RI "\fIProduce message on standard error output describing the last error encountered during a call using the given handle. \fP"
+.ti -1c
+.RI "int \fBccn_seterror\fP (struct ccn *h, int error_code)"
+.br
+.RI "\fISet the error code in a ccn handle. \fP"
+.ti -1c
+.RI "int \fBccn_geterror\fP (struct ccn *h)"
+.br
+.RI "\fIRecover last error code. \fP"
+.ti -1c
+.RI "int \fBccn_charbuf_append_tt\fP (struct \fBccn_charbuf\fP *c, size_t val, enum \fBccn_tt\fP tt)"
+.br
+.RI "\fIAppend a ccnb start marker. \fP"
+.ti -1c
+.RI "int \fBccn_charbuf_append_closer\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAppend a CCN_CLOSE. \fP"
+.ti -1c
+.RI "int \fBccnb_append_number\fP (struct \fBccn_charbuf\fP *c, int nni)"
+.br
+.RI "\fIAppend a non-negative integer as a UDATA. \fP"
+.ti -1c
+.RI "int \fBccnb_append_timestamp_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP marker, intmax_t secs, int nsecs)"
+.br
+.RI "\fIAppend a binary timestamp as a BLOB using the ccn binary Timestamp representation (12-bit fraction). \fP"
+.ti -1c
+.RI "int \fBccnb_append_now_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_marker\fP marker)"
+.br
+.RI "\fIAppend a binary timestamp, using the current time. \fP"
+.ti -1c
+.RI "int \fBccnb_element_begin\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag)"
+.br
+.RI "\fIAppend a start-of-element marker. \fP"
+.ti -1c
+.RI "int \fBccnb_element_end\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIAppend an end-of-element marker. \fP"
+.ti -1c
+.RI "int \fBccnb_append_tagged_blob\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag, const void *data, size_t size)"
+.br
+.RI "\fIAppend a tagged BLOB. \fP"
+.ti -1c
+.RI "int \fBccnb_tagged_putf\fP (struct \fBccn_charbuf\fP *c, enum \fBccn_dtag\fP dtag, const char *fmt,...)"
+.br
+.RI "\fIAppend a tagged UDATA string, with printf-style formatting. \fP"
+.ti -1c
+.RI "int \fBccn_resolve_version\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, int versioning_flags, int timeout_ms)"
+.br
+.RI "\fIResolve the version, based on existing ccn content. \fP"
+.ti -1c
+.RI "int \fBccn_create_version\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, int versioning_flags, intmax_t secs, int nsecs)"
+.br
+.RI "\fIExtend a Name with a new version stamp. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP(* \fBccn_handler\fP )(struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.RI "\fIccn_handler This is the procedure type for the closure's implementation. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+This is the low-level interface for CCNx clients. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_AOK_CS   0x1"
+.PP
+Definition at line 512 of file ccn.h.
+.PP
+Referenced by answer_passive(), ccn_parse_interest(), and process_incoming_interest().
+.SS "#define CCN_AOK_DEFAULT   (CCN_AOK_CS | CCN_AOK_NEW)"
+.PP
+Definition at line 514 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), local_scope_rm_template(), main(), and make_template().
+.SS "#define CCN_AOK_EXPIRE   0x10"
+.PP
+Definition at line 516 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), local_scope_rm_template(), and process_incoming_interest().
+.SS "#define CCN_AOK_NEW   0x2"
+.PP
+Definition at line 513 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), ccnd_answer_req(), and incoming_interest().
+.SS "#define CCN_AOK_STALE   0x4"
+.PP
+Definition at line 515 of file ccn.h.
+.PP
+Referenced by answer_passive(), main(), make_template(), and process_incoming_interest().
+.SS "#define CCN_API_VERSION   3000"
+.PP
+A macro that clients may use to cope with an evolving API. The decimal digits of this use the pattern MMVVXXX, where MM is the major release number and VV is the minor version level. XXX will be bumped when an API change is made, but it will not be directly tied to the patch level in a release number. Thus CCN_API_VERSION=1000 would have corresponded to the first public release (0.1.0), but that version did not have this macro defined. 
+.PP
+Definition at line 40 of file ccn.h.
+.SS "#define CCN_GET_NOKEYWAIT   1"
+.PP
+Definition at line 373 of file ccn.h.
+.PP
+Referenced by ccn_get(), ccn_resolve_version(), and handle_simple_incoming_content().
+.SS "#define CCN_INTEREST_LIFETIME_MICROSEC   (CCN_INTEREST_LIFETIME_SEC * 1000000)"
+.PP
+Definition at line 48 of file ccn.h.
+.PP
+Referenced by ccn_construct_interest(), ccn_process_scheduled_operations(), ccnd_internal_client_reschedule(), ccnd_internal_client_start(), do_propagate(), get_dgram_source(), and reap().
+.SS "#define CCN_INTEREST_LIFETIME_SEC   4"
+.PP
+Interest lifetime default. If the interest lifetime is not explicit, this is the default value. 
+.PP
+Definition at line 47 of file ccn.h.
+.PP
+Referenced by ccn_interest_lifetime(), and ccn_update_refresh_us().
+.SS "#define CCN_SIGNING_PARAMS_INIT   { CCN_API_VERSION, 0, NULL, {0}, CCN_CONTENT_DATA, -1 }"
+.PP
+Definition at line 711 of file ccn.h.
+.PP
+Referenced by ccn_get_public_key(), ccn_sign_content(), ccnd_answer_req(), ccnd_init_internal_keystore(), ccnd_init_service_ccnb(), main(), and seqw_next_cob().
+.SS "#define CCN_SP_FINAL_BLOCK   0x0010"
+.PP
+Definition at line 718 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_sign_content(), ccnd_init_service_ccnb(), main(), and seqw_next_cob().
+.SS "#define CCN_SP_OMIT_KEY_LOCATOR   0x0020"
+.PP
+Definition at line 719 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), and ccn_sign_content().
+.SS "#define CCN_SP_TEMPL_FINAL_BLOCK_ID   0x0002"
+.PP
+Definition at line 715 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params().
+.SS "#define CCN_SP_TEMPL_FRESHNESS   0x0004"
+.PP
+Definition at line 716 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), and main().
+.SS "#define CCN_SP_TEMPL_KEY_LOCATOR   0x0008"
+.PP
+Definition at line 717 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), ccnd_init_service_ccnb(), and main().
+.SS "#define CCN_SP_TEMPL_TIMESTAMP   0x0001"
+.PP
+Definition at line 714 of file ccn.h.
+.PP
+Referenced by ccn_chk_signing_params(), and main().
+.SS "#define CCN_V_EST   8"
+.PP
+look for extreme 
+.PP
+Definition at line 876 of file ccn.h.
+.PP
+Referenced by ccn_resolve_version().
+.SS "#define CCN_V_HIGH   4"
+.PP
+look for newer version 
+.PP
+Definition at line 875 of file ccn.h.
+.PP
+Referenced by ccn_create_version(), ccn_resolve_version(), and main().
+.SS "#define CCN_V_HIGHEST   (4|8)"
+.PP
+Definition at line 878 of file ccn.h.
+.PP
+Referenced by ccn_get_header(), and main().
+.SS "#define CCN_V_LOW   2"
+.PP
+look for early version 
+.PP
+Definition at line 874 of file ccn.h.
+.SS "#define CCN_V_LOWEST   (2|8)"
+.PP
+Definition at line 877 of file ccn.h.
+.SS "#define CCN_V_NESTOK   32"
+.PP
+version within version is ok 
+.PP
+Definition at line 882 of file ccn.h.
+.PP
+Referenced by ccn_create_version(), and ccn_resolve_version().
+.SS "#define CCN_V_NEXT   (4|1)"
+.PP
+Definition at line 879 of file ccn.h.
+.SS "#define CCN_V_NOW   16"
+.PP
+use current time 
+.PP
+Definition at line 881 of file ccn.h.
+.PP
+Referenced by ccn_create_version(), ccn_seqw_create(), ccnd_init_service_ccnb(), and main().
+.SS "#define CCN_V_PREV   (2|1)"
+.PP
+Definition at line 880 of file ccn.h.
+.SS "#define CCN_V_REPLACE   1"
+.PP
+Versioning. if last component is version, replace it 
+.PP
+Definition at line 873 of file ccn.h.
+.PP
+Referenced by ccn_create_version(), and main().
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBccn_content_type\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_CONTENT_DATA \fP\fP
+.TP
+\fB\fICCN_CONTENT_ENCR \fP\fP
+.TP
+\fB\fICCN_CONTENT_GONE \fP\fP
+.TP
+\fB\fICCN_CONTENT_KEY \fP\fP
+.TP
+\fB\fICCN_CONTENT_LINK \fP\fP
+.TP
+\fB\fICCN_CONTENT_NACK \fP\fP
+
+.PP
+Definition at line 265 of file ccn.h.
+.SS "enum \fBccn_marker\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_MARKER_NONE \fP\fP
+.TP
+\fB\fICCN_MARKER_SEQNUM \fP\fP
+consecutive block sequence numbers 
+.TP
+\fB\fICCN_MARKER_CONTROL \fP\fP
+commands, etc. 
+.TP
+\fB\fICCN_MARKER_OSEQNUM \fP\fP
+deprecated 
+.TP
+\fB\fICCN_MARKER_BLKID \fP\fP
+nonconsecutive block ids 
+.TP
+\fB\fICCN_MARKER_VERSION \fP\fP
+timestamp-based versioning 
+.PP
+Definition at line 214 of file ccn.h.
+.SS "enum \fBccn_parsed_content_object_offsetid\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_PCO_B_Signature \fP\fP
+.TP
+\fB\fICCN_PCO_B_DigestAlgorithm \fP\fP
+.TP
+\fB\fICCN_PCO_E_DigestAlgorithm \fP\fP
+.TP
+\fB\fICCN_PCO_B_Witness \fP\fP
+.TP
+\fB\fICCN_PCO_E_Witness \fP\fP
+.TP
+\fB\fICCN_PCO_B_SignatureBits \fP\fP
+.TP
+\fB\fICCN_PCO_E_SignatureBits \fP\fP
+.TP
+\fB\fICCN_PCO_E_Signature \fP\fP
+.TP
+\fB\fICCN_PCO_B_Name \fP\fP
+.TP
+\fB\fICCN_PCO_B_Component0 \fP\fP
+.TP
+\fB\fICCN_PCO_E_ComponentN \fP\fP
+.TP
+\fB\fICCN_PCO_E_ComponentLast \fP\fP
+.TP
+\fB\fICCN_PCO_E_Name \fP\fP
+.TP
+\fB\fICCN_PCO_B_SignedInfo \fP\fP
+.TP
+\fB\fICCN_PCO_B_PublisherPublicKeyDigest \fP\fP
+.TP
+\fB\fICCN_PCO_E_PublisherPublicKeyDigest \fP\fP
+.TP
+\fB\fICCN_PCO_B_Timestamp \fP\fP
+.TP
+\fB\fICCN_PCO_E_Timestamp \fP\fP
+.TP
+\fB\fICCN_PCO_B_Type \fP\fP
+.TP
+\fB\fICCN_PCO_E_Type \fP\fP
+.TP
+\fB\fICCN_PCO_B_FreshnessSeconds \fP\fP
+.TP
+\fB\fICCN_PCO_E_FreshnessSeconds \fP\fP
+.TP
+\fB\fICCN_PCO_B_FinalBlockID \fP\fP
+.TP
+\fB\fICCN_PCO_E_FinalBlockID \fP\fP
+.TP
+\fB\fICCN_PCO_B_KeyLocator \fP\fP
+.TP
+\fB\fICCN_PCO_B_Key_Certificate_KeyName \fP\fP
+.TP
+\fB\fICCN_PCO_B_KeyName_Name \fP\fP
+.TP
+\fB\fICCN_PCO_E_KeyName_Name \fP\fP
+.TP
+\fB\fICCN_PCO_B_KeyName_Pub \fP\fP
+.TP
+\fB\fICCN_PCO_E_KeyName_Pub \fP\fP
+.TP
+\fB\fICCN_PCO_E_Key_Certificate_KeyName \fP\fP
+.TP
+\fB\fICCN_PCO_E_KeyLocator \fP\fP
+.TP
+\fB\fICCN_PCO_E_SignedInfo \fP\fP
+.TP
+\fB\fICCN_PCO_B_Content \fP\fP
+.TP
+\fB\fICCN_PCO_E_Content \fP\fP
+.TP
+\fB\fICCN_PCO_E \fP\fP
+
+.PP
+Definition at line 546 of file ccn.h.
+.SS "enum \fBccn_parsed_interest_offsetid\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_PI_B_Name \fP\fP
+.TP
+\fB\fICCN_PI_B_Component0 \fP\fP
+.TP
+\fB\fICCN_PI_B_LastPrefixComponent \fP\fP
+.TP
+\fB\fICCN_PI_E_LastPrefixComponent \fP\fP
+.TP
+\fB\fICCN_PI_E_ComponentLast \fP\fP
+.TP
+\fB\fICCN_PI_E_Name \fP\fP
+.TP
+\fB\fICCN_PI_B_MinSuffixComponents \fP\fP
+.TP
+\fB\fICCN_PI_E_MinSuffixComponents \fP\fP
+.TP
+\fB\fICCN_PI_B_MaxSuffixComponents \fP\fP
+.TP
+\fB\fICCN_PI_E_MaxSuffixComponents \fP\fP
+.TP
+\fB\fICCN_PI_B_PublisherID \fP\fP
+.TP
+\fB\fICCN_PI_B_PublisherIDKeyDigest \fP\fP
+.TP
+\fB\fICCN_PI_E_PublisherIDKeyDigest \fP\fP
+.TP
+\fB\fICCN_PI_E_PublisherID \fP\fP
+.TP
+\fB\fICCN_PI_B_Exclude \fP\fP
+.TP
+\fB\fICCN_PI_E_Exclude \fP\fP
+.TP
+\fB\fICCN_PI_B_ChildSelector \fP\fP
+.TP
+\fB\fICCN_PI_E_ChildSelector \fP\fP
+.TP
+\fB\fICCN_PI_B_AnswerOriginKind \fP\fP
+.TP
+\fB\fICCN_PI_E_AnswerOriginKind \fP\fP
+.TP
+\fB\fICCN_PI_B_Scope \fP\fP
+.TP
+\fB\fICCN_PI_E_Scope \fP\fP
+.TP
+\fB\fICCN_PI_B_InterestLifetime \fP\fP
+.TP
+\fB\fICCN_PI_E_InterestLifetime \fP\fP
+.TP
+\fB\fICCN_PI_B_Nonce \fP\fP
+.TP
+\fB\fICCN_PI_E_Nonce \fP\fP
+.TP
+\fB\fICCN_PI_B_OTHER \fP\fP
+.TP
+\fB\fICCN_PI_E_OTHER \fP\fP
+.TP
+\fB\fICCN_PI_E \fP\fP
+
+.PP
+Definition at line 466 of file ccn.h.
+.SS "enum \fBccn_upcall_kind\fP"
+.PP
+This tells what kind of event the upcall is handling. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_UPCALL_FINAL \fP\fP
+handler is about to be deregistered 
+.TP
+\fB\fICCN_UPCALL_INTEREST \fP\fP
+incoming interest 
+.TP
+\fB\fICCN_UPCALL_CONSUMED_INTEREST \fP\fP
+incoming interest, someone has answered 
+.TP
+\fB\fICCN_UPCALL_CONTENT \fP\fP
+incoming verified content 
+.TP
+\fB\fICCN_UPCALL_INTEREST_TIMED_OUT \fP\fP
+interest timed out 
+.TP
+\fB\fICCN_UPCALL_CONTENT_UNVERIFIED \fP\fP
+content that has not been verified 
+.TP
+\fB\fICCN_UPCALL_CONTENT_BAD \fP\fP
+verification failed 
+.PP
+Definition at line 69 of file ccn.h.
+.SS "enum \fBccn_upcall_res\fP"
+.PP
+Upcalls return one of these values. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_UPCALL_RESULT_ERR \fP\fP
+upcall detected an error 
+.TP
+\fB\fICCN_UPCALL_RESULT_OK \fP\fP
+normal upcall return 
+.TP
+\fB\fICCN_UPCALL_RESULT_REEXPRESS \fP\fP
+reexpress the same interest again 
+.TP
+\fB\fICCN_UPCALL_RESULT_INTEREST_CONSUMED \fP\fP
+upcall claims to consume interest 
+.TP
+\fB\fICCN_UPCALL_RESULT_VERIFY \fP\fP
+force an unverified result to be verified 
+.PP
+Definition at line 82 of file ccn.h.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_buf_advance (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 40 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance_past_element(), ccn_buf_check_close(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_nonNegativeInteger(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_pubid_matches(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), and make_template().
+.SS "int ccn_buf_advance_past_element (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 119 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_uri_append(), and find_first_match_candidate().
+.SS "void ccn_buf_check_close (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Enter an error state if element closer not found. 
+.PP
+Definition at line 108 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance_past_element(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), and make_template().
+.SS "struct \fBccn_buf_decoder\fP* ccn_buf_decoder_start (struct \fBccn_buf_decoder\fP * d, const unsigned char * buf, size_t size)\fC [read]\fP"
+.PP
+Definition at line 28 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_get_public_key(), ccn_header_parse(), ccn_interest_lifetime(), ccn_locate_key(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_name_split(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_pubid_matches(), ccn_ref_tagged_BLOB(), ccn_uri_append(), ccnd_reg_uri(), find_first_match_candidate(), main(), and make_template().
+.SS "int ccn_buf_match_attr (struct \fBccn_buf_decoder\fP * d, const char * s)"
+.PP
+Definition at line 98 of file ccn_buf_decoder.c.
+.SS "int ccn_buf_match_blob (struct \fBccn_buf_decoder\fP * d, const unsigned char ** bufp, size_t * sizep)"
+.PP
+Definition at line 70 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_check_namebuf(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_get_public_key(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_Name(), ccn_parse_required_tagged_binary_number(), ccn_ref_tagged_BLOB(), ccn_uri_append(), and make_template().
+.SS "int ccn_buf_match_dtag (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 48 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_locate_key(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_binary_number(), ccn_parse_optional_tagged_BLOB(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_optional_tagged_UDATA(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), main(), and make_template().
+.SS "int ccn_buf_match_some_blob (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 63 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_buf_match_blob(), ccn_chk_signing_params(), ccn_parse_PublisherID(), ccn_parse_required_tagged_BLOB(), and ccn_pubid_matches().
+.SS "int ccn_buf_match_some_dtag (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 56 of file ccn_buf_decoder.c.
+.SS "int ccn_buf_match_udata (struct \fBccn_buf_decoder\fP * d, const char * s)"
+.PP
+Definition at line 88 of file ccn_buf_decoder.c.
+.SS "int ccn_charbuf_append_closer (struct \fBccn_charbuf\fP * c)"
+.PP
+Append a CCN_CLOSE. Use this to close off an element in ccnb-encoded data. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 249 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_passive(), append_Any_filter(), append_bf_all(), append_bloom_element(), append_filter_all(), append_future_vcomp(), ccn_construct_interest(), ccn_create_version(), ccn_encode_ContentObject(), ccn_encode_Signature(), ccn_initiate_key_fetch(), ccn_name_append_components(), ccn_name_from_uri(), ccn_name_init(), ccn_sign_content(), ccn_signed_info_create(), ccnb_append_tagged_blob(), ccnb_element_end(), ccnb_tagged_putf(), ccnd_answer_req(), ccnd_append_plain_nonce(), ccnd_init_service_ccnb(), create_passive_templ(), express_bulkdata_interest(), express_my_interest(), find_first_match_candidate(), incoming_content(), initialize_global_data(), local_scope(), local_scope_rm_template(), main(), make_template(), process_incoming_content(), resolve_templ(), send_content(), signed_info_create(), and stuff_and_send().
+.SS "int ccn_charbuf_append_tt (struct \fBccn_charbuf\fP * c, size_t val, enum \fBccn_tt\fP tt)"
+.PP
+Append a ccnb start marker. This forms the basic building block of ccnb-encoded data. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIval\fP is the numval, intepreted according to tt (see enum ccn_tt). 
+.br
+\fItt\fP is the type field. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 231 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_passive(), append_Any_filter(), append_bf_all(), append_bloom_element(), append_filter_all(), append_future_vcomp(), ccn_append_pubkey_blob(), ccn_construct_interest(), ccn_create_version(), ccn_encode_ContentObject(), ccn_encode_Signature(), ccn_initiate_key_fetch(), ccn_name_append(), ccn_name_init(), ccn_sign_content(), ccn_signed_info_create(), ccnb_append_number(), ccnb_append_tagged_blob(), ccnb_append_timestamp_blob(), ccnb_element_begin(), ccnb_tagged_putf(), ccnd_append_plain_nonce(), ccnd_init_service_ccnb(), create_passive_templ(), express_bulkdata_interest(), express_my_interest(), incoming_content(), initialize_global_data(), local_scope(), local_scope_rm_template(), main(), make_template(), process_incoming_content(), resolve_templ(), send_content(), signed_info_create(), and stuff_and_send().
+.SS "int ccn_chk_signing_params (struct ccn * h, const struct \fBccn_signing_params\fP * params, struct \fBccn_signing_params\fP * result, struct \fBccn_charbuf\fP ** ptimestamp, struct \fBccn_charbuf\fP ** pfinalblockid, struct \fBccn_charbuf\fP ** pkeylocator)"
+.PP
+This is mostly for use within the library, but may be useful for some clients. 
+.PP
+Definition at line 2050 of file ccn_client.c.
+.PP
+Referenced by ccn_get_public_key(), ccn_sign_content(), and ccnd_init_internal_keystore().
+.SS "int ccn_compare_names (const unsigned char * a, size_t asize, const unsigned char * b, size_t bsize)"
+.PP
+Definition at line 886 of file ccn_buf_decoder.c.
+.PP
+Referenced by content_skiplist_findbefore(), and namecompare().
+.SS "int ccn_connect (struct ccn * h, const char * name)"
+.PP
+Connect to local ccnd. \fBParameters:\fP
+.RS 4
+\fIh\fP is a ccn library handle 
+.br
+\fIname\fP is the name of the unix-domain socket to connect to; use NULL to get the default. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the fd for the connection, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 288 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), and main().
+.SS "int ccn_content_get_value (const unsigned char * data, size_t data_size, const struct \fBccn_parsed_ContentObject\fP * content, const unsigned char ** value, size_t * size)"
+.PP
+Definition at line 873 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_cache_key(), ccn_get_header(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), create_face(), decode_message(), handle_key(), handle_prefix_reg_reply(), incoming_content(), main(), process_test(), and register_unregister_prefix().
+.SS "int ccn_content_matches_interest (const unsigned char * content_object, size_t content_object_size, int implicit_content_digest, struct \fBccn_parsed_ContentObject\fP * pc, const unsigned char * interest_msg, size_t interest_msg_size, const struct \fBccn_parsed_interest\fP * pi)"
+.PP
+Test for a match between a ContentObject and an Interest. \fBParameters:\fP
+.RS 4
+\fIcontent_object\fP ccnb-encoded ContentObject 
+.br
+\fIcontent_object_size\fP its size in bytes 
+.br
+\fIimplicit_content_digest\fP boolean indicating whether the final name component is implicit (as in the on-wire format) or explicit (as within ccnd's content store). 
+.br
+\fIpc\fP Valid parse information may be provided to speed things up. If NULL it will be reconstructed internally. 
+.br
+\fIinterest_msg\fP ccnb-encoded Interest 
+.br
+\fIinterest_msg_size\fP its size in bytes 
+.br
+\fIpi\fP see _pc_
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+1 if the ccnb-encoded content_object matches the ccnb-encoded interest_msg, otherwise 0. 
+.RE
+.PP
+
+.PP
+Definition at line 110 of file ccn_match.c.
+.PP
+Referenced by ccn_dispatch_message(), ccnd_answer_req(), consume_matching_interests(), incoming_interest(), interest_handler(), process_incoming_interest(), and seqw_incoming_interest().
+.SS "struct ccn* ccn_create (void)\fC [read]\fP"
+.PP
+Create a client handle. The new handle is not yet connected. On error, returns NULL and sets errno. Errors: ENOMEM 
+.PP
+Definition at line 239 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), ccnd_internal_client_start(), and main().
+.SS "int ccn_create_version (struct ccn * h, struct \fBccn_charbuf\fP * name, int versioning_flags, intmax_t secs, int nsecs)"
+.PP
+Extend a Name with a new version stamp. \fBParameters:\fP
+.RS 4
+\fIh\fP is the the ccn handle. May be NULL. This procedure does not use the connection. 
+.br
+\fIname\fP is a ccnb-encoded Name prefix. By default it gets extended in-place with one additional Component that conforms to the versioning profile and is based on the supplied time, unless a version component is already present. 
+.br
+\fIversioning_flags\fP modifies the default behavior: CCN_V_REPLACE causes the last component to be replaced if it appears to be a version stamp. If CCN_V_HIGH is set as well, an attempt will be made to generate a new version stamp that is later than the existing one, or to return an error. CCN_V_NOW bases the version on the current time rather than the supplied time. CCN_V_NESTOK will allow the new version component to be appended even if there is one there (this makes no difference if CCN_V_REPLACE is also set). 
+.br
+\fIsecs\fP is the desired time, in seconds since epoch (ignored if CCN_V_NOW is set). 
+.br
+\fInsecs\fP is the number of nanoseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, 0 for success. 
+.RE
+.PP
+
+.PP
+Definition at line 215 of file ccn_versioning.c.
+.PP
+Referenced by ccn_seqw_create(), ccnd_init_service_ccnb(), and main().
+.SS "void ccn_destroy (struct ccn ** hp)"
+.PP
+Definition at line 418 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), ccnd_internal_client_start(), ccnd_internal_client_stop(), and main().
+.SS "void ccn_digest_ContentObject (const unsigned char * msg, struct \fBccn_parsed_ContentObject\fP * pc)"
+.PP
+Compute the digest of the entire ContentObject if necessary, caching the result in pc->digest, pc->digest_bytes. 
+.PP
+Definition at line 33 of file ccn_match.c.
+.PP
+Referenced by ccn_content_matches_interest(), incoming_content(), and process_incoming_content().
+.SS "int ccn_disconnect (struct ccn * h)"
+.PP
+Definition at line 323 of file ccn_client.c.
+.PP
+Referenced by ccn_destroy(), ccn_process_input(), ccn_run(), and main().
+.SS "int ccn_encode_ContentObject (struct \fBccn_charbuf\fP * buf, const struct \fBccn_charbuf\fP * Name, const struct \fBccn_charbuf\fP * SignedInfo, const void * data, size_t size, const char * digest_algorithm, const struct ccn_pkey * private_key)"
+.PP
+Encode and sign a ContentObject. \fBParameters:\fP
+.RS 4
+\fIbuf\fP is the output buffer where encoded object is written. 
+.br
+\fIName\fP is the ccnb-encoded name from ccn_name_init and friends. 
+.br
+\fISignedInfo\fP is the ccnb-encoded info from ccn_signed_info_create. 
+.br
+\fIdata\fP pintes to the raw data to be encoded. 
+.br
+\fIsize\fP is the size, in bytes, of the raw data to be encoded. 
+.br
+\fIdigest_algorithm\fP may be NULL for default. 
+.br
+\fIprivate_key\fP is the private key to use for signing. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 160 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_sign_content(), create_face(), encode_message(), main(), and register_unregister_prefix().
+.SS "int ccn_express_interest (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action, struct \fBccn_charbuf\fP * interest_template)"
+.PP
+Definition at line 540 of file ccn_client.c.
+.PP
+Referenced by ask_more(), ccn_get(), ccn_initiate_key_fetch(), ccn_initiate_ping(), ccn_initiate_prefix_reg(), express_bulkdata_interest(), express_my_interest(), fill_holes(), handle_key(), incoming_content(), and main().
+.SS "int ccn_fetch_tagged_nonNegativeInteger (enum \fBccn_dtag\fP tt, const unsigned char * buf, size_t start, size_t stop)"
+.PP
+Definition at line 540 of file ccn_buf_decoder.c.
+.PP
+Referenced by set_content_timer().
+.SS "int ccn_get (struct ccn * h, struct \fBccn_charbuf\fP * name, struct \fBccn_charbuf\fP * interest_template, int timeout_ms, struct \fBccn_charbuf\fP * resultbuf, struct \fBccn_parsed_ContentObject\fP * pcobuf, struct \fBccn_indexbuf\fP * compsbuf, int flags)"
+.PP
+Get a single matching ContentObject This is a convenience for getting a single matching ContentObject. Blocks until a matching ContentObject arrives or there is a timeout. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. If NULL or ccn_get is called from inside an upcall, a new connection will be used and upcalls from other requests will not be processed while ccn_get is active. 
+.br
+\fIname\fP holds a ccnb-encoded Name 
+.br
+\fIinterest_template\fP conveys other fields to be used in the interest (may be NULL). 
+.br
+\fItimeout_ms\fP limits the time spent waiting for an answer (milliseconds). 
+.br
+\fIresultbuf\fP is updated to contain the ccnb-encoded ContentObject. 
+.br
+\fIpcobuf\fP may be supplied to save the client the work of re-parsing the ContentObject; may be NULL if this information is not actually needed. 
+.br
+\fIcompsbuf\fP works similarly. 
+.br
+\fIflags\fP - CCN_GET_NOKEYWAIT means that it is permitted to return unverified data. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, -1 for an error. 
+.RE
+.PP
+
+.PP
+Definition at line 1618 of file ccn_client.c.
+.PP
+Referenced by ccn_get_header(), ccn_resolve_version(), create_face(), get_ccndid(), main(), and register_unregister_prefix().
+.SS "int ccn_get_connection_fd (struct ccn * h)"
+.PP
+Definition at line 317 of file ccn_client.c.
+.SS "int ccn_get_public_key (struct ccn * h, const struct \fBccn_signing_params\fP * params, struct \fBccn_charbuf\fP * digest_result, struct \fBccn_charbuf\fP * result)"
+.PP
+Place the public key associated with the params into result buffer, and its digest into digest_result. This is for one of our signing keys, not just any key. Result buffers may be NULL if the corresponding result is not wanted.
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, negative for error 
+.RE
+.PP
+
+.PP
+Definition at line 1998 of file ccn_client.c.
+.PP
+Referenced by ccnd_init_service_ccnb().
+.SS "int ccn_geterror (struct ccn * h)"
+.PP
+Recover last error code. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may be NULL. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the most recently set error code, or 0 if h is NULL. 
+.RE
+.PP
+
+.PP
+Definition at line 186 of file ccn_client.c.
+.SS "intmax_t ccn_interest_lifetime (const unsigned char * msg, const struct \fBccn_parsed_interest\fP * pi)"\fBReturns:\fP
+.RS 4
+the lifetime of the interest in units of 2**(-12) seconds (the same units as timestamps). 
+.RE
+.PP
+
+.PP
+Definition at line 32 of file ccn_interest.c.
+.PP
+Referenced by ccn_construct_interest(), ccn_interest_lifetime_seconds(), main(), process_incoming_interest(), and propagate_interest().
+.SS "int ccn_interest_lifetime_seconds (const unsigned char * msg, const struct \fBccn_parsed_interest\fP * pi)"\fBReturns:\fP
+.RS 4
+the lifetime of the interest in units of seconds; any fractional part is truncated. Not useful for short-lived interests. 
+.RE
+.PP
+
+.PP
+Definition at line 56 of file ccn_interest.c.
+.PP
+Referenced by main(), and process_incoming_interest().
+.SS "int ccn_load_default_key (struct ccn * h, const char * keystore_path, const char * keystore_passphrase)"
+.PP
+Load the handle's default signing key from a keystore. This call is only required for applications that use something other than the user's default signing key as the handle's default. It should be called early and at most once. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIkeystore_path\fP is the pathname of the keystore file 
+.br
+\fIkeystore_passphrase\fP is the passphase needed to unlock the keystore 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+is 0 for success, negative for error. 
+.RE
+.PP
+
+.PP
+Definition at line 1960 of file ccn_client.c.
+.PP
+Referenced by ccnd_init_internal_keystore().
+.SS "int ccn_load_private_key (struct ccn * h, const char * keystore_path, const char * keystore_passphrase, struct \fBccn_charbuf\fP * pubid_out)"
+.PP
+Load a private key from a keystore file. This call is only required for applications that use something other than the user's default signing key. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIkeystore_path\fP is the pathname of the keystore file 
+.br
+\fIkeystore_passphrase\fP is the passphase needed to unlock the keystore 
+.br
+\fIpubid_out,if\fP not NULL, is loaded with the digest of the public key 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+is 0 for success, negative for error. 
+.RE
+.PP
+
+.PP
+Definition at line 1895 of file ccn_client.c.
+.PP
+Referenced by ccn_chk_signing_params(), and ccn_load_default_key().
+.SS "int ccn_name_append (struct \fBccn_charbuf\fP * c, const void * component, size_t n)"
+.PP
+Add a Component to a Name. The component is an arbitrary string of n octets, no escaping required. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 50 of file ccn_name_util.c.
+.PP
+Referenced by ccn_get_header(), ccn_initiate_prefix_reg(), ccn_name_append_nonce(), ccn_name_append_numeric(), ccn_name_append_str(), ccn_name_from_uri(), ccn_name_next_sibling(), ccn_resolve_version(), ccnd_init_service_ccnb(), ccnd_reg_ccnx_ccndid(), ccnd_start_notice(), create_face(), express_bulkdata_interest(), incoming_content(), main(), register_unregister_prefix(), and sequenced_name().
+.SS "int ccn_name_append_components (struct \fBccn_charbuf\fP * c, const unsigned char * ccnb, size_t start, size_t stop)"
+.PP
+Add sequence of ccnb-encoded Components to a ccnb-encoded Name. start and stop are offsets from ccnb 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for obvious error 
+.RE
+.PP
+
+.PP
+Definition at line 131 of file ccn_name_util.c.
+.PP
+Referenced by age_forwarding(), ccn_initiate_prefix_reg(), ccnd_reg_prefix(), collect_forwarding_html(), collect_forwarding_xml(), incoming_content(), and next_child_at_level().
+.SS "int ccn_name_append_nonce (struct \fBccn_charbuf\fP * c)"
+.PP
+Add nonce Component to ccnb-encoded Name. Uses C1.N namespace. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error see doc/technical/NameConventions.html 
+.RE
+.PP
+
+.PP
+Definition at line 114 of file ccn_name_util.c.
+.PP
+Referenced by ccn_initiate_ping(), get_ccndid(), and main().
+.SS "int ccn_name_append_numeric (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker, uintmax_t value)"
+.PP
+Add a binary Component to a ccnb-encoded Name. These are special components used for marking versions, fragments, etc. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error see doc/technical/NameConventions.html 
+.RE
+.PP
+
+.PP
+Definition at line 90 of file ccn_name_util.c.
+.PP
+Referenced by incoming_content(), main(), sequenced_name(), and seqw_next_cob().
+.SS "int ccn_name_append_str (struct \fBccn_charbuf\fP * c, const char * s)"
+.PP
+Add a Component that is a NUL-terminated string. The component added consists of the bytes of the string without the NUL. This function is convenient for those applications that construct component names from simple strings. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file ccn_name_util.c.
+.PP
+Referenced by ccn_get_header(), ccn_initiate_prefix_reg(), ccnd_start_notice(), create_face(), encode_message(), main(), and register_unregister_prefix().
+.SS "int ccn_name_chop (struct \fBccn_charbuf\fP * c, struct \fBccn_indexbuf\fP * components, int n)"
+.PP
+Chop the name down to n components. \fBParameters:\fP
+.RS 4
+\fIc\fP contains a ccnb-encoded Name 
+.br
+\fIcomponents\fP may be NULL; if provided it must be consistent with some prefix of the name, and is updated accordingly. 
+.br
+\fIn\fP is the number or components to leave, or, if negative, specifies how many components to remove, e.g. -1 will remove just the last component. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the new number of Components 
+.RE
+.PP
+
+.PP
+Definition at line 226 of file ccn_name_util.c.
+.PP
+Referenced by ccn_name_chop(), ccn_name_next_sibling(), and main().
+.SS "int ccn_name_comp_get (const unsigned char * data, const struct \fBccn_indexbuf\fP * indexbuf, unsigned int i, const unsigned char ** comp, size_t * size)"
+.PP
+Extract a pointer to and size of component at given index i. The first component is index 0. 
+.PP
+\fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 152 of file ccn_name_util.c.
+.PP
+Referenced by ccn_name_comp_strcmp(), ccn_resolve_version(), ccn_sign_content(), ccnd_answer_req(), and ccnd_uri_listen().
+.SS "int ccn_name_comp_strcmp (const unsigned char * data, const struct \fBccn_indexbuf\fP * indexbuf, unsigned int i, const char * val)"
+.PP
+Definition at line 182 of file ccn_name_util.c.
+.PP
+Referenced by decode_message().
+.SS "int ccn_name_init (struct \fBccn_charbuf\fP * c)"
+.PP
+Reset charbuf to represent an empty Name in binary format. \fBReturns:\fP
+.RS 4
+0, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 33 of file ccn_name_util.c.
+.PP
+Referenced by age_forwarding(), ccn_initiate_prefix_reg(), ccn_name_from_uri(), ccnd_reg_prefix(), ccnd_reg_uri(), collect_forwarding_html(), collect_forwarding_xml(), create_face(), encode_message(), incoming_content(), initialize_global_data(), main(), next_child_at_level(), and register_unregister_prefix().
+.SS "int ccn_name_next_sibling (struct \fBccn_charbuf\fP * c)"
+.PP
+Advance the last Component of a Name to the next possible value. \fBParameters:\fP
+.RS 4
+\fIc\fP contains a ccnb-encoded Name to be updated. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the number of Components 
+.RE
+.PP
+
+.PP
+Definition at line 262 of file ccn_name_util.c.
+.PP
+Referenced by main(), and next_child_at_level().
+.SS "int ccn_name_split (const struct \fBccn_charbuf\fP * c, struct \fBccn_indexbuf\fP * components)"
+.PP
+Find Component boundaries in a ccnb-encoded Name. Thin veneer over \fBccn_parse_Name()\fP. components arg may be NULL to just do a validity check
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, otherwise the number of Components. 
+.RE
+.PP
+
+.PP
+Definition at line 207 of file ccn_name_util.c.
+.PP
+Referenced by ccn_create_version(), ccn_name_chop(), ccn_name_next_sibling(), ccn_resolve_version(), ccn_sign_content(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), and ccnd_uri_listen().
+.SS "int ccn_output_is_pending (struct ccn * h)"
+.PP
+Definition at line 710 of file ccn_client.c.
+.PP
+Referenced by ccn_grab_buffered_output(), ccn_process_scheduled_operations(), and ccn_run().
+.SS "int ccn_parse_ContentObject (const unsigned char * msg, size_t size, struct \fBccn_parsed_ContentObject\fP * x, struct \fBccn_indexbuf\fP * components)"
+.PP
+Definition at line 801 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_content_matches_interest(), ccn_dispatch_message(), ccnd_answer_req(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), decode_message(), deliver_content(), interest_handler(), main(), process_incoming_content(), and process_test().
+.SS "int ccn_parse_interest (const unsigned char * msg, size_t size, struct \fBccn_parsed_interest\fP * interest, struct \fBccn_indexbuf\fP * components)"
+.PP
+Definition at line 561 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_age_interest(), ccn_construct_interest(), ccn_content_matches_interest(), ccn_dispatch_message(), ccn_parse_interest(), ccnd_debug_ccnb(), main(), and process_incoming_interest().
+.SS "int ccn_parse_Name (struct \fBccn_buf_decoder\fP * d, struct \fBccn_indexbuf\fP * components)"
+.PP
+Parses a ccnb-encoded name. \fBParameters:\fP
+.RS 4
+\fId\fP is the decoder 
+.br
+\fIcomponents\fP may be NULL, otherwise is filled in with the Component boundary offsets 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of Components in the Name, or -1 if there is an error. 
+.RE
+.PP
+
+.PP
+Definition at line 289 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_forwarding_entry_parse(), ccn_name_split(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_parse_KeyName(), and ccnd_reg_uri().
+.SS "int ccn_parse_nonNegativeInteger (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 390 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_fetch_tagged_nonNegativeInteger(), and ccn_parse_optional_tagged_nonNegativeInteger().
+.SS "uintmax_t ccn_parse_optional_tagged_binary_number (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen, uintmax_t default_value)"
+.PP
+Definition at line 204 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_interest_lifetime(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_optional_tagged_BLOB (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 167 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_parse_interest(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_Signature(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_optional_tagged_nonNegativeInteger (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 526 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_parse_interest(), and ccn_parse_SignedInfo().
+.SS "uintmax_t ccn_parse_required_tagged_binary_number (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 176 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_optional_tagged_binary_number().
+.SS "int ccn_parse_required_tagged_BLOB (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 142 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_optional_tagged_BLOB(), ccn_parse_Signature(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_tagged_string (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, struct \fBccn_charbuf\fP * store)"
+.PP
+Parses a ccnb-encoded element expected to contain a UDATA string. \fBParameters:\fP
+.RS 4
+\fId\fP is the decoder 
+.br
+\fIdtag\fP is the expected dtag value 
+.br
+\fIstore\fP - on success, the string value is appended to store, with null termination. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the offset into the store buffer of the copied value, or -1 for error. If a parse error occurs, d->decoder.state is set to a negative value. If the element is not present, -1 is returned but no parse error is indicated. 
+.RE
+.PP
+
+.PP
+Definition at line 253 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_face_instance_parse(), and ccn_forwarding_entry_parse().
+.SS "int ccn_parse_uintmax (struct \fBccn_buf_decoder\fP * d, uintmax_t * result)"
+.PP
+Parse a potentially large non-negative integer. \fBReturns:\fP
+.RS 4
+0 for success, and the value is place in *result; for an error a negative value is returned and *result is unchanged. 
+.RE
+.PP
+
+.PP
+Definition at line 430 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_tagged_required_uintmax().
+.SS "void ccn_perror (struct ccn * h, const char * s)"
+.PP
+Produce message on standard error output describing the last error encountered during a call using the given handle. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may not be NULL. 
+.br
+\fIs\fP is a client-supplied message; if NULL a message will be supplied where available. 
+.RE
+.PP
+
+.PP
+Definition at line 140 of file ccn_client.c.
+.PP
+Referenced by ccn_create(), ccn_note_err(), ccn_resolve_version(), and main().
+.SS "int ccn_put (struct ccn * h, const void * p, size_t length)"
+.PP
+Definition at line 668 of file ccn_client.c.
+.PP
+Referenced by ccn_refresh_interest(), ccn_seqw_write(), ccnd_answer_req(), incoming_interest(), interest_handler(), main(), outgoing_content(), and seqw_incoming_interest().
+.SS "int ccn_ref_tagged_BLOB (enum \fBccn_dtag\fP tt, const unsigned char * buf, size_t start, size_t stop, const unsigned char ** presult, size_t * psize)"
+.PP
+Definition at line 836 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_content_get_value(), ccn_digest_Content(), ccn_initiate_key_fetch(), ccn_locate_key(), ccn_name_next_sibling(), ccn_verify_signature(), ccnd_debug_ccnb(), get_ccndid(), handle_ping_response(), incoming_content(), incoming_interest(), is_final(), and main().
+.SS "int ccn_resolve_version (struct ccn * h, struct \fBccn_charbuf\fP * name, int versioning_flags, int timeout_ms)"
+.PP
+Resolve the version, based on existing ccn content. \fBParameters:\fP
+.RS 4
+\fIh\fP is the the ccn handle; it may be NULL, but it is preferable to use the handle that the client probably already has. 
+.br
+\fIname\fP is a ccnb-encoded Name prefix. It gets extended in-place with one additional Component such that it names highest extant version that can be found, subject to the supplied timeout. 
+.br
+\fIversioning_flags\fP presently must be CCN_V_HIGH or CCN_V_HIGHEST, possibly combined with CCN_V_NESTOK. If CCN_V_NESTOK is not present and the ending component appears to be a version, the routine returns 0 immediately, on the assumption that an explicit version has already been provided. 
+.br
+\fItimeout_ms\fP is a time value in milliseconds. This is applied per fetch attempt, so the total time may be longer by a factor that depends on the number of (ccn) hops to the source(s). 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, 0 if name could not be extended, 1 if was. 
+.RE
+.PP
+
+.PP
+Definition at line 124 of file ccn_versioning.c.
+.PP
+Referenced by ccn_get_header(), and main().
+.SS "int ccn_run (struct ccn * h, int timeout)"
+.PP
+Run the ccn client event loop. This may serve as the main event loop for simple apps by passing a timeout value of -1. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.br
+\fItimeout\fP is in milliseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a negative value for error, zero for success. 
+.RE
+.PP
+
+.PP
+Definition at line 1491 of file ccn_client.c.
+.PP
+Referenced by ccn_dump_names(), ccn_get(), and main().
+.SS "int ccn_set_interest_filter (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action)"
+.PP
+Definition at line 638 of file ccn_client.c.
+.PP
+Referenced by ccn_seqw_close(), ccn_seqw_create(), ccnd_uri_listen(), and main().
+.SS "int ccn_set_interest_filter_with_flags (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action, int forw_flags)"
+.PP
+Definition at line 607 of file ccn_client.c.
+.PP
+Referenced by ccn_set_interest_filter(), and main().
+.SS "int ccn_set_run_timeout (struct ccn * h, int timeout)"
+.PP
+Modify ccn_run timeout. This may be called from an upcall to change the timeout value. Most often this will be used to set the timeout to zero so that ccn_run will return control to the client. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.br
+\fItimeout\fP is in milliseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+old timeout value. 
+.RE
+.PP
+
+.PP
+Definition at line 1475 of file ccn_client.c.
+.PP
+Referenced by handle_simple_incoming_content(), incoming_content(), and incoming_interest().
+.SS "int ccn_seterror (struct ccn * h, int error_code)"
+.PP
+Set the error code in a ccn handle. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may be NULL. 
+.br
+\fIerror_code\fP is the code to set. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 in all cases. 
+.RE
+.PP
+
+.PP
+Definition at line 169 of file ccn_client.c.
+.PP
+Referenced by ccn_resolve_version(), and ccn_seqw_write().
+.SS "int ccn_sign_content (struct ccn * h, struct \fBccn_charbuf\fP * resultbuf, const struct \fBccn_charbuf\fP * name_prefix, const struct \fBccn_signing_params\fP * params, const void * data, size_t size)"
+.PP
+Create a signed ContentObject. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIresultbuf\fP - result buffer to which the ContentObject will be appended 
+.br
+\fIname_prefix\fP contains the ccnb-encoded name 
+.br
+\fIparams\fP describe the ancillary information needed 
+.br
+\fIdata\fP points to the raw content 
+.br
+\fIsize\fP is the size of the raw content, in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, -1 for error 
+.RE
+.PP
+
+.PP
+Definition at line 2209 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_prefix_reg(), ccnd_answer_req(), ccnd_init_service_ccnb(), main(), and seqw_next_cob().
+.SS "int ccn_signed_info_create (struct \fBccn_charbuf\fP * c, const void * publisher_key_id, size_t publisher_key_id_size, const struct \fBccn_charbuf\fP * timestamp, enum \fBccn_content_type\fP type, int freshness, const struct \fBccn_charbuf\fP * finalblockid, const struct \fBccn_charbuf\fP * key_locator)"
+.PP
+Create SignedInfo. \fBParameters:\fP
+.RS 4
+\fIc\fP is used to hold the result. 
+.br
+\fIpublisher_key_id\fP points to the digest of the publisher key id. 
+.br
+\fIpublisher_key_id_size\fP is the size in bytes(32) of the pub key digest 
+.br
+\fItimestamp\fP holds the timestamp, as a ccnb-encoded blob, or is NULL to use the current time. 
+.br
+\fItype\fP indicates the Type of the ContentObject. 
+.br
+\fIfreshness\fP is the FreshnessSeconds value, or -1 to omit. 
+.br
+\fIfinalblockid\fP holds the FinalBlockID, as a ccnb-encoded blob, or is NULL to omit. 
+.br
+\fIkey_locator\fP is the ccnb-encoded KeyLocator element, or NULL to omit. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 48 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_sign_content(), main(), and signed_info_create().
+.SS "int ccn_verify_content (struct ccn * h, const unsigned char * msg, struct \fBccn_parsed_ContentObject\fP * pco)"
+.PP
+Verify a ContentObject using the public key from either the object itself or our cache of keys. This routine does not attempt to fetch the public key if it is not at hand. 
+.PP
+\fBReturns:\fP
+.RS 4
+negative for error, 0 verification success, or 1 if the key needs to be requested. 
+.RE
+.PP
+
+.PP
+Definition at line 1866 of file ccn_client.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "int ccnb_append_now_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker)"
+.PP
+Append a binary timestamp, using the current time. Like \fBccnb_append_timestamp_blob()\fP but uses current time 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fImarker\fP - see \fBccnb_append_timestamp_blob()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 331 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_create_version(), and ccn_signed_info_create().
+.SS "int ccnb_append_number (struct \fBccn_charbuf\fP * c, int nni)"
+.PP
+Append a non-negative integer as a UDATA. \fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fInni\fP is a non-negative value. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 264 of file ccn_buf_encoder.c.
+.PP
+Referenced by main(), and make_template().
+.SS "int ccnb_append_tagged_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag, const void * data, size_t size)"
+.PP
+Append a tagged BLOB. This is a ccnb-encoded element with containing the BLOB as content 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIdtag\fP is the element's dtab 
+.br
+\fIdata\fP points to the binary data 
+.br
+\fIsize\fP is the size of the data, in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 371 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_encode_ContentObject(), ccnb_append_face_instance(), ccnb_append_forwarding_entry(), ccnb_append_header(), ccnd_append_debug_nonce(), and main().
+.SS "int ccnb_append_timestamp_blob (struct \fBccn_charbuf\fP * c, enum \fBccn_marker\fP marker, intmax_t secs, int nsecs)"
+.PP
+Append a binary timestamp as a BLOB using the ccn binary Timestamp representation (12-bit fraction). \fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fImarker\fP If marker >= 0, the low-order byte is used as a marker byte, useful for some content naming conventions (versioning, in particular). 
+.br
+\fIsecs\fP - seconds since epoch 
+.br
+\fInsecs\fP - nanoseconds 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 292 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccn_create_version(), and ccnb_append_now_blob().
+.SS "int ccnb_element_begin (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag)"
+.PP
+Append a start-of-element marker. 
+.PP
+Definition at line 345 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccnb_append_face_instance(), ccnb_append_forwarding_entry(), and ccnb_append_header().
+.SS "int ccnb_element_end (struct \fBccn_charbuf\fP * c)"
+.PP
+Append an end-of-element marker. This is the same as \fBccn_charbuf_append_closer()\fP 
+.PP
+Definition at line 355 of file ccn_buf_encoder.c.
+.PP
+Referenced by ccnb_append_face_instance(), ccnb_append_forwarding_entry(), and ccnb_append_header().
+.SS "int ccnb_tagged_putf (struct \fBccn_charbuf\fP * c, enum \fBccn_dtag\fP dtag, const char * fmt,  ...)"
+.PP
+Append a tagged UDATA string, with printf-style formatting. This is a ccnb-encoded element with containing UDATA as content. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP is the buffer to append to. 
+.br
+\fIdtag\fP is the element's dtab. 
+.br
+\fIfmt\fP is a printf-style format string, followed by its values 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 397 of file ccn_buf_encoder.c.
+.PP
+Referenced by answer_highest(), answer_passive(), ccn_signed_info_create(), ccnb_append_face_instance(), ccnb_append_forwarding_entry(), ccnb_append_header(), initialize_global_data(), local_scope_rm_template(), and main().
+.SH "Variable Documentation"
+.PP 
+.SS "enum \fBccn_upcall_res\fP(* \fBccn_handler\fP)(struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.PP
+ccn_handler This is the procedure type for the closure's implementation. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

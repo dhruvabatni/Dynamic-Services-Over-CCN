@@ -1,0 +1,65 @@
+.TH "cmd/ccnbasicconfig.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnbasicconfig.c \- 
+.PP
+Bring up a link to another ccnd.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCHKRES\fP(resval)   chkres((resval), __LINE__)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "static void \fBchkres\fP (int res, int lineno)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Bring up a link to another ccnd. 
+
+This is a very basic version that just registers a single prefix, possibly creating a new \fBface\fP in the process. Symbolic proto, host, and port are not handled. You might want to consider looking at ccndc instead.
+.PP
+A CCNx command-line utility.
+.PP
+Copyright (C) 2009-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnbasicconfig.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CHKRES(resval)   chkres((resval), __LINE__)"
+.PP
+Definition at line 49 of file ccnbasicconfig.c.
+.PP
+Referenced by main().
+.SH "Function Documentation"
+.PP 
+.SS "static void chkres (int res, int lineno)\fC [static]\fP"
+.PP
+Definition at line 52 of file ccnbasicconfig.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 63 of file ccnbasicconfig.c.
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 40 of file ccnbasicconfig.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

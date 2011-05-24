@@ -1,0 +1,457 @@
+.TH "include/ccn/coding.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/coding.h \- 
+.PP
+Details of the ccn binary wire encoding.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_dict_entry\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_dict\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_skeleton_decoder\fP"
+.br
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_TT_BITS\fP   3"
+.br
+.ti -1c
+.RI "#define \fBCCN_TT_MASK\fP   ((1 << CCN_TT_BITS) - 1)"
+.br
+.ti -1c
+.RI "#define \fBCCN_MAX_TINY\fP   ((1 << (7-CCN_TT_BITS)) - 1)"
+.br
+.ti -1c
+.RI "#define \fBCCN_TT_HBIT\fP   ((unsigned char)(1 << 7))"
+.br
+.ti -1c
+.RI "#define \fBCCN_CLOSE\fP   ((unsigned char)(0))"
+.br
+.RI "\fICCN_CLOSE terminates composites. \fP"
+.ti -1c
+.RI "#define \fBCCN_DSTATE_PAUSE\fP   (1 << 15)"
+.br
+.RI "\fIIf the CCN_DSTATE_PAUSE bit is set in the decoder state, the decoder will return just after recognizing each token. \fP"
+.ti -1c
+.RI "#define \fBCCN_GET_TT_FROM_DSTATE\fP(state)   (CCN_TT_MASK & ((state) >> 16))"
+.br
+.ti -1c
+.RI "#define \fBCCN_FINAL_DSTATE\fP(state)   (((state) & (CCN_DSTATE_PAUSE-1)) == 0)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBccn_tt\fP { \fBCCN_EXT\fP, \fBCCN_TAG\fP, \fBCCN_DTAG\fP, \fBCCN_ATTR\fP, \fBCCN_DATTR\fP, \fBCCN_BLOB\fP, \fBCCN_UDATA\fP, \fBCCN_NO_TOKEN\fP }"
+.br
+.RI "\fIType tag for a ccnb start marker. \fP"
+.ti -1c
+.RI "enum \fBccn_ext_subtype\fP { \fBCCN_PROCESSING_INSTRUCTIONS\fP =  16 }"
+.br
+.ti -1c
+.RI "enum \fBccn_dtag\fP { \fBCCN_DTAG_Any\fP =  13, \fBCCN_DTAG_Name\fP =  14, \fBCCN_DTAG_Component\fP =  15, \fBCCN_DTAG_Certificate\fP =  16, \fBCCN_DTAG_Collection\fP =  17, \fBCCN_DTAG_CompleteName\fP =  18, \fBCCN_DTAG_Content\fP =  19, \fBCCN_DTAG_SignedInfo\fP =  20, \fBCCN_DTAG_ContentDigest\fP =  21, \fBCCN_DTAG_ContentHash\fP =  22, \fBCCN_DTAG_Count\fP =  24, \fBCCN_DTAG_Header\fP =  25, \fBCCN_DTAG_Interest\fP =  26, \fBCCN_DTAG_Key\fP =  27, \fBCCN_DTAG_KeyLocator\fP =  28, \fBCCN_DTAG_KeyName\fP =  29, \fBCCN_DTAG_Length\fP =  30, \fBCCN_DTAG_Link\fP =  31, \fBCCN_DTAG_LinkAuthenticator\fP =  32, \fBCCN_DTAG_NameComponentCount\fP =  33, \fBCCN_DTAG_RootDigest\fP =  36, \fBCCN_DTAG_Signature\fP =  37, \fBCCN_DTAG_Start\fP =  38, \fBCCN_DTAG_Timestamp\fP =  39, \fBCCN_DTAG_Type\fP =  40, \fBCCN_DTAG_Nonce\fP =  41, \fBCCN_DTAG_Scope\fP =  42, \fBCCN_DTAG_Exclude\fP =  43, \fBCCN_DTAG_Bloom\fP =  44, \fBCCN_DTAG_BloomSeed\fP =  45, \fBCCN_DTAG_AnswerOriginKind\fP =  47, \fBCCN_DTAG_InterestLifetime\fP =  48, \fBCCN_DTAG_Witness\fP =  53, \fBCCN_DTAG_SignatureBits\fP =  54, \fBCCN_DTAG_DigestAlgorithm\fP =  55, \fBCCN_DTAG_BlockSize\fP =  56, \fBCCN_DTAG_FreshnessSeconds\fP =  58, \fBCCN_DTAG_FinalBlockID\fP =  59, \fBCCN_DTAG_PublisherPublicKeyDigest\fP =  60, \fBCCN_DTAG_PublisherCertificateDigest\fP =  61, \fBCCN_DTAG_PublisherIssuerKeyDigest\fP =  62, \fBCCN_DTAG_PublisherIssuerCertificateDigest\fP =  63, \fBCCN_DTAG_ContentObject\fP =  64, \fBCCN_DTAG_WrappedKey\fP =  65, \fBCCN_DTAG_WrappingKeyIdentifier\fP =  66, \fBCCN_DTAG_WrapAlgorithm\fP =  67, \fBCCN_DTAG_KeyAlgorithm\fP =  68, \fBCCN_DTAG_Label\fP =  69, \fBCCN_DTAG_EncryptedKey\fP =  70, \fBCCN_DTAG_EncryptedNonceKey\fP =  71, \fBCCN_DTAG_WrappingKeyName\fP =  72, \fBCCN_DTAG_Action\fP =  73, \fBCCN_DTAG_FaceID\fP =  74, \fBCCN_DTAG_IPProto\fP =  75, \fBCCN_DTAG_Host\fP =  76, \fBCCN_DTAG_Port\fP =  77, \fBCCN_DTAG_MulticastInterface\fP =  78, \fBCCN_DTAG_ForwardingFlags\fP =  79, \fBCCN_DTAG_FaceInstance\fP =  80, \fBCCN_DTAG_ForwardingEntry\fP =  81, \fBCCN_DTAG_MulticastTTL\fP =  82, \fBCCN_DTAG_MinSuffixComponents\fP =  83, \fBCCN_DTAG_MaxSuffixComponents\fP =  84, \fBCCN_DTAG_ChildSelector\fP =  85, \fBCCN_DTAG_RepositoryInfo\fP =  86, \fBCCN_DTAG_Version\fP =  87, \fBCCN_DTAG_RepositoryVersion\fP =  88, \fBCCN_DTAG_GlobalPrefix\fP =  89, \fBCCN_DTAG_LocalName\fP =  90, \fBCCN_DTAG_Policy\fP =  91, \fBCCN_DTAG_Namespace\fP =  92, \fBCCN_DTAG_GlobalPrefixName\fP =  93, \fBCCN_DTAG_PolicyVersion\fP =  94, \fBCCN_DTAG_KeyValueSet\fP =  95, \fBCCN_DTAG_KeyValuePair\fP =  96, \fBCCN_DTAG_IntegerValue\fP =  97, \fBCCN_DTAG_DecimalValue\fP =  98, \fBCCN_DTAG_StringValue\fP =  99, \fBCCN_DTAG_BinaryValue\fP =  100, \fBCCN_DTAG_NameValue\fP =  101, \fBCCN_DTAG_Entry\fP =  102, \fBCCN_DTAG_ACL\fP =  103, \fBCCN_DTAG_ParameterizedName\fP =  104, \fBCCN_DTAG_Prefix\fP =  105, \fBCCN_DTAG_Suffix\fP =  106, \fBCCN_DTAG_Root\fP =  107, \fBCCN_DTAG_ProfileName\fP =  108, \fBCCN_DTAG_Parameters\fP =  109, \fBCCN_DTAG_CCNProtocolDataUnit\fP =  17702112 }"
+.br
+.RI "\fIDTAG identifies ccnb-encoded elements. \fP"
+.ti -1c
+.RI "enum \fBccn_decoder_state\fP { \fBCCN_DSTATE_INITIAL\fP =  0, \fBCCN_DSTATE_NEWTOKEN\fP, \fBCCN_DSTATE_NUMVAL\fP, \fBCCN_DSTATE_UDATA\fP, \fBCCN_DSTATE_TAGNAME\fP, \fBCCN_DSTATE_ATTRNAME\fP, \fBCCN_DSTATE_BLOB\fP, \fBCCN_DSTATE_ERR_OVERFLOW\fP =  -1, \fBCCN_DSTATE_ERR_ATTR\fP =  -2, \fBCCN_DSTATE_ERR_CODING\fP =  -3, \fBCCN_DSTATE_ERR_NEST\fP =  -4, \fBCCN_DSTATE_ERR_BUG\fP =  -5 }"
+.br
+.RI "\fIThe decoder state is one of these, possibly with some additional bits set for internal use. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "ssize_t \fBccn_skeleton_decode\fP (struct \fBccn_skeleton_decoder\fP *d, const unsigned char *p, size_t n)"
+.br
+.RI "\fIDecodes ccnb decoded data. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_dict\fP \fBccn_dtag_dict\fP"
+.br
+.RI "\fITable for translating from DTAGs to names and vice versa. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Details of the ccn binary wire encoding. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBcoding.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_CLOSE   ((unsigned char)(0))"
+.PP
+CCN_CLOSE terminates composites. 
+.PP
+Definition at line 48 of file coding.h.
+.PP
+Referenced by ccn_charbuf_append_closer(), ccn_charbuf_append_tt(), ccn_decoder_decode(), ccn_name_append(), ccn_name_chop(), ccn_name_from_uri(), ccn_skeleton_decode(), emit_closer(), and emit_tt().
+.SS "#define CCN_DSTATE_PAUSE   (1 << 15)"
+.PP
+If the CCN_DSTATE_PAUSE bit is set in the decoder state, the decoder will return just after recognizing each token. In this instance, use \fBCCN_GET_TT_FROM_DSTATE()\fP to extract the token type from the decoder state; CCN_CLOSE will be reported as CCN_NO_TOKEN. The pause bit persists, so the end test should take that into account by using the CCN_FINAL_DSTATE macro instead of testing for state 0. 
+.PP
+Definition at line 207 of file coding.h.
+.PP
+Referenced by ccn_buf_decoder_start(), ccn_skeleton_decode(), ccnbx(), main(), process_input_message(), and process_test().
+.SS "#define CCN_FINAL_DSTATE(state)   (((state) & (CCN_DSTATE_PAUSE-1)) == 0)"
+.PP
+Definition at line 209 of file coding.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_ref_tagged_BLOB(), ccnbx(), and process_test().
+.SS "#define CCN_GET_TT_FROM_DSTATE(state)   (CCN_TT_MASK & ((state) >> 16))"
+.PP
+Definition at line 208 of file coding.h.
+.PP
+Referenced by ccn_buf_advance_past_element(), ccn_buf_check_close(), ccn_buf_match_attr(), ccn_buf_match_dtag(), ccn_buf_match_some_blob(), ccn_buf_match_some_dtag(), ccn_buf_match_udata(), ccn_parse_nonNegativeInteger(), ccn_parse_required_tagged_UDATA(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccnbx(), process_input_message(), and process_test().
+.SS "#define CCN_MAX_TINY   ((1 << (7-CCN_TT_BITS)) - 1)"
+.PP
+Definition at line 30 of file coding.h.
+.PP
+Referenced by ccn_charbuf_append_tt(), ccn_decoder_decode(), ccn_skeleton_decode(), and emit_tt().
+.SS "#define CCN_TT_BITS   3"
+.PP
+Definition at line 28 of file coding.h.
+.PP
+Referenced by ccn_charbuf_append_tt(), ccn_decoder_decode(), ccn_skeleton_decode(), and emit_tt().
+.SS "#define CCN_TT_HBIT   ((unsigned char)(1 << 7))"
+.PP
+Definition at line 31 of file coding.h.
+.PP
+Referenced by ccn_charbuf_append_tt(), ccn_decoder_decode(), ccn_skeleton_decode(), and emit_tt().
+.SS "#define CCN_TT_MASK   ((1 << CCN_TT_BITS) - 1)"
+.PP
+Definition at line 29 of file coding.h.
+.PP
+Referenced by ccn_charbuf_append_tt(), ccn_decoder_decode(), ccn_skeleton_decode(), and emit_tt().
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBccn_decoder_state\fP"
+.PP
+The decoder state is one of these, possibly with some additional bits set for internal use. A complete parse ends up in state 0 or an error state. Not all possible error states are listed here. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_DSTATE_INITIAL \fP\fP
+.TP
+\fB\fICCN_DSTATE_NEWTOKEN \fP\fP
+.TP
+\fB\fICCN_DSTATE_NUMVAL \fP\fP
+.TP
+\fB\fICCN_DSTATE_UDATA \fP\fP
+.TP
+\fB\fICCN_DSTATE_TAGNAME \fP\fP
+.TP
+\fB\fICCN_DSTATE_ATTRNAME \fP\fP
+.TP
+\fB\fICCN_DSTATE_BLOB \fP\fP
+.TP
+\fB\fICCN_DSTATE_ERR_OVERFLOW \fP\fP
+.TP
+\fB\fICCN_DSTATE_ERR_ATTR \fP\fP
+.TP
+\fB\fICCN_DSTATE_ERR_CODING \fP\fP
+.TP
+\fB\fICCN_DSTATE_ERR_NEST \fP\fP
+.TP
+\fB\fICCN_DSTATE_ERR_BUG \fP\fP
+
+.PP
+Definition at line 182 of file coding.h.
+.SS "enum \fBccn_dtag\fP"
+.PP
+DTAG identifies ccnb-encoded elements. c.f. tagname.csvdict See the gen_enum_dtag script for help updating these. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_DTAG_Any \fP\fP
+.TP
+\fB\fICCN_DTAG_Name \fP\fP
+.TP
+\fB\fICCN_DTAG_Component \fP\fP
+.TP
+\fB\fICCN_DTAG_Certificate \fP\fP
+.TP
+\fB\fICCN_DTAG_Collection \fP\fP
+.TP
+\fB\fICCN_DTAG_CompleteName \fP\fP
+.TP
+\fB\fICCN_DTAG_Content \fP\fP
+.TP
+\fB\fICCN_DTAG_SignedInfo \fP\fP
+.TP
+\fB\fICCN_DTAG_ContentDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_ContentHash \fP\fP
+.TP
+\fB\fICCN_DTAG_Count \fP\fP
+.TP
+\fB\fICCN_DTAG_Header \fP\fP
+.TP
+\fB\fICCN_DTAG_Interest \fP\fP
+.TP
+\fB\fICCN_DTAG_Key \fP\fP
+.TP
+\fB\fICCN_DTAG_KeyLocator \fP\fP
+.TP
+\fB\fICCN_DTAG_KeyName \fP\fP
+.TP
+\fB\fICCN_DTAG_Length \fP\fP
+.TP
+\fB\fICCN_DTAG_Link \fP\fP
+.TP
+\fB\fICCN_DTAG_LinkAuthenticator \fP\fP
+.TP
+\fB\fICCN_DTAG_NameComponentCount \fP\fP
+.TP
+\fB\fICCN_DTAG_RootDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_Signature \fP\fP
+.TP
+\fB\fICCN_DTAG_Start \fP\fP
+.TP
+\fB\fICCN_DTAG_Timestamp \fP\fP
+.TP
+\fB\fICCN_DTAG_Type \fP\fP
+.TP
+\fB\fICCN_DTAG_Nonce \fP\fP
+.TP
+\fB\fICCN_DTAG_Scope \fP\fP
+.TP
+\fB\fICCN_DTAG_Exclude \fP\fP
+.TP
+\fB\fICCN_DTAG_Bloom \fP\fP
+.TP
+\fB\fICCN_DTAG_BloomSeed \fP\fP
+.TP
+\fB\fICCN_DTAG_AnswerOriginKind \fP\fP
+.TP
+\fB\fICCN_DTAG_InterestLifetime \fP\fP
+.TP
+\fB\fICCN_DTAG_Witness \fP\fP
+.TP
+\fB\fICCN_DTAG_SignatureBits \fP\fP
+.TP
+\fB\fICCN_DTAG_DigestAlgorithm \fP\fP
+.TP
+\fB\fICCN_DTAG_BlockSize \fP\fP
+.TP
+\fB\fICCN_DTAG_FreshnessSeconds \fP\fP
+.TP
+\fB\fICCN_DTAG_FinalBlockID \fP\fP
+.TP
+\fB\fICCN_DTAG_PublisherPublicKeyDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_PublisherCertificateDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_PublisherIssuerKeyDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_PublisherIssuerCertificateDigest \fP\fP
+.TP
+\fB\fICCN_DTAG_ContentObject \fP\fP
+.TP
+\fB\fICCN_DTAG_WrappedKey \fP\fP
+.TP
+\fB\fICCN_DTAG_WrappingKeyIdentifier \fP\fP
+.TP
+\fB\fICCN_DTAG_WrapAlgorithm \fP\fP
+.TP
+\fB\fICCN_DTAG_KeyAlgorithm \fP\fP
+.TP
+\fB\fICCN_DTAG_Label \fP\fP
+.TP
+\fB\fICCN_DTAG_EncryptedKey \fP\fP
+.TP
+\fB\fICCN_DTAG_EncryptedNonceKey \fP\fP
+.TP
+\fB\fICCN_DTAG_WrappingKeyName \fP\fP
+.TP
+\fB\fICCN_DTAG_Action \fP\fP
+.TP
+\fB\fICCN_DTAG_FaceID \fP\fP
+.TP
+\fB\fICCN_DTAG_IPProto \fP\fP
+.TP
+\fB\fICCN_DTAG_Host \fP\fP
+.TP
+\fB\fICCN_DTAG_Port \fP\fP
+.TP
+\fB\fICCN_DTAG_MulticastInterface \fP\fP
+.TP
+\fB\fICCN_DTAG_ForwardingFlags \fP\fP
+.TP
+\fB\fICCN_DTAG_FaceInstance \fP\fP
+.TP
+\fB\fICCN_DTAG_ForwardingEntry \fP\fP
+.TP
+\fB\fICCN_DTAG_MulticastTTL \fP\fP
+.TP
+\fB\fICCN_DTAG_MinSuffixComponents \fP\fP
+.TP
+\fB\fICCN_DTAG_MaxSuffixComponents \fP\fP
+.TP
+\fB\fICCN_DTAG_ChildSelector \fP\fP
+.TP
+\fB\fICCN_DTAG_RepositoryInfo \fP\fP
+.TP
+\fB\fICCN_DTAG_Version \fP\fP
+.TP
+\fB\fICCN_DTAG_RepositoryVersion \fP\fP
+.TP
+\fB\fICCN_DTAG_GlobalPrefix \fP\fP
+.TP
+\fB\fICCN_DTAG_LocalName \fP\fP
+.TP
+\fB\fICCN_DTAG_Policy \fP\fP
+.TP
+\fB\fICCN_DTAG_Namespace \fP\fP
+.TP
+\fB\fICCN_DTAG_GlobalPrefixName \fP\fP
+.TP
+\fB\fICCN_DTAG_PolicyVersion \fP\fP
+.TP
+\fB\fICCN_DTAG_KeyValueSet \fP\fP
+.TP
+\fB\fICCN_DTAG_KeyValuePair \fP\fP
+.TP
+\fB\fICCN_DTAG_IntegerValue \fP\fP
+.TP
+\fB\fICCN_DTAG_DecimalValue \fP\fP
+.TP
+\fB\fICCN_DTAG_StringValue \fP\fP
+.TP
+\fB\fICCN_DTAG_BinaryValue \fP\fP
+.TP
+\fB\fICCN_DTAG_NameValue \fP\fP
+.TP
+\fB\fICCN_DTAG_Entry \fP\fP
+.TP
+\fB\fICCN_DTAG_ACL \fP\fP
+.TP
+\fB\fICCN_DTAG_ParameterizedName \fP\fP
+.TP
+\fB\fICCN_DTAG_Prefix \fP\fP
+.TP
+\fB\fICCN_DTAG_Suffix \fP\fP
+.TP
+\fB\fICCN_DTAG_Root \fP\fP
+.TP
+\fB\fICCN_DTAG_ProfileName \fP\fP
+.TP
+\fB\fICCN_DTAG_Parameters \fP\fP
+.TP
+\fB\fICCN_DTAG_CCNProtocolDataUnit \fP\fP
+
+.PP
+Definition at line 60 of file coding.h.
+.SS "enum \fBccn_ext_subtype\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_PROCESSING_INSTRUCTIONS \fP\fP
+
+.PP
+Definition at line 50 of file coding.h.
+.SS "enum \fBccn_tt\fP"
+.PP
+Type tag for a ccnb start marker. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICCN_EXT \fP\fP
+starts composite extension - numval is subtype 
+.TP
+\fB\fICCN_TAG \fP\fP
+starts composite - numval is tagnamelen-1 
+.TP
+\fB\fICCN_DTAG \fP\fP
+starts composite - numval is tagdict index (enum ccn_dtag) 
+.TP
+\fB\fICCN_ATTR \fP\fP
+attribute - numval is attrnamelen-1, value follows 
+.TP
+\fB\fICCN_DATTR \fP\fP
+attribute numval is attrdict index 
+.TP
+\fB\fICCN_BLOB \fP\fP
+opaque binary data - numval is byte count 
+.TP
+\fB\fICCN_UDATA \fP\fP
+UTF-8 encoded character data - numval is byte count. 
+.TP
+\fB\fICCN_NO_TOKEN \fP\fP
+should not occur in encoding 
+.PP
+Definition at line 36 of file coding.h.
+.SH "Function Documentation"
+.PP 
+.SS "ssize_t ccn_skeleton_decode (struct \fBccn_skeleton_decoder\fP * d, const unsigned char * p, size_t n)"
+.PP
+Decodes ccnb decoded data. \fBParameters:\fP
+.RS 4
+\fId\fP holds the current state of the decoder. 
+.br
+\fIp\fP points to a new block of ccnb data to feed to the decoder. 
+.br
+\fIn\fP is the size of the input, in bytes. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of bytes consumed.
+.RE
+.PP
+The client should ensure that the decoder is initialized to all zero before the first call. In the default mode, the decoder will return only when it runs out of data, encounters an error, or reaches the end of the element that it started at. This is a good way to pull ccnb-encoded objects from a byte stream.
+.PP
+By setting the CCN_DSTATE_PAUSE bit is set in the decoder state, the decoder will additionally return just after recognizing each token. In this instance, use \fBCCN_GET_TT_FROM_DSTATE()\fP to extract the token type from the decoder state; CCN_CLOSE will be reported as CCN_NO_TOKEN.
+.PP
+The pause bit persists, so the end test should take that into account by using the \fBCCN_FINAL_DSTATE()\fP macro instead of testing for state 0.
+.PP
+Once an error state is entered, no addition input is processed.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBccn_buf_decoder_start()\fP, \fBccn_buf_advance()\fP, \fBccn_buf_check_close()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file ccn_coding.c.
+.PP
+Referenced by ccn_buf_advance(), ccn_buf_decoder_start(), ccn_process_input(), ccn_put(), ccnbx(), main(), process_input(), process_input_buffer(), process_input_message(), and process_test().
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBccn_dict\fP \fBccn_dtag_dict\fP"
+.PP
+Table for translating from DTAGs to names and vice versa. 
+.PP
+Definition at line 119 of file ccn_dtag_table.c.
+.PP
+Referenced by dtag_lookup(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

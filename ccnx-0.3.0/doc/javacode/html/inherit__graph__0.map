@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_exception.html" title="Exception" alt="" coords="7,125,73,149"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1_c_c_n_exception.html" title="Top&#45;level Exception subclass to mark CCN exceptions." alt="" coords="187,77,333,101"/>
+<area shape="rect" id="node13" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1_version_missing_exception.html" title="Thrown when a version field is expected and can&#39;t be found." alt="" coords="144,125,376,149"/>
+<area shape="rect" id="node15" href="$classorg_1_1ccnx_1_1ccn_1_1protocol_1_1_content_name_1_1_dot_dot_component.html" title="org.ccnx.ccn.protocol.ContentName.DotDotComponent" alt="" coords="123,173,397,197"/>
+<area shape="rect" id="node5" href="$classorg_1_1ccnx_1_1ccn_1_1config_1_1_configuration_exception.html" title="A marker exception thrown to indicate some problem with the user or system configuration..." alt="" coords="489,5,711,29"/>
+<area shape="rect" id="node7" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1repo_1_1_repository_exception.html" title="Exceptions specific to Repositories." alt="" coords="488,53,712,77"/>
+<area shape="rect" id="node9" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1ccnd_1_1_c_c_n_daemon_exception.html" title="A real AccessDeniedException doesn&#39;t appear in Java until 1.7." alt="" coords="476,101,724,125"/>
+<area shape="rect" id="node11" href="$classorg_1_1ccnx_1_1ccn_1_1protocol_1_1_malformed_content_name_string_exception.html" title="org.ccnx.ccn.protocol.MalformedContentNameStringException" alt="" coords="447,149,753,173"/>
+</map>

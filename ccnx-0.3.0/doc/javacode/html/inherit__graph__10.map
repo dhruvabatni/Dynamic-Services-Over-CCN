@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$interfaceorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_x_m_l_codec.html" title="Marker interface for XML codecs." alt="" coords="7,29,204,53"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_binary_x_m_l_codec.html" title="The ccnb compressed binary XML codec." alt="" coords="253,5,483,29"/>
+<area shape="rect" id="node5" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1encoding_1_1_text_x_m_l_codec.html" title="A text&#45;based XML codec." alt="" coords="260,53,476,77"/>
+</map>

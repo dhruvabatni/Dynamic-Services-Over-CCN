@@ -1,0 +1,45 @@
+.TH "ccn_indexbuf" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_indexbuf \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBn\fP"
+.br
+.ti -1c
+.RI "size_t \fBlimit\fP"
+.br
+.ti -1c
+.RI "size_t * \fBbuf\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 27 of file indexbuf.h.
+.SH "Field Documentation"
+.PP 
+.SS "size_t* \fBccn_indexbuf::buf\fP"
+.PP
+Definition at line 30 of file indexbuf.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_create_version(), ccn_dispatch_message(), ccn_indexbuf_destroy(), ccn_indexbuf_member(), ccn_indexbuf_move_to_end(), ccn_indexbuf_move_to_front(), ccn_indexbuf_remove_element(), ccn_indexbuf_remove_first_match(), ccn_indexbuf_reserve(), ccn_indexbuf_set_insert(), ccn_name_chop(), ccn_name_comp_get(), ccn_name_next_sibling(), ccn_parse_interest(), ccn_stuff_interest(), ccnd_answer_req(), ccnd_reg_prefix(), ccnd_req_unreg(), ccnd_start_notice(), check_forward_to(), clean_deamon(), content_matches_interest_prefix(), content_sender(), content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_next(), content_skiplist_remove(), do_propagate(), get_outbound_faces(), handle_simple_incoming_content(), incoming_content(), incoming_interest(), is_final(), main(), make_template(), match_components(), nameprefix_longest_match(), nameprefix_seek(), next_child_at_level(), process_fd(), process_incoming_content(), process_incoming_interest(), promote_outbound(), propagate_interest(), reorder_outbound_using_history(), and replan_propagation().
+.SS "size_t \fBccn_indexbuf::limit\fP"
+.PP
+Definition at line 29 of file indexbuf.h.
+.PP
+Referenced by ccn_indexbuf_reserve().
+.SS "size_t \fBccn_indexbuf::n\fP"
+.PP
+Definition at line 28 of file indexbuf.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_create_version(), ccn_dispatch_message(), ccn_indexbuf_append(), ccn_indexbuf_append_element(), ccn_indexbuf_member(), ccn_indexbuf_move_to_end(), ccn_indexbuf_move_to_front(), ccn_indexbuf_obtain(), ccn_indexbuf_release(), ccn_indexbuf_remove_element(), ccn_indexbuf_remove_first_match(), ccn_indexbuf_reserve(), ccn_indexbuf_set_insert(), ccn_name_chop(), ccn_name_comp_get(), ccn_name_next_sibling(), ccn_parse_Name(), ccn_resolve_version(), ccn_stuff_interest(), ccnd_answer_req(), ccnd_reg_uri(), ccnd_req_unreg(), ccnd_start_notice(), check_forward_to(), clean_deamon(), content_matches_interest_prefix(), content_sender(), content_skiplist_findbefore(), content_skiplist_insert(), content_skiplist_next(), content_skiplist_remove(), decode_message(), deliver_content(), do_propagate(), face_send_queue_insert(), get_outbound_faces(), handle_simple_incoming_content(), incoming_content(), incoming_interest(), indexbuf_obtain(), indexbuf_release(), interest_handler(), is_final(), main(), make_template(), match_components(), nameprefix_longest_match(), nameprefix_seek(), process_incoming_content(), process_incoming_interest(), promote_outbound(), propagate_interest(), reorder_outbound_using_history(), replan_propagation(), and update_forward_to().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

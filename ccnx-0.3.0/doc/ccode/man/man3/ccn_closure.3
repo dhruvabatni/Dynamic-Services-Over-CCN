@@ -1,0 +1,72 @@
+.TH "ccn_closure" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_closure \- 
+.PP
+Handle for upcalls that allow clients receive notifications of incoming interests and content.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "\fBccn_handler\fP \fBp\fP"
+.br
+.RI "\fIclient-supplied handler \fP"
+.ti -1c
+.RI "void * \fBdata\fP"
+.br
+.RI "\fIfor client use \fP"
+.ti -1c
+.RI "intptr_t \fBintdata\fP"
+.br
+.RI "\fIfor client use \fP"
+.ti -1c
+.RI "int \fBrefcount\fP"
+.br
+.RI "\fIclient should not update this directly \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Handle for upcalls that allow clients receive notifications of incoming interests and content. 
+
+The client is responsible for managing this piece of memory and the data therein. The refcount should be initially zero, and is used by the library to keep to track of multiple registrations of the same closure. When the count drops back to 0, the closure will be called with kind = CCN_UPCALL_FINAL so that it has an opportunity to clean up. 
+.PP
+Definition at line 109 of file ccn.h.
+.SH "Field Documentation"
+.PP 
+.SS "void* \fBccn_closure::data\fP"
+.PP
+for client use 
+.PP
+Definition at line 111 of file ccn.h.
+.PP
+Referenced by ccn_dump_names(), ccnd_answer_req(), ccnd_uri_listen(), get_my_data(), handle_prefix_reg_reply(), handle_simple_incoming_content(), imcoming_bulkdata(), incoming_content(), incoming_interest(), interest_handler(), main(), seqw_incoming_interest(), and split_my_excludes().
+.SS "intptr_t \fBccn_closure::intdata\fP"
+.PP
+for client use 
+.PP
+Definition at line 112 of file ccn.h.
+.PP
+Referenced by ask_more(), ccnd_answer_req(), ccnd_uri_listen(), handle_simple_incoming_content(), incoming_content(), incoming_interest(), and main().
+.SS "\fBccn_handler\fP \fBccn_closure::p\fP"
+.PP
+client-supplied handler 
+.PP
+Definition at line 110 of file ccn.h.
+.PP
+Referenced by ccn_dump_names(), ccn_initiate_key_fetch(), ccn_initiate_ping(), ccn_replace_handler(), ccnd_uri_listen(), deliver_content(), fill_holes(), incoming_content(), main(), and split_my_excludes().
+.SS "int \fBccn_closure::refcount\fP"
+.PP
+client should not update this directly 
+.PP
+Definition at line 113 of file ccn.h.
+.PP
+Referenced by ccn_replace_handler(), deliver_content(), imcoming_bulkdata(), and incoming_content().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

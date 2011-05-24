@@ -1,0 +1,53 @@
+.TH "lib/ccn_interest.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_interest.c \- 
+.PP
+Accessors and mutators for parsed Interest messages.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "intmax_t \fBccn_interest_lifetime\fP (const unsigned char *msg, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.ti -1c
+.RI "int \fBccn_interest_lifetime_seconds\fP (const unsigned char *msg, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Accessors and mutators for parsed Interest messages. 
+
+
+.PP
+Definition in file \fBccn_interest.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "intmax_t ccn_interest_lifetime (const unsigned char * msg, const struct \fBccn_parsed_interest\fP * pi)"\fBReturns:\fP
+.RS 4
+the lifetime of the interest in units of 2**(-12) seconds (the same units as timestamps). 
+.RE
+.PP
+
+.PP
+Definition at line 32 of file ccn_interest.c.
+.PP
+Referenced by ccn_construct_interest(), ccn_interest_lifetime_seconds(), main(), process_incoming_interest(), and propagate_interest().
+.SS "int ccn_interest_lifetime_seconds (const unsigned char * msg, const struct \fBccn_parsed_interest\fP * pi)"\fBReturns:\fP
+.RS 4
+the lifetime of the interest in units of seconds; any fractional part is truncated. Not useful for short-lived interests. 
+.RE
+.PP
+
+.PP
+Definition at line 56 of file ccn_interest.c.
+.PP
+Referenced by main(), and process_incoming_interest().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,81 @@
+.TH "ccn_sockdescr" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_sockdescr \- 
+.PP
+Text-friendly description of a socket (IPv4 or IPv6).  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBipproto\fP"
+.br
+.RI "\fIas per http://www.iana.org/assignments/protocol-numbers - should match IPPROTO_* in system headers \fP"
+.ti -1c
+.RI "const char * \fBaddress\fP"
+.br
+.RI "\fIacceptable to getaddrinfo \fP"
+.ti -1c
+.RI "const char * \fBport\fP"
+.br
+.RI "\fIservice name or number \fP"
+.ti -1c
+.RI "const char * \fBsource_address\fP"
+.br
+.RI "\fImay be needed for multicast \fP"
+.ti -1c
+.RI "int \fBmcast_ttl\fP"
+.br
+.RI "\fImay be needed for multicast \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Text-friendly description of a socket (IPv4 or IPv6). 
+.PP
+Definition at line 41 of file sockcreate.h.
+.SH "Field Documentation"
+.PP 
+.SS "const char* \fBccn_sockdescr::address\fP"
+.PP
+acceptable to getaddrinfo 
+.PP
+Definition at line 44 of file sockcreate.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_setup_socket(), ccnb_append_face_instance(), ccnd_req_newface(), and main().
+.SS "int \fBccn_sockdescr::ipproto\fP"
+.PP
+as per http://www.iana.org/assignments/protocol-numbers - should match IPPROTO_* in system headers 
+.PP
+Definition at line 42 of file sockcreate.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_setup_socket(), ccnb_append_face_instance(), ccnd_req_newface(), and main().
+.SS "int \fBccn_sockdescr::mcast_ttl\fP"
+.PP
+may be needed for multicast 
+.PP
+Definition at line 47 of file sockcreate.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_setup_socket(), ccnb_append_face_instance(), and main().
+.SS "const char* \fBccn_sockdescr::port\fP"
+.PP
+service name or number 
+.PP
+Definition at line 45 of file sockcreate.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_setup_socket(), ccnb_append_face_instance(), ccnd_req_newface(), and main().
+.SS "const char* \fBccn_sockdescr::source_address\fP"
+.PP
+may be needed for multicast 
+.PP
+Definition at line 46 of file sockcreate.h.
+.PP
+Referenced by ccn_face_instance_parse(), ccn_setup_socket(), and ccnb_append_face_instance().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

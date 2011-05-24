@@ -1,0 +1,67 @@
+.TH "ccn_forwarding" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_forwarding \- 
+.PP
+Keeps track of the faces that interests matching a given name prefix may be forwarded to.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBfaceid\fP"
+.br
+.RI "\fIlocally unique number identifying \fBface\fP \fP"
+.ti -1c
+.RI "unsigned \fBflags\fP"
+.br
+.RI "\fICCN_FORW_* - c.f. \fP"
+.ti -1c
+.RI "int \fBexpires\fP"
+.br
+.RI "\fItime remaining, in seconds \fP"
+.ti -1c
+.RI "struct \fBccn_forwarding\fP * \fBnext\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Keeps track of the faces that interests matching a given name prefix may be forwarded to. 
+.PP
+Definition at line 302 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "int \fBccn_forwarding::expires\fP"
+.PP
+time remaining, in seconds 
+.PP
+Definition at line 305 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccnd_reg_prefix(), collect_forwarding_html(), collect_forwarding_xml(), and seek_forwarding().
+.SS "unsigned \fBccn_forwarding::faceid\fP"
+.PP
+locally unique number identifying \fBface\fP 
+.PP
+Definition at line 303 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccnd_req_unreg(), collect_forwarding_html(), collect_forwarding_xml(), seek_forwarding(), and update_forward_to().
+.SS "unsigned \fBccn_forwarding::flags\fP"
+.PP
+CCN_FORW_* - c.f. <ccn/reg_mgnt.h> 
+.PP
+Definition at line 304 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccnd_reg_prefix(), collect_forwarding_html(), collect_forwarding_xml(), seek_forwarding(), and update_forward_to().
+.SS "struct \fBccn_forwarding\fP* \fBccn_forwarding::next\fP\fC [read]\fP"
+.PP
+Definition at line 306 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccnd_req_unreg(), collect_forwarding_html(), collect_forwarding_xml(), finalize_nameprefix(), seek_forwarding(), and update_forward_to().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

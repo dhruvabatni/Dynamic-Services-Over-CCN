@@ -1,0 +1,69 @@
+.TH "ccn_header" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_header \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "uintmax_t \fBstart\fP"
+.br
+.ti -1c
+.RI "uintmax_t \fBcount\fP"
+.br
+.ti -1c
+.RI "uintmax_t \fBblock_size\fP"
+.br
+.ti -1c
+.RI "uintmax_t \fBlength\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBroot_digest\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBcontent_digest\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 26 of file header.h.
+.SH "Field Documentation"
+.PP 
+.SS "uintmax_t \fBccn_header::block_size\fP"
+.PP
+Definition at line 29 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+.SS "struct \fBccn_charbuf\fP* \fBccn_header::content_digest\fP\fC [read]\fP"
+.PP
+Definition at line 32 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+.SS "uintmax_t \fBccn_header::count\fP"
+.PP
+Definition at line 28 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+.SS "uintmax_t \fBccn_header::length\fP"
+.PP
+Definition at line 30 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+.SS "struct \fBccn_charbuf\fP* \fBccn_header::root_digest\fP\fC [read]\fP"
+.PP
+Definition at line 31 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+.SS "uintmax_t \fBccn_header::start\fP"
+.PP
+Definition at line 27 of file header.h.
+.PP
+Referenced by ccn_header_parse(), and ccnb_append_header().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,85 @@
+.TH "ccn_parsed_interest" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_parsed_interest \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBmagic\fP"
+.br
+.ti -1c
+.RI "int \fBprefix_comps\fP"
+.br
+.ti -1c
+.RI "int \fBmin_suffix_comps\fP"
+.br
+.ti -1c
+.RI "int \fBmax_suffix_comps\fP"
+.br
+.ti -1c
+.RI "int \fBorderpref\fP"
+.br
+.ti -1c
+.RI "int \fBanswerfrom\fP"
+.br
+.ti -1c
+.RI "int \fBscope\fP"
+.br
+.ti -1c
+.RI "unsigned short \fBoffset\fP [CCN_PI_E+1]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 498 of file ccn.h.
+.SH "Field Documentation"
+.PP 
+.SS "int \fBccn_parsed_interest::answerfrom\fP"
+.PP
+Definition at line 504 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), ccnd_answer_req(), incoming_interest(), and process_incoming_interest().
+.SS "int \fBccn_parsed_interest::magic\fP"
+.PP
+Definition at line 499 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), and process_incoming_interest().
+.SS "int \fBccn_parsed_interest::max_suffix_comps\fP"
+.PP
+Definition at line 502 of file ccn.h.
+.PP
+Referenced by ccn_content_matches_interest(), ccn_parse_interest(), and process_incoming_interest().
+.SS "int \fBccn_parsed_interest::min_suffix_comps\fP"
+.PP
+Definition at line 501 of file ccn.h.
+.PP
+Referenced by ccn_content_matches_interest(), ccn_parse_interest(), and process_incoming_interest().
+.SS "unsigned short \fBccn_parsed_interest::offset\fP[CCN_PI_E+1]"
+.PP
+Definition at line 506 of file ccn.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_construct_interest(), ccn_content_matches_interest(), ccn_interest_lifetime(), ccn_parse_interest(), ccn_parse_PublisherID(), ccn_pubid_matches(), ccnd_answer_req(), ccnd_debug_ccnb(), find_first_match_candidate(), incoming_interest(), interest_handler(), is_duplicate_flooded(), main(), make_template(), process_incoming_interest(), propagate_interest(), and seqw_incoming_interest().
+.SS "int \fBccn_parsed_interest::orderpref\fP"
+.PP
+Definition at line 503 of file ccn.h.
+.PP
+Referenced by ccn_parse_interest(), and process_incoming_interest().
+.SS "int \fBccn_parsed_interest::prefix_comps\fP"
+.PP
+Definition at line 500 of file ccn.h.
+.PP
+Referenced by ccn_content_matches_interest(), ccn_parse_interest(), ccnd_answer_req(), incoming_content(), and process_incoming_interest().
+.SS "int \fBccn_parsed_interest::scope\fP"
+.PP
+Definition at line 505 of file ccn.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccn_parse_interest(), get_outbound_faces(), process_incoming_interest(), and propagate_interest().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

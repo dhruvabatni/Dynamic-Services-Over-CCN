@@ -1,0 +1,1410 @@
+.TH "ccnd/ccnd.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccnd/ccnd.c \- 
+.PP
+Main program of ccnd - the CCNx Daemon.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGOT_HERE\fP   ccnd_msg(h, 'at ccnd.c:%d', __LINE__);"
+.br
+.ti -1c
+.RI "#define \fBCCN_SKIPLIST_MAX_DEPTH\fP   30"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBloggerproc\fP )(void *, const char *,...)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBcleanup_at_exit\fP (void)"
+.br
+.ti -1c
+.RI "static void \fBunlink_at_exit\fP (const char *path)"
+.br
+.ti -1c
+.RI "static int \fBcreate_local_listener\fP (struct \fBccnd_handle\fP *h, const char *sockname, int backlog)"
+.br
+.ti -1c
+.RI "static struct \fBface\fP * \fBrecord_connection\fP (struct \fBccnd_handle\fP *h, int fd, struct sockaddr *who, socklen_t wholen, int setflags)"
+.br
+.RI "\fIMake a new \fBface\fP entered in the faces_by_fd table. \fP"
+.ti -1c
+.RI "static void \fBprocess_input_message\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *msg, size_t size, int pdu_ok)"
+.br
+.ti -1c
+.RI "static void \fBprocess_input\fP (struct \fBccnd_handle\fP *h, int fd)"
+.br
+.ti -1c
+.RI "static int \fBccn_stuff_interest\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct \fBccn_charbuf\fP *c)"
+.br
+.RI "\fIStuff a PDU with interest messages that will fit. \fP"
+.ti -1c
+.RI "static void \fBdo_deferred_write\fP (struct \fBccnd_handle\fP *h, int fd)"
+.br
+.ti -1c
+.RI "static void \fBclean_needed\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static struct \fBface\fP * \fBget_dgram_source\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct sockaddr *addr, socklen_t addrlen, int why)"
+.br
+.ti -1c
+.RI "static void \fBcontent_skiplist_insert\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static void \fBcontent_skiplist_remove\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static void \fBmark_stale\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.RI "\fIMark content as stale. \fP"
+.ti -1c
+.RI "static \fBccn_accession_t\fP \fBcontent_skiplist_next\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static void \fBreap_needed\fP (struct \fBccnd_handle\fP *h, int init_delay_usec)"
+.br
+.ti -1c
+.RI "static void \fBcheck_comm_file\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static struct \fBnameprefix_entry\fP * \fBnameprefix_for_pe\fP (struct \fBccnd_handle\fP *h, struct \fBpropagating_entry\fP *pe)"
+.br
+.ti -1c
+.RI "static int \fBnameprefix_seek\fP (struct \fBccnd_handle\fP *h, struct \fBhashtb_enumerator\fP *e, const unsigned char *msg, struct \fBccn_indexbuf\fP *comps, int ncomps)"
+.br
+.RI "\fICreates a nameprefix entry if it does not already exist, together with all of its parents. \fP"
+.ti -1c
+.RI "static void \fBregister_new_face\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.RI "\fICalled when a \fBface\fP is first created, and (perhaps) a second time in the case that a \fBface\fP transitions from the undecided state. \fP"
+.ti -1c
+.RI "static void \fBupdate_forward_to\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe)"
+.br
+.RI "\fIRecompute the contents of npe->forward_to and npe->flags from forwarding lists of npe and all of its ancestors. \fP"
+.ti -1c
+.RI "static void \fBhandle_fatal_signal\fP (int sig)"
+.br
+.ti -1c
+.RI "static int \fBcomm_file_ok\fP (void)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBcharbuf_obtain\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBcharbuf_release\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *c)"
+.br
+.ti -1c
+.RI "static struct \fBccn_indexbuf\fP * \fBindexbuf_obtain\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBindexbuf_release\fP (struct \fBccnd_handle\fP *h, struct \fBccn_indexbuf\fP *c)"
+.br
+.ti -1c
+.RI "static struct \fBface\fP * \fBface_from_faceid\fP (struct \fBccnd_handle\fP *h, unsigned faceid)"
+.br
+.RI "\fILooks up a \fBface\fP based on its faceid (private). \fP"
+.ti -1c
+.RI "struct \fBface\fP * \fBccnd_face_from_faceid\fP (struct \fBccnd_handle\fP *h, unsigned faceid)"
+.br
+.RI "\fILooks up a \fBface\fP based on its faceid. \fP"
+.ti -1c
+.RI "static int \fBenroll_face\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.RI "\fIAssigns the faceid for a nacent \fBface\fP, calls \fBregister_new_face()\fP if successful. \fP"
+.ti -1c
+.RI "static int \fBchoose_face_delay\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, enum \fBcq_delay_class\fP c)"
+.br
+.ti -1c
+.RI "static struct \fBcontent_queue\fP * \fBcontent_queue_create\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, enum \fBcq_delay_class\fP c)"
+.br
+.ti -1c
+.RI "static void \fBcontent_queue_destroy\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_queue\fP **pq)"
+.br
+.ti -1c
+.RI "static void \fBclose_fd\fP (int *pfd)"
+.br
+.RI "\fIClose an open file descriptor quietly. \fP"
+.ti -1c
+.RI "static void \fBccnd_close_fd\fP (struct \fBccnd_handle\fP *h, unsigned faceid, int *pfd)"
+.br
+.RI "\fIClose an open file descriptor, and grumble about it. \fP"
+.ti -1c
+.RI "static void \fBfinalize_face\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "static struct \fBcontent_entry\fP * \fBcontent_from_accession\fP (struct \fBccnd_handle\fP *h, \fBccn_accession_t\fP accession)"
+.br
+.ti -1c
+.RI "static void \fBcleanout_stragglers\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static int \fBcleanout_empties\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBenroll_content\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_content\fP (struct \fBhashtb_enumerator\fP *content_enumerator)"
+.br
+.ti -1c
+.RI "static int \fBcontent_skiplist_findbefore\fP (struct \fBccnd_handle\fP *h, const unsigned char *key, size_t keysize, struct \fBcontent_entry\fP *wanted_old, struct \fBccn_indexbuf\fP **ans)"
+.br
+.ti -1c
+.RI "static struct \fBcontent_entry\fP * \fBfind_first_match_candidate\fP (struct \fBccnd_handle\fP *h, const unsigned char *interest_msg, const struct \fBccn_parsed_interest\fP *pi)"
+.br
+.ti -1c
+.RI "static int \fBcontent_matches_interest_prefix\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content, const unsigned char *interest_msg, struct \fBccn_indexbuf\fP *comps, int prefix_comps)"
+.br
+.ti -1c
+.RI "static void \fBconsume\fP (struct \fBccnd_handle\fP *h, struct \fBpropagating_entry\fP *pe)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_nameprefix\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "static void \fBlink_propagating_interest_to_nameprefix\fP (struct \fBccnd_handle\fP *h, struct \fBpropagating_entry\fP *pe, struct \fBnameprefix_entry\fP *npe)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_propagating\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "static int \fBestablish_min_recv_bufsize\fP (struct \fBccnd_handle\fP *h, int fd, int minsize)"
+.br
+.ti -1c
+.RI "static void \fBinit_face_flags\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, int setflags)"
+.br
+.RI "\fIInitialize the \fBface\fP flags based upon the addr information and the provided explicit setflags. \fP"
+.ti -1c
+.RI "static int \fBaccept_connection\fP (struct \fBccnd_handle\fP *h, int listener_fd)"
+.br
+.RI "\fIAccept an incoming DGRAM_STREAM connection, creating a new \fBface\fP. \fP"
+.ti -1c
+.RI "static struct \fBface\fP * \fBmake_connection\fP (struct \fBccnd_handle\fP *h, struct sockaddr *who, socklen_t wholen, int setflags)"
+.br
+.RI "\fIMake an outbound stream connection. \fP"
+.ti -1c
+.RI "static int \fBccnd_getboundsocket\fP (void *dat, struct sockaddr *who, socklen_t wholen)"
+.br
+.ti -1c
+.RI "static unsigned \fBfaceid_from_fd\fP (struct \fBccnd_handle\fP *h, int fd)"
+.br
+.ti -1c
+.RI "static struct \fBface\fP * \fBsetup_multicast\fP (struct \fBccnd_handle\fP *h, struct \fBccn_face_instance\fP *face_instance, struct sockaddr *who, socklen_t wholen)"
+.br
+.ti -1c
+.RI "static void \fBshutdown_client_fd\fP (struct \fBccnd_handle\fP *h, int fd)"
+.br
+.ti -1c
+.RI "static void \fBsend_content\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static enum \fBcq_delay_class\fP \fBchoose_content_delay_class\fP (struct \fBccnd_handle\fP *h, unsigned faceid, int content_flags)"
+.br
+.ti -1c
+.RI "static unsigned \fBrandomize_content_delay\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_queue\fP *q)"
+.br
+.ti -1c
+.RI "static int \fBcontent_sender\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.ti -1c
+.RI "static int \fBface_send_queue_insert\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static int \fBpromote_outbound\fP (struct \fBpropagating_entry\fP *pe, unsigned faceid)"
+.br
+.RI "\fIIf the pe interest is slated to be sent to the given faceid, promote the faceid to the front of the list, preserving the order of the others. \fP"
+.ti -1c
+.RI "static int \fBconsume_matching_interests\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe, struct \fBcontent_entry\fP *content, struct \fBccn_parsed_ContentObject\fP *pc, struct \fBface\fP *\fBface\fP)"
+.br
+.RI "\fIConsume matching interests given a \fBnameprefix_entry\fP and a piece of content. \fP"
+.ti -1c
+.RI "static void \fBadjust_npe_predicted_response\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe, int up)"
+.br
+.ti -1c
+.RI "static void \fBadjust_predicted_response\fP (struct \fBccnd_handle\fP *h, struct \fBpropagating_entry\fP *pe, int up)"
+.br
+.ti -1c
+.RI "static void \fBnote_content_from\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe, unsigned from_faceid, int prefix_comps)"
+.br
+.RI "\fIKeep a little history about where matching content comes from. \fP"
+.ti -1c
+.RI "static int \fBreorder_outbound_using_history\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe, struct \fBpropagating_entry\fP *pe)"
+.br
+.RI "\fIUse the history to reorder the interest forwarding. \fP"
+.ti -1c
+.RI "static int \fBmatch_interests\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content, struct \fBccn_parsed_ContentObject\fP *pc, struct \fBface\fP *\fBface\fP, struct \fBface\fP *from_face)"
+.br
+.RI "\fIFind and consume interests that match given content. \fP"
+.ti -1c
+.RI "static void \fBstuff_and_send\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *data, size_t size)"
+.br
+.RI "\fISend a message in a PDU, possibly stuffing other interest messages into it. \fP"
+.ti -1c
+.RI "static int \fBcheck_dgram_faces\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fIChecks for inactivity on datagram faces. \fP"
+.ti -1c
+.RI "int \fBccnd_destroy_face\fP (struct \fBccnd_handle\fP *h, unsigned faceid)"
+.br
+.RI "\fIDestroys the \fBface\fP identified by faceid. \fP"
+.ti -1c
+.RI "static void \fBcheck_forward_to\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe)"
+.br
+.RI "\fIRemove expired faces from npe->forward_to. \fP"
+.ti -1c
+.RI "static int \fBcheck_propagating\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fICheck for expired propagating interests. \fP"
+.ti -1c
+.RI "static int \fBcheck_nameprefix_entries\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fIAges src info and retires unused nameprefix entries. \fP"
+.ti -1c
+.RI "static int \fBreap\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.RI "\fIScheduled reap event for retiring expired structures. \fP"
+.ti -1c
+.RI "static int \fBremove_content\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content)"
+.br
+.ti -1c
+.RI "static int \fBclean_deamon\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.RI "\fIPeriodic content cleaning. \fP"
+.ti -1c
+.RI "static int \fBage_forwarding\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.RI "\fIAge out the old forwarding table entries. \fP"
+.ti -1c
+.RI "static void \fBage_forwarding_needed\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static struct \fBccn_forwarding\fP * \fBseek_forwarding\fP (struct \fBccnd_handle\fP *h, struct \fBnameprefix_entry\fP *npe, unsigned faceid)"
+.br
+.ti -1c
+.RI "static int \fBccnd_reg_prefix\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, struct \fBccn_indexbuf\fP *comps, int ncomps, unsigned faceid, int flags, int expires)"
+.br
+.RI "\fIRegister or update a prefix in the forwarding table (FIB). \fP"
+.ti -1c
+.RI "int \fBccnd_reg_uri\fP (struct \fBccnd_handle\fP *h, const char *uri, unsigned faceid, int flags, int expires)"
+.br
+.RI "\fIRegister a prefix, expressed in the form of a URI. \fP"
+.ti -1c
+.RI "void \fBccnd_reg_uri_list\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *uris, unsigned faceid, int flags, int expires)"
+.br
+.RI "\fIRegister prefixes, expressed in the form of a list of URIs. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccnd_req_newface\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size)"
+.br
+.RI "\fIProcess a newface request for the ccnd internal client. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccnd_req_destroyface\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size)"
+.br
+.RI "\fIProcess a destroyface request for the ccnd internal client. \fP"
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBccnd_req_prefix_or_self_reg\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size, int selfreg)"
+.br
+.RI "\fIWorker bee for two very similar public functions. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccnd_req_prefixreg\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size)"
+.br
+.RI "\fIProcess a prefixreg request for the ccnd internal client. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccnd_req_selfreg\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size)"
+.br
+.RI "\fIProcess a selfreg request for the ccnd internal client. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccnd_req_unreg\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, size_t size)"
+.br
+.RI "\fIProcess an unreg request for the ccnd internal client. \fP"
+.ti -1c
+.RI "static struct \fBccn_indexbuf\fP * \fBget_outbound_faces\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *from, unsigned char *msg, struct \fBccn_parsed_interest\fP *pi, struct \fBnameprefix_entry\fP *npe)"
+.br
+.RI "\fIThis is where we consult the interest forwarding table. \fP"
+.ti -1c
+.RI "static int \fBpe_next_usec\fP (struct \fBccnd_handle\fP *h, struct \fBpropagating_entry\fP *pe, int next_delay, int lineno)"
+.br
+.ti -1c
+.RI "static void \fBreplan_propagation\fP (struct \fBccnd_handle\fP *, struct \fBpropagating_entry\fP *)"
+.br
+.ti -1c
+.RI "static int \fBdo_propagate\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.ti -1c
+.RI "static int \fBadjust_outbound_for_existing_interests\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *msg, struct \fBccn_parsed_interest\fP *pi, struct \fBnameprefix_entry\fP *npe, struct \fBccn_indexbuf\fP *outbound)"
+.br
+.RI "\fIAdjust the outbound \fBface\fP list for a new Interest, based upon existing similar interests. \fP"
+.ti -1c
+.RI "static void \fBccnd_append_debug_nonce\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct \fBccn_charbuf\fP *cb)"
+.br
+.ti -1c
+.RI "static void \fBccnd_append_plain_nonce\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, struct \fBccn_charbuf\fP *cb)"
+.br
+.ti -1c
+.RI "static int \fBpropagate_interest\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *msg, struct \fBccn_parsed_interest\fP *pi, struct \fBnameprefix_entry\fP *npe)"
+.br
+.RI "\fISchedules the propagation of an Interest message. \fP"
+.ti -1c
+.RI "static int \fBis_duplicate_flooded\fP (struct \fBccnd_handle\fP *h, unsigned char *msg, struct \fBccn_parsed_interest\fP *pi, unsigned faceid)"
+.br
+.RI "\fIChecks whether this Interest message has been seen before by using its Nonce, recording it in the process. \fP"
+.ti -1c
+.RI "int \fBnameprefix_longest_match\fP (struct \fBccnd_handle\fP *h, const unsigned char *msg, struct \fBccn_indexbuf\fP *comps, int ncomps)"
+.br
+.RI "\fIFinds the longest matching nameprefix, returns the component count or -1 for error. \fP"
+.ti -1c
+.RI "static struct \fBcontent_entry\fP * \fBnext_child_at_level\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content, int level)"
+.br
+.ti -1c
+.RI "static void \fBprocess_incoming_interest\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *msg, size_t size)"
+.br
+.ti -1c
+.RI "static int \fBexpire_content\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.RI "\fIScheduled event that makes content stale when its FreshnessSeconds has exported. \fP"
+.ti -1c
+.RI "static void \fBset_content_timer\fP (struct \fBccnd_handle\fP *h, struct \fBcontent_entry\fP *content, struct \fBccn_parsed_ContentObject\fP *pco)"
+.br
+.RI "\fISchedules content expiration based on its FreshnessSeconds. \fP"
+.ti -1c
+.RI "static void \fBprocess_incoming_content\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, unsigned char *wire_msg, size_t wire_size)"
+.br
+.ti -1c
+.RI "static void \fBccnd_new_face_msg\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.ti -1c
+.RI "static void \fBprocess_input_buffer\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.ti -1c
+.RI "static void \fBprocess_internal_client_buffer\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static int \fBhandle_send_error\fP (struct \fBccnd_handle\fP *h, int errnum, struct \fBface\fP *\fBface\fP, const void *data, size_t size)"
+.br
+.RI "\fIHandle errors after send() or sendto(). \fP"
+.ti -1c
+.RI "static int \fBsending_fd\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.ti -1c
+.RI "void \fBccnd_send\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, const void *data, size_t size)"
+.br
+.RI "\fISend data to the \fBface\fP. \fP"
+.ti -1c
+.RI "static void \fBprepare_poll_fds\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fISet up the array of fd descriptors for the poll(2) call. \fP"
+.ti -1c
+.RI "void \fBccnd_run\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fIRun the main loop of the ccnd. \fP"
+.ti -1c
+.RI "static void \fBccnd_reseed\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static char * \fBccnd_get_local_sockname\fP (void)"
+.br
+.ti -1c
+.RI "static void \fBccnd_gettime\fP (const struct \fBccn_gettime\fP *self, struct \fBccn_timeval\fP *result)"
+.br
+.ti -1c
+.RI "void \fBccnd_setsockopt_v6only\fP (struct \fBccnd_handle\fP *h, int fd)"
+.br
+.ti -1c
+.RI "static const char * \fBaf_name\fP (int family)"
+.br
+.ti -1c
+.RI "static int \fBccnd_listen_on_wildcards\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static int \fBccnd_listen_on_address\fP (struct \fBccnd_handle\fP *h, const char *addr)"
+.br
+.ti -1c
+.RI "static int \fBccnd_listen_on\fP (struct \fBccnd_handle\fP *h, const char *addrs)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBccnd_parse_uri_list\fP (struct \fBccnd_handle\fP *h, const char *what, const char *uris)"
+.br
+.ti -1c
+.RI "struct \fBccnd_handle\fP * \fBccnd_create\fP (const char *progname, \fBccnd_logger\fP logger, void *loggerdata)"
+.br
+.RI "\fIStart a new ccnd instance. \fP"
+.ti -1c
+.RI "static void \fBccnd_shutdown_listeners\fP (struct \fBccnd_handle\fP *h)"
+.br
+.RI "\fIShutdown listeners and bound datagram sockets, leaving connected streams. \fP"
+.ti -1c
+.RI "void \fBccnd_destroy\fP (struct \fBccnd_handle\fP **pccnd)"
+.br
+.RI "\fIDestroy the ccnd instance, releasing all associated resources. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBunlink_this_at_exit\fP = NULL"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main program of ccnd - the CCNx Daemon. 
+
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnd.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_SKIPLIST_MAX_DEPTH   30"
+.PP
+Definition at line 559 of file ccnd.c.
+.PP
+Referenced by content_skiplist_insert(), content_skiplist_remove(), find_first_match_candidate(), and next_child_at_level().
+.SS "#define GOT_HERE   ccnd_msg(h, 'at ccnd.c:%d', __LINE__);"
+.PP
+Definition at line 59 of file ccnd.c.
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef void(* \fBloggerproc\fP)(void *, const char *,...)"
+.PP
+Definition at line 1019 of file ccnd.c.
+.SH "Function Documentation"
+.PP 
+.SS "static int accept_connection (struct \fBccnd_handle\fP * h, int listener_fd)\fC [static]\fP"
+.PP
+Accept an incoming DGRAM_STREAM connection, creating a new \fBface\fP. \fBReturns:\fP
+.RS 4
+fd of new socket, or -1 for an error. 
+.RE
+.PP
+
+.PP
+Definition at line 887 of file ccnd.c.
+.PP
+Referenced by process_input().
+.SS "static void adjust_npe_predicted_response (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe, int up)\fC [static]\fP"
+.PP
+Definition at line 1366 of file ccnd.c.
+.PP
+Referenced by adjust_predicted_response(), and note_content_from().
+.SS "static int adjust_outbound_for_existing_interests (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * msg, struct \fBccn_parsed_interest\fP * pi, struct \fBnameprefix_entry\fP * npe, struct \fBccn_indexbuf\fP * outbound)\fC [static]\fP"
+.PP
+Adjust the outbound \fBface\fP list for a new Interest, based upon existing similar interests. \fBReturns:\fP
+.RS 4
+besides possibly updating the outbound set, returns an extra delay time before propagation. A negative return value indicates the interest should be dropped. 
+.RE
+.PP
+
+.PP
+Definition at line 2780 of file ccnd.c.
+.PP
+Referenced by propagate_interest().
+.SS "static void adjust_predicted_response (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe, int up)\fC [static]\fP"
+.PP
+Definition at line 1382 of file ccnd.c.
+.PP
+Referenced by do_propagate().
+.SS "static const char* af_name (int family)\fC [static]\fP"
+.PP
+Definition at line 4181 of file ccnd.c.
+.PP
+Referenced by ccnd_listen_on_address(), and ccnd_listen_on_wildcards().
+.SS "static int age_forwarding (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Age out the old forwarding table entries. 
+.PP
+Definition at line 1910 of file ccnd.c.
+.PP
+Referenced by age_forwarding_needed().
+.SS "static void age_forwarding_needed (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 1964 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int ccn_stuff_interest (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+Stuff a PDU with interest messages that will fit. Note by default stuffing does not happen due to the setting of h->mtu. 
+.PP
+\fBReturns:\fP
+.RS 4
+the number of messages that were stuffed. 
+.RE
+.PP
+
+.PP
+Definition at line 1527 of file ccnd.c.
+.PP
+Referenced by send_content(), and stuff_and_send().
+.SS "static void ccnd_append_debug_nonce (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct \fBccn_charbuf\fP * cb)\fC [static]\fP"
+.PP
+Definition at line 2870 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void ccnd_append_plain_nonce (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct \fBccn_charbuf\fP * cb)\fC [static]\fP"
+.PP
+Definition at line 2888 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void ccnd_close_fd (struct \fBccnd_handle\fP * h, unsigned faceid, int * pfd)\fC [static]\fP"
+.PP
+Close an open file descriptor, and grumble about it. 
+.PP
+Definition at line 320 of file ccnd.c.
+.PP
+Referenced by finalize_face().
+.SS "struct \fBccnd_handle\fP* ccnd_create (const char * progname, \fBccnd_logger\fP logger, void * loggerdata)\fC [read]\fP"
+.PP
+Start a new ccnd instance. \fBParameters:\fP
+.RS 4
+\fIprogname\fP - name of program binary, used for locating helpers 
+.br
+\fIlogger\fP - logger function 
+.br
+\fIloggerdata\fP - data to pass to logger function 
+.RE
+.PP
+
+.PP
+Definition at line 4429 of file ccnd.c.
+.PP
+Referenced by main(), and start_ccnd().
+.SS "void ccnd_destroy (struct \fBccnd_handle\fP ** pccnd)"
+.PP
+Destroy the ccnd instance, releasing all associated resources. 
+.PP
+Definition at line 4579 of file ccnd.c.
+.PP
+Referenced by main().
+.SS "int ccnd_destroy_face (struct \fBccnd_handle\fP * h, unsigned faceid)"
+.PP
+Destroys the \fBface\fP identified by faceid. \fBReturns:\fP
+.RS 4
+0 for success, -1 for failure. 
+.RE
+.PP
+
+.PP
+Definition at line 1609 of file ccnd.c.
+.PP
+Referenced by ccnd_req_destroyface(), and ccnd_stats_handle_http_connection().
+.SS "struct \fBface\fP* ccnd_face_from_faceid (struct \fBccnd_handle\fP * h, unsigned faceid)\fC [read]\fP"
+.PP
+Looks up a \fBface\fP based on its faceid. 
+.PP
+Definition at line 205 of file ccnd.c.
+.PP
+Referenced by ccnd_collect_stats(), and post_face_notice().
+.SS "static char* ccnd_get_local_sockname (void)\fC [static]\fP"
+.PP
+Definition at line 4148 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int ccnd_getboundsocket (void * dat, struct sockaddr * who, socklen_t wholen)\fC [static]\fP"
+.PP
+Definition at line 974 of file ccnd.c.
+.PP
+Referenced by setup_multicast().
+.SS "static void ccnd_gettime (const struct \fBccn_gettime\fP * self, struct \fBccn_timeval\fP * result)\fC [static]\fP"
+.PP
+Definition at line 4156 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int ccnd_listen_on (struct \fBccnd_handle\fP * h, const char * addrs)\fC [static]\fP"
+.PP
+Definition at line 4350 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int ccnd_listen_on_address (struct \fBccnd_handle\fP * h, const char * addr)\fC [static]\fP"
+.PP
+Definition at line 4272 of file ccnd.c.
+.PP
+Referenced by ccnd_listen_on().
+.SS "static int ccnd_listen_on_wildcards (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 4194 of file ccnd.c.
+.PP
+Referenced by ccnd_listen_on().
+.SS "static void ccnd_new_face_msg (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Definition at line 3688 of file ccnd.c.
+.PP
+Referenced by get_dgram_source().
+.SS "static struct \fBccn_charbuf\fP* ccnd_parse_uri_list (struct \fBccnd_handle\fP * h, const char * what, const char * uris)\fC [static, read]\fP"
+.PP
+Definition at line 4383 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int ccnd_reg_prefix (struct \fBccnd_handle\fP * h, const unsigned char * msg, struct \fBccn_indexbuf\fP * comps, int ncomps, unsigned faceid, int flags, int expires)\fC [static]\fP"
+.PP
+Register or update a prefix in the forwarding table (FIB). \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle. 
+.br
+\fImsg\fP is a ccnb-encoded message containing the name prefix somewhere. 
+.br
+\fIcomps\fP contains the delimiting offsets for the name components in msg. 
+.br
+\fIncomps\fP is the number of relevant components. 
+.br
+\fIfaceid\fP indicates which \fBface\fP to forward to. 
+.br
+\fIflags\fP are the forwarding entry flags (CCN_FORW_...), -1 for defaults. 
+.br
+\fIexpires\fP tells the remaining lifetime, in seconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 for error, or new flags upon success; the private flag CCN_FORW_REFRESHED indicates a previously existing entry. 
+.RE
+.PP
+
+.PP
+Definition at line 2007 of file ccnd.c.
+.PP
+Referenced by ccnd_reg_uri(), and ccnd_req_prefix_or_self_reg().
+.SS "int ccnd_reg_uri (struct \fBccnd_handle\fP * h, const char * uri, unsigned faceid, int flags, int expires)"
+.PP
+Register a prefix, expressed in the form of a URI. \fBReturns:\fP
+.RS 4
+negative value for error, or new \fBface\fP flags for success. 
+.RE
+.PP
+
+.PP
+Definition at line 2080 of file ccnd.c.
+.PP
+Referenced by ccnd_internal_client_start(), ccnd_reg_ccnx_ccndid(), ccnd_reg_uri_list(), and ccnd_uri_listen().
+.SS "void ccnd_reg_uri_list (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * uris, unsigned faceid, int flags, int expires)"
+.PP
+Register prefixes, expressed in the form of a list of URIs. The URIs in the charbuf are each terminated by nul. 
+.PP
+Definition at line 2115 of file ccnd.c.
+.PP
+Referenced by register_new_face().
+.SS "struct \fBccn_charbuf\fP* ccnd_req_destroyface (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size)\fC [read]\fP"
+.PP
+Process a destroyface request for the ccnd internal client. The internal client calls this with the argument portion ARG of a face-destroy request (/ccnx/CCNDID/destroyface/ARG) The result, if not NULL, will be used as the Content of the reply.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fImsg\fP points to a ccnd-encoded ContentObject containing a FaceInstance in its Content. 
+.br
+\fIsize\fP is its size in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+on success the returned charbuf holds a new ccnd-encoded FaceInstance including faceid; returns NULL for any error.
+.RE
+.PP
+Is is an error if the \fBface\fP does not exist. 
+.PP
+Definition at line 2285 of file ccnd.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "struct \fBccn_charbuf\fP* ccnd_req_newface (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size)\fC [read]\fP"
+.PP
+Process a newface request for the ccnd internal client. The internal client calls this with the argument portion ARG of a face-creation request (/ccnx/CCNDID/newface/ARG) The result, if not NULL, will be used as the Content of the reply.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fImsg\fP points to a ccnd-encoded ContentObject containing a FaceInstance in its Content. 
+.br
+\fIsize\fP is its size in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+on success the returned charbuf holds a new ccnd-encoded FaceInstance including faceid; returns NULL for any error.
+.RE
+.PP
+Is is permitted for the \fBface\fP to already exist. A newly created \fBface\fP will have no registered prefixes, and so will not receive any traffic. 
+.PP
+Definition at line 2159 of file ccnd.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "static struct \fBccn_charbuf\fP* ccnd_req_prefix_or_self_reg (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size, int selfreg)\fC [static, read]\fP"
+.PP
+Worker bee for two very similar public functions. 
+.PP
+Definition at line 2338 of file ccnd.c.
+.PP
+Referenced by ccnd_req_prefixreg(), and ccnd_req_selfreg().
+.SS "struct \fBccn_charbuf\fP* ccnd_req_prefixreg (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size)\fC [read]\fP"
+.PP
+Process a prefixreg request for the ccnd internal client. The internal client calls this with the argument portion ARG of a prefix-registration request (/ccnx/CCNDID/prefixreg/ARG) The result, if not NULL, will be used as the Content of the reply.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fImsg\fP points to a ccnd-encoded ContentObject containing a ForwardingEntry in its Content. 
+.br
+\fIsize\fP is its size in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+on success the returned charbuf holds a new ccnd-encoded ForwardingEntry; returns NULL for any error. 
+.RE
+.PP
+
+.PP
+Definition at line 2431 of file ccnd.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "struct \fBccn_charbuf\fP* ccnd_req_selfreg (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size)\fC [read]\fP"
+.PP
+Process a selfreg request for the ccnd internal client. The internal client calls this with the argument portion ARG of a prefix-registration request for self (/ccnx/CCNDID/selfreg/ARG) The result, if not NULL, will be used as the Content of the reply.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fImsg\fP points to a ccnd-encoded ContentObject containing a ForwardingEntry in its Content. 
+.br
+\fIsize\fP is its size in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+on success the returned charbuf holds a new ccnd-encoded ForwardingEntry; returns NULL for any error. 
+.RE
+.PP
+
+.PP
+Definition at line 2447 of file ccnd.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "struct \fBccn_charbuf\fP* ccnd_req_unreg (struct \fBccnd_handle\fP * h, const unsigned char * msg, size_t size)\fC [read]\fP"
+.PP
+Process an unreg request for the ccnd internal client. The internal client calls this with the argument portion ARG of a prefix-unregistration request (/ccnx/CCNDID/unreg/ARG) The result, if not NULL, will be used as the Content of the reply.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fImsg\fP points to a ccnd-encoded ContentObject containing a ForwardingEntry in its Content. 
+.br
+\fIsize\fP is its size in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+on success the returned charbuf holds a new ccnd-encoded ForwardingEntry; returns NULL for any error. 
+.RE
+.PP
+
+.PP
+Definition at line 2463 of file ccnd.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "static void ccnd_reseed (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 4125 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "void ccnd_run (struct \fBccnd_handle\fP * h)"
+.PP
+Run the main loop of the ccnd. 
+.PP
+Definition at line 4082 of file ccnd.c.
+.PP
+Referenced by main(), and start_ccnd().
+.SS "void ccnd_send (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, const void * data, size_t size)"
+.PP
+Send data to the \fBface\fP. No direct error result is provided; the \fBface\fP state is updated as needed. 
+.PP
+Definition at line 3956 of file ccnd.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection(), send_content(), send_http_response(), and stuff_and_send().
+.SS "void ccnd_setsockopt_v6only (struct \fBccnd_handle\fP * h, int fd)"
+.PP
+Definition at line 4168 of file ccnd.c.
+.PP
+Referenced by ccnd_listen_on_address(), and ccnd_listen_on_wildcards().
+.SS "static void ccnd_shutdown_listeners (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Shutdown listeners and bound datagram sockets, leaving connected streams. 
+.PP
+Definition at line 4561 of file ccnd.c.
+.PP
+Referenced by ccnd_destroy().
+.SS "static struct \fBccn_charbuf\fP* charbuf_obtain (struct \fBccnd_handle\fP * h)\fC [static, read]\fP"
+.PP
+Definition at line 144 of file ccnd.c.
+.PP
+Referenced by process_incoming_content(), propagate_interest(), send_content(), and stuff_and_send().
+.SS "static void charbuf_release (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+Definition at line 155 of file ccnd.c.
+.PP
+Referenced by process_incoming_content(), propagate_interest(), send_content(), and stuff_and_send().
+.SS "static void check_comm_file (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 1727 of file ccnd.c.
+.PP
+Referenced by process_input(), reap(), and shutdown_client_fd().
+.SS "static int check_dgram_faces (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Checks for inactivity on datagram faces. \fBReturns:\fP
+.RS 4
+number of faces that have gone away. 
+.RE
+.PP
+
+.PP
+Definition at line 1579 of file ccnd.c.
+.PP
+Referenced by reap().
+.SS "static void check_forward_to (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe)\fC [static]\fP"
+.PP
+Remove expired faces from npe->forward_to. 
+.PP
+Definition at line 1639 of file ccnd.c.
+.PP
+Referenced by check_nameprefix_entries().
+.SS "static int check_nameprefix_entries (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Ages src info and retires unused nameprefix entries. \fBReturns:\fP
+.RS 4
+number that have gone away. 
+.RE
+.PP
+
+.PP
+Definition at line 1692 of file ccnd.c.
+.PP
+Referenced by reap().
+.SS "static int check_propagating (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Check for expired propagating interests. \fBReturns:\fP
+.RS 4
+number that have gone away. 
+.RE
+.PP
+
+.PP
+Definition at line 1663 of file ccnd.c.
+.PP
+Referenced by reap().
+.SS "static enum \fBcq_delay_class\fP choose_content_delay_class (struct \fBccnd_handle\fP * h, unsigned faceid, int content_flags)\fC [static]\fP"
+.PP
+Definition at line 1129 of file ccnd.c.
+.PP
+Referenced by face_send_queue_insert().
+.SS "static int choose_face_delay (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, enum \fBcq_delay_class\fP c)\fC [static]\fP"
+.PP
+Definition at line 248 of file ccnd.c.
+.PP
+Referenced by content_queue_create().
+.SS "static int clean_deamon (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Periodic content cleaning. 
+.PP
+Definition at line 1794 of file ccnd.c.
+.PP
+Referenced by clean_needed().
+.SS "static void clean_needed (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 1900 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static int cleanout_empties (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 432 of file ccnd.c.
+.PP
+Referenced by enroll_content().
+.SS "static void cleanout_stragglers (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 392 of file ccnd.c.
+.PP
+Referenced by cleanout_empties().
+.SS "static void cleanup_at_exit (void)\fC [static]\fP"
+.PP
+Definition at line 101 of file ccnd.c.
+.PP
+Referenced by handle_fatal_signal(), and unlink_at_exit().
+.SS "static void close_fd (int * pfd)\fC [static]\fP"
+.PP
+Close an open file descriptor quietly. 
+.PP
+Definition at line 308 of file ccnd.c.
+.PP
+Referenced by accept_connection().
+.SS "static int comm_file_ok (void)\fC [static]\fP"
+.PP
+Definition at line 131 of file ccnd.c.
+.PP
+Referenced by check_comm_file().
+.SS "static void consume (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe)\fC [static]\fP"
+.PP
+Definition at line 702 of file ccnd.c.
+.PP
+Referenced by consume_matching_interests(), do_propagate(), finalize_nameprefix(), and finalize_propagating().
+.SS "static int consume_matching_interests (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe, struct \fBcontent_entry\fP * content, struct \fBccn_parsed_ContentObject\fP * pc, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Consume matching interests given a \fBnameprefix_entry\fP and a piece of content. If \fBface\fP is not NULL, pay attention only to interests from that \fBface\fP. It is allowed to pass NULL for pc, but if you have a (valid) one it will avoid a re-parse. 
+.PP
+\fBReturns:\fP
+.RS 4
+number of matches found. 
+.RE
+.PP
+
+.PP
+Definition at line 1328 of file ccnd.c.
+.PP
+Referenced by match_interests().
+.SS "static struct \fBcontent_entry\fP* content_from_accession (struct \fBccnd_handle\fP * h, \fBccn_accession_t\fP accession)\fC [static, read]\fP"
+.PP
+Definition at line 373 of file ccnd.c.
+.PP
+Referenced by clean_deamon(), content_sender(), content_skiplist_findbefore(), expire_content(), find_first_match_candidate(), next_child_at_level(), process_incoming_content(), and process_incoming_interest().
+.SS "static int content_matches_interest_prefix (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content, const unsigned char * interest_msg, struct \fBccn_indexbuf\fP * comps, int prefix_comps)\fC [static]\fP"
+.PP
+Definition at line 669 of file ccnd.c.
+.PP
+Referenced by process_incoming_interest().
+.SS "static struct \fBcontent_queue\fP* content_queue_create (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, enum \fBcq_delay_class\fP c)\fC [static, read]\fP"
+.PP
+Definition at line 267 of file ccnd.c.
+.PP
+Referenced by face_send_queue_insert().
+.SS "static void content_queue_destroy (struct \fBccnd_handle\fP * h, struct \fBcontent_queue\fP ** pq)\fC [static]\fP"
+.PP
+Definition at line 289 of file ccnd.c.
+.PP
+Referenced by finalize_face().
+.SS "static int content_sender (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Definition at line 1160 of file ccnd.c.
+.PP
+Referenced by face_send_queue_insert().
+.SS "static int content_skiplist_findbefore (struct \fBccnd_handle\fP * h, const unsigned char * key, size_t keysize, struct \fBcontent_entry\fP * wanted_old, struct \fBccn_indexbuf\fP ** ans)\fC [static]\fP"
+.PP
+Definition at line 520 of file ccnd.c.
+.PP
+Referenced by content_skiplist_insert(), content_skiplist_remove(), find_first_match_candidate(), and next_child_at_level().
+.SS "static void content_skiplist_insert (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 561 of file ccnd.c.
+.PP
+Referenced by process_incoming_content().
+.SS "static \fBccn_accession_t\fP content_skiplist_next (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 692 of file ccnd.c.
+.PP
+Referenced by next_child_at_level(), and process_incoming_interest().
+.SS "static void content_skiplist_remove (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 588 of file ccnd.c.
+.PP
+Referenced by finalize_content().
+.SS "static int create_local_listener (struct \fBccnd_handle\fP * h, const char * sockname, int backlog)\fC [static]\fP"
+.PP
+Definition at line 758 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void do_deferred_write (struct \fBccnd_handle\fP * h, int fd)\fC [static]\fP"
+.PP
+Definition at line 4000 of file ccnd.c.
+.PP
+Referenced by ccnd_run().
+.SS "static int do_propagate (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Definition at line 2689 of file ccnd.c.
+.PP
+Referenced by propagate_interest().
+.SS "static void enroll_content (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 454 of file ccnd.c.
+.PP
+Referenced by process_incoming_content().
+.SS "static int enroll_face (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Assigns the faceid for a nacent \fBface\fP, calls \fBregister_new_face()\fP if successful. 
+.PP
+Definition at line 215 of file ccnd.c.
+.PP
+Referenced by ccnd_create(), get_dgram_source(), and record_connection().
+.SS "static int establish_min_recv_bufsize (struct \fBccnd_handle\fP * h, int fd, int minsize)\fC [static]\fP"
+.PP
+Definition at line 795 of file ccnd.c.
+.PP
+Referenced by setup_multicast().
+.SS "static int expire_content (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Scheduled event that makes content stale when its FreshnessSeconds has exported. May actually remove the content if we are over quota. 
+.PP
+Definition at line 3420 of file ccnd.c.
+.PP
+Referenced by set_content_timer().
+.SS "static struct \fBface\fP* face_from_faceid (struct \fBccnd_handle\fP * h, unsigned faceid)\fC [static, read]\fP"
+.PP
+Looks up a \fBface\fP based on its faceid (private). 
+.PP
+Definition at line 189 of file ccnd.c.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), age_forwarding(), ccnd_destroy_face(), ccnd_face_from_faceid(), ccnd_reg_prefix(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), check_forward_to(), choose_content_delay_class(), consume(), consume_matching_interests(), content_sender(), do_propagate(), get_outbound_faces(), pe_next_usec(), replan_propagation(), sending_fd(), and update_forward_to().
+.SS "static int face_send_queue_insert (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 1253 of file ccnd.c.
+.PP
+Referenced by consume_matching_interests(), and process_incoming_interest().
+.SS "static unsigned faceid_from_fd (struct \fBccnd_handle\fP * h, int fd)\fC [static]\fP"
+.PP
+Definition at line 1011 of file ccnd.c.
+.PP
+Referenced by setup_multicast().
+.SS "static void finalize_content (struct \fBhashtb_enumerator\fP * content_enumerator)\fC [static]\fP"
+.PP
+Definition at line 487 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void finalize_face (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 339 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void finalize_nameprefix (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 722 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static void finalize_propagating (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 751 of file ccnd.c.
+.PP
+Referenced by ccnd_create().
+.SS "static struct \fBcontent_entry\fP* find_first_match_candidate (struct \fBccnd_handle\fP * h, const unsigned char * interest_msg, const struct \fBccn_parsed_interest\fP * pi)\fC [static, read]\fP"
+.PP
+Definition at line 610 of file ccnd.c.
+.PP
+Referenced by process_incoming_interest().
+.SS "static struct \fBface\fP * get_dgram_source (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct sockaddr * addr, socklen_t addrlen, int why)\fC [static, read]\fP"
+.PP
+Definition at line 3715 of file ccnd.c.
+.PP
+Referenced by ccnd_req_newface(), and process_input().
+.SS "static struct \fBccn_indexbuf\fP* get_outbound_faces (struct \fBccnd_handle\fP * h, struct \fBface\fP * from, unsigned char * msg, struct \fBccn_parsed_interest\fP * pi, struct \fBnameprefix_entry\fP * npe)\fC [static, read]\fP"
+.PP
+This is where we consult the interest forwarding table. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccnd handle 
+.br
+\fIfrom\fP is the handle for the originating \fBface\fP (may be NULL). 
+.br
+\fImsg\fP points to the ccnb-encoded interest message 
+.br
+\fIpi\fP must be the parse information for msg 
+.br
+\fInpe\fP should be the result of the prefix lookup 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Newly allocated set of outgoing faceids (never NULL) 
+.RE
+.PP
+
+.PP
+Definition at line 2623 of file ccnd.c.
+.PP
+Referenced by propagate_interest().
+.SS "static void handle_fatal_signal (int sig)\fC [static]\fP"
+.PP
+Definition at line 110 of file ccnd.c.
+.PP
+Referenced by unlink_at_exit().
+.SS "static int handle_send_error (struct \fBccnd_handle\fP * h, int errnum, struct \fBface\fP * face, const void * data, size_t size)\fC [static]\fP"
+.PP
+Handle errors after send() or sendto(). \fBReturns:\fP
+.RS 4
+-1 if error has been dealt with, or 0 to defer sending. 
+.RE
+.PP
+
+.PP
+Definition at line 3901 of file ccnd.c.
+.PP
+Referenced by ccnd_send().
+.SS "static struct \fBccn_indexbuf\fP* indexbuf_obtain (struct \fBccnd_handle\fP * h)\fC [static, read]\fP"
+.PP
+Definition at line 165 of file ccnd.c.
+.PP
+Referenced by process_incoming_content(), and process_incoming_interest().
+.SS "static void indexbuf_release (struct \fBccnd_handle\fP * h, struct \fBccn_indexbuf\fP * c)\fC [static]\fP"
+.PP
+Definition at line 176 of file ccnd.c.
+.PP
+Referenced by process_incoming_content(), and process_incoming_interest().
+.SS "static void init_face_flags (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, int setflags)\fC [static]\fP"
+.PP
+Initialize the \fBface\fP flags based upon the addr information and the provided explicit setflags. 
+.PP
+Definition at line 820 of file ccnd.c.
+.PP
+Referenced by get_dgram_source(), and record_connection().
+.SS "static int is_duplicate_flooded (struct \fBccnd_handle\fP * h, unsigned char * msg, struct \fBccn_parsed_interest\fP * pi, unsigned faceid)\fC [static]\fP"
+.PP
+Checks whether this Interest message has been seen before by using its Nonce, recording it in the process. Also, if it has been seen and the original is still propagating, remove the \fBface\fP that the duplicate arrived on from the outbound set of the original. 
+.PP
+Definition at line 3092 of file ccnd.c.
+.PP
+Referenced by process_incoming_interest().
+.SS "static void link_propagating_interest_to_nameprefix (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe, struct \fBnameprefix_entry\fP * npe)\fC [static]\fP"
+.PP
+Definition at line 741 of file ccnd.c.
+.PP
+Referenced by propagate_interest().
+.SS "static struct \fBface\fP* make_connection (struct \fBccnd_handle\fP * h, struct sockaddr * who, socklen_t wholen, int setflags)\fC [static, read]\fP"
+.PP
+Make an outbound stream connection. 
+.PP
+Definition at line 913 of file ccnd.c.
+.PP
+Referenced by ccnd_req_newface().
+.SS "static void mark_stale (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Mark content as stale. 
+.PP
+Definition at line 3397 of file ccnd.c.
+.PP
+Referenced by clean_deamon(), expire_content(), and process_incoming_interest().
+.SS "static int match_interests (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content, struct \fBccn_parsed_ContentObject\fP * pc, struct \fBface\fP * face, struct \fBface\fP * from_face)\fC [static]\fP"
+.PP
+Find and consume interests that match given content. Schedules the sending of the content. If \fBface\fP is not NULL, pay attention only to interests from that \fBface\fP. It is allowed to pass NULL for pc, but if you have a (valid) one it will avoid a re-parse. For new content, from_face is the source; for old content, from_face is NULL. 
+.PP
+\fBReturns:\fP
+.RS 4
+number of matches, or -1 if the new content should be dropped. 
+.RE
+.PP
+
+.PP
+Definition at line 1455 of file ccnd.c.
+.PP
+Referenced by process_incoming_content(), and process_incoming_interest().
+.SS "static struct \fBnameprefix_entry\fP * nameprefix_for_pe (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe)\fC [static, read]\fP"
+.PP
+Definition at line 3027 of file ccnd.c.
+.PP
+Referenced by adjust_predicted_response(), do_propagate(), and replan_propagation().
+.SS "int nameprefix_longest_match (struct \fBccnd_handle\fP * h, const unsigned char * msg, struct \fBccn_indexbuf\fP * comps, int ncomps)"
+.PP
+Finds the longest matching nameprefix, returns the component count or -1 for error. 
+.PP
+Definition at line 3118 of file ccnd.c.
+.SS "static int nameprefix_seek (struct \fBccnd_handle\fP * h, struct \fBhashtb_enumerator\fP * e, const unsigned char * msg, struct \fBccn_indexbuf\fP * comps, int ncomps)\fC [static]\fP"
+.PP
+Creates a nameprefix entry if it does not already exist, together with all of its parents. 
+.PP
+Definition at line 3146 of file ccnd.c.
+.PP
+Referenced by ccnd_reg_prefix(), and process_incoming_interest().
+.SS "static struct \fBcontent_entry\fP* next_child_at_level (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content, int level)\fC [static, read]\fP"
+.PP
+Definition at line 3191 of file ccnd.c.
+.PP
+Referenced by process_incoming_interest().
+.SS "static void note_content_from (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe, unsigned from_faceid, int prefix_comps)\fC [static]\fP"
+.PP
+Keep a little history about where matching content comes from. 
+.PP
+Definition at line 1399 of file ccnd.c.
+.PP
+Referenced by match_interests().
+.SS "static int pe_next_usec (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe, int next_delay, int lineno)\fC [static]\fP"
+.PP
+Definition at line 2663 of file ccnd.c.
+.PP
+Referenced by do_propagate(), and propagate_interest().
+.SS "static void prepare_poll_fds (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Set up the array of fd descriptors for the poll(2) call. Arrange the array so that multicast receivers are early, so that if the same packet arrives on both a multicast socket and a normal socket, we will count is as multicast. 
+.PP
+Definition at line 4051 of file ccnd.c.
+.PP
+Referenced by ccnd_run().
+.SS "static void process_incoming_content (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * wire_msg, size_t wire_size)\fC [static]\fP"
+.PP
+Definition at line 3484 of file ccnd.c.
+.PP
+Referenced by process_input_message().
+.SS "static void process_incoming_interest (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * msg, size_t size)\fC [static]\fP"
+.PP
+Definition at line 3228 of file ccnd.c.
+.PP
+Referenced by process_input_message().
+.SS "static void process_input (struct \fBccnd_handle\fP * h, int fd)\fC [static]\fP"
+.PP
+Definition at line 3783 of file ccnd.c.
+.PP
+Referenced by ccnd_run().
+.SS "static void process_input_buffer (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Definition at line 3755 of file ccnd.c.
+.PP
+Referenced by process_internal_client_buffer().
+.SS "static void process_input_message (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * msg, size_t size, int pdu_ok)\fC [static]\fP"
+.PP
+Definition at line 3642 of file ccnd.c.
+.PP
+Referenced by process_input(), and process_input_buffer().
+.SS "static void process_internal_client_buffer (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 3884 of file ccnd.c.
+.PP
+Referenced by ccnd_run(), and ccnd_send().
+.SS "static int promote_outbound (struct \fBpropagating_entry\fP * pe, unsigned faceid)\fC [static]\fP"
+.PP
+If the pe interest is slated to be sent to the given faceid, promote the faceid to the front of the list, preserving the order of the others. \fBReturns:\fP
+.RS 4
+-1 if not found, or pe->sent if successful. 
+.RE
+.PP
+
+.PP
+Definition at line 1300 of file ccnd.c.
+.PP
+Referenced by ccn_stuff_interest(), is_duplicate_flooded(), and reorder_outbound_using_history().
+.SS "static int propagate_interest (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * msg, struct \fBccn_parsed_interest\fP * pi, struct \fBnameprefix_entry\fP * npe)\fC [static]\fP"
+.PP
+Schedules the propagation of an Interest message. 
+.PP
+Definition at line 2906 of file ccnd.c.
+.PP
+Referenced by process_incoming_interest().
+.SS "static unsigned randomize_content_delay (struct \fBccnd_handle\fP * h, struct \fBcontent_queue\fP * q)\fC [static]\fP"
+.PP
+Definition at line 1144 of file ccnd.c.
+.PP
+Referenced by content_sender(), and face_send_queue_insert().
+.SS "static int reap (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Scheduled reap event for retiring expired structures. 
+.PP
+Definition at line 1740 of file ccnd.c.
+.PP
+Referenced by reap_needed().
+.SS "static void reap_needed (struct \fBccnd_handle\fP * h, int init_delay_usec)\fC [static]\fP"
+.PP
+Definition at line 1761 of file ccnd.c.
+.PP
+Referenced by do_propagate(), get_dgram_source(), and shutdown_client_fd().
+.SS "static struct \fBface\fP * record_connection (struct \fBccnd_handle\fP * h, int fd, struct sockaddr * who, socklen_t wholen, int setflags)\fC [static, read]\fP"
+.PP
+Make a new \fBface\fP entered in the faces_by_fd table. 
+.PP
+Definition at line 849 of file ccnd.c.
+.PP
+Referenced by accept_connection(), ccnd_getboundsocket(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), create_local_listener(), make_connection(), and setup_multicast().
+.SS "static void register_new_face (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Called when a \fBface\fP is first created, and (perhaps) a second time in the case that a \fBface\fP transitions from the undecided state. 
+.PP
+Definition at line 2133 of file ccnd.c.
+.PP
+Referenced by enroll_face(), and process_input_message().
+.SS "static int remove_content (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 1768 of file ccnd.c.
+.PP
+Referenced by clean_deamon(), expire_content(), and process_incoming_content().
+.SS "static int reorder_outbound_using_history (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe, struct \fBpropagating_entry\fP * pe)\fC [static]\fP"
+.PP
+Use the history to reorder the interest forwarding. \fBReturns:\fP
+.RS 4
+number of tap faces that are present. 
+.RE
+.PP
+
+.PP
+Definition at line 1423 of file ccnd.c.
+.PP
+Referenced by propagate_interest().
+.SS "static void replan_propagation (struct \fBccnd_handle\fP * h, struct \fBpropagating_entry\fP * pe)\fC [static]\fP"
+.PP
+Definition at line 3040 of file ccnd.c.
+.PP
+Referenced by do_propagate().
+.SS "static struct \fBccn_forwarding\fP* seek_forwarding (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe, unsigned faceid)\fC [static, read]\fP"
+.PP
+Definition at line 1974 of file ccnd.c.
+.PP
+Referenced by ccnd_reg_prefix().
+.SS "static void send_content (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, struct \fBcontent_entry\fP * content)\fC [static]\fP"
+.PP
+Definition at line 1099 of file ccnd.c.
+.PP
+Referenced by content_sender().
+.SS "static int sending_fd (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)\fC [static]\fP"
+.PP
+Definition at line 3923 of file ccnd.c.
+.PP
+Referenced by ccnd_send().
+.SS "static void set_content_timer (struct \fBccnd_handle\fP * h, struct \fBcontent_entry\fP * content, struct \fBccn_parsed_ContentObject\fP * pco)\fC [static]\fP"
+.PP
+Schedules content expiration based on its FreshnessSeconds. 
+.PP
+Definition at line 3452 of file ccnd.c.
+.PP
+Referenced by process_incoming_content().
+.SS "static struct \fBface\fP* setup_multicast (struct \fBccnd_handle\fP * h, struct \fBccn_face_instance\fP * face_instance, struct sockaddr * who, socklen_t wholen)\fC [static, read]\fP"
+.PP
+Definition at line 1021 of file ccnd.c.
+.PP
+Referenced by ccnd_req_newface().
+.SS "static void shutdown_client_fd (struct \fBccnd_handle\fP * h, int fd)\fC [static]\fP"
+.PP
+Definition at line 1069 of file ccnd.c.
+.PP
+Referenced by ccnd_destroy_face(), ccnd_run(), do_deferred_write(), and process_input().
+.SS "static void stuff_and_send (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, unsigned char * data, size_t size)\fC [static]\fP"
+.PP
+Send a message in a PDU, possibly stuffing other interest messages into it. 
+.PP
+Definition at line 1493 of file ccnd.c.
+.PP
+Referenced by do_propagate().
+.SS "static void unlink_at_exit (const char * path)\fC [static]\fP"
+.PP
+Definition at line 117 of file ccnd.c.
+.PP
+Referenced by create_local_listener().
+.SS "static void update_forward_to (struct \fBccnd_handle\fP * h, struct \fBnameprefix_entry\fP * npe)\fC [static]\fP"
+.PP
+Recompute the contents of npe->forward_to and npe->flags from forwarding lists of npe and all of its ancestors. 
+.PP
+Definition at line 2562 of file ccnd.c.
+.PP
+Referenced by get_outbound_faces(), match_interests(), and replan_propagation().
+.SH "Variable Documentation"
+.PP 
+.SS "const char* \fBunlink_this_at_exit\fP = NULL\fC [static]\fP"
+.PP
+Definition at line 89 of file ccnd.c.
+.PP
+Referenced by check_comm_file(), cleanup_at_exit(), comm_file_ok(), and unlink_at_exit().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

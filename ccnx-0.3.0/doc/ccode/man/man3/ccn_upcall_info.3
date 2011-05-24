@@ -1,0 +1,95 @@
+.TH "ccn_upcall_info" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_upcall_info \- 
+.PP
+Additional information provided in the upcall.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct ccn * \fBh\fP"
+.br
+.RI "\fIThe ccn library handle. \fP"
+.ti -1c
+.RI "const unsigned char * \fBinterest_ccnb\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_parsed_interest\fP * \fBpi\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBinterest_comps\fP"
+.br
+.ti -1c
+.RI "int \fBmatched_comps\fP"
+.br
+.ti -1c
+.RI "const unsigned char * \fBcontent_ccnb\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_parsed_ContentObject\fP * \fBpco\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBcontent_comps\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Additional information provided in the upcall. 
+
+The client is responsible for managing this piece of memory and the data therein. The refcount should be initially zero, and is used by the library to keep to track of multiple registrations of the same closure. When the count drops back to 0, the closure will be called with kind = CCN_UPCALL_FINAL so that it has an opportunity to clean up. 
+.PP
+Definition at line 124 of file ccn.h.
+.SH "Field Documentation"
+.PP 
+.SS "const unsigned char* \fBccn_upcall_info::content_ccnb\fP"
+.PP
+Definition at line 132 of file ccn.h.
+.PP
+Referenced by ccn_dispatch_message(), deliver_content(), handle_key(), handle_ping_response(), handle_prefix_reg_reply(), handle_simple_incoming_content(), imcoming_bulkdata(), incoming_content(), interest_handler(), is_final(), and make_template().
+.SS "struct \fBccn_indexbuf\fP* \fBccn_upcall_info::content_comps\fP\fC [read]\fP"
+.PP
+Definition at line 134 of file ccn.h.
+.PP
+Referenced by ccn_dispatch_message(), deliver_content(), handle_simple_incoming_content(), incoming_content(), interest_handler(), is_final(), and make_template().
+.SS "struct ccn* \fBccn_upcall_info::h\fP\fC [read]\fP"
+.PP
+The ccn library handle. 
+.PP
+Definition at line 125 of file ccn.h.
+.PP
+Referenced by ccn_age_interest(), ccn_dispatch_message(), ccn_replace_handler(), ccnd_answer_req(), handle_key(), handle_ping_response(), handle_prefix_reg_reply(), handle_simple_incoming_content(), imcoming_bulkdata(), incoming_content(), incoming_interest(), interest_handler(), outgoing_content(), and seqw_incoming_interest().
+.SS "const unsigned char* \fBccn_upcall_info::interest_ccnb\fP"
+.PP
+Definition at line 127 of file ccn.h.
+.PP
+Referenced by ccn_age_interest(), ccn_dispatch_message(), ccnd_answer_req(), incoming_content(), incoming_interest(), interest_handler(), make_template(), and seqw_incoming_interest().
+.SS "struct \fBccn_indexbuf\fP* \fBccn_upcall_info::interest_comps\fP\fC [read]\fP"
+.PP
+Definition at line 129 of file ccn.h.
+.PP
+Referenced by ccn_age_interest(), ccn_dispatch_message(), ccnd_answer_req(), incoming_content(), and incoming_interest().
+.SS "int \fBccn_upcall_info::matched_comps\fP"
+.PP
+Definition at line 130 of file ccn.h.
+.PP
+Referenced by ccn_dispatch_message(), ccnd_answer_req(), deliver_content(), and outgoing_content().
+.SS "struct \fBccn_parsed_ContentObject\fP* \fBccn_upcall_info::pco\fP\fC [read]\fP"
+.PP
+Definition at line 133 of file ccn.h.
+.PP
+Referenced by ccn_dispatch_message(), deliver_content(), handle_key(), handle_ping_response(), handle_prefix_reg_reply(), handle_simple_incoming_content(), imcoming_bulkdata(), incoming_content(), interest_handler(), and is_final().
+.SS "struct \fBccn_parsed_interest\fP* \fBccn_upcall_info::pi\fP\fC [read]\fP"
+.PP
+Definition at line 128 of file ccn.h.
+.PP
+Referenced by ccn_age_interest(), ccn_dispatch_message(), ccnd_answer_req(), incoming_content(), incoming_interest(), interest_handler(), make_template(), and seqw_incoming_interest().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

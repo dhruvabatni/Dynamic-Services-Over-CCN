@@ -1,0 +1,45 @@
+.TH "ccn_buf_decoder" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_buf_decoder \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_skeleton_decoder\fP \fBdecoder\fP"
+.br
+.ti -1c
+.RI "const unsigned char * \fBbuf\fP"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 385 of file ccn.h.
+.SH "Field Documentation"
+.PP 
+.SS "const unsigned char* \fBccn_buf_decoder::buf\fP"
+.PP
+Definition at line 387 of file ccn.h.
+.PP
+Referenced by ccn_buf_advance(), ccn_buf_decoder_start(), ccn_buf_match_attr(), ccn_buf_match_blob(), ccn_buf_match_udata(), ccn_chk_signing_params(), ccn_name_comp_get(), ccn_parse_nonNegativeInteger(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_pubid_matches(), and find_first_match_candidate().
+.SS "struct \fBccn_skeleton_decoder\fP \fBccn_buf_decoder::decoder\fP\fC [read]\fP"
+.PP
+Definition at line 386 of file ccn.h.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance(), ccn_buf_advance_past_element(), ccn_buf_check_close(), ccn_buf_decoder_start(), ccn_buf_match_attr(), ccn_buf_match_blob(), ccn_buf_match_dtag(), ccn_buf_match_some_blob(), ccn_buf_match_some_dtag(), ccn_buf_match_udata(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_interest_lifetime(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_nonNegativeInteger(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_pubid_matches(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), and make_template().
+.SS "size_t \fBccn_buf_decoder::size\fP"
+.PP
+Definition at line 388 of file ccn.h.
+.PP
+Referenced by ccn_buf_advance(), ccn_buf_decoder_start(), ccn_chk_signing_params(), ccn_get_public_key(), ccn_interest_lifetime(), ccn_parse_tagged_string(), and ccn_ref_tagged_BLOB().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

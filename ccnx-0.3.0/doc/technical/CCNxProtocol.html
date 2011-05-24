@@ -1,0 +1,783 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
+<title>CCNx Protocol</title>
+<style type="text/css">
+/* Debug borders */
+p, li, dt, dd, div, pre, h1, h2, h3, h4, h5, h6 {
+/*
+  border: 1px solid red;
+*/
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  font-family: serif;
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+  font-family: sans-serif;
+}
+
+div#footer {
+  font-family: sans-serif;
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > div.content {
+  white-space: pre;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+/* Workarounds for IE6's broken and incomplete CSS2. */
+
+div.sidebar-content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+div.sidebar-title, div.image-title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 0.0em;
+  margin-bottom: 0.5em;
+}
+
+div.listingblock div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock-attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock-content {
+  white-space: pre;
+}
+div.verseblock-attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+
+div.exampleblock-content {
+  border-left: 2px solid silver;
+  padding-left: 0.5em;
+}
+
+/* IE6 sets dynamically generated links as visited. */
+div#toc a:visited { color: blue; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>CCNx Protocol</h1>
+</div>
+<h2 id="_abstract">Abstract</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes the CCNx protocol, the transport protocol
+for a communications architecture called Content-Centric
+Networking (CCN) built on <em>named data</em>.  CCN has no notion of host at
+its lowest level&#8201;&#8212;&#8201;a packet "address" names content, not location.
+The CCNx protocol efficiently delivers named content rather than connecting
+hosts to other hosts.  Every packet of data may be cached at any CCNx
+router&#8201;&#8212;&#8201;combined with intrinsic support for multicast or broadcast
+delivery this leads to a very efficient use of the network when many
+people are interested in the same content.</p></div>
+</div>
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes the CCNx protocol which provides
+location-independent delivery services for named data packets.  The
+services include multihop forwarding for end-to-end delivery, flow
+control, transparent and automatic multicast delivery using
+buffer storage available in the network, loop-free multipath
+forwarding, verification of content integrity regardless of delivery
+path, and carriage of arbitrary application data.  Applications run
+the CCNx protocol over some lower-layer communications service capable of
+transmitting packets.  There are no restrictions on the nature of the
+lower-layer service: it may be a physical transport or another network
+or transport protocol.  For example, applications will typically run
+the CCNx protocol on top of UDP to take advantage of existing IP connectivity.
+Since content is named independent of location in the CCNx protocol,
+it may also be preserved indefinitely in the network, providing
+effectively a form of distributed filesystem service.</p></div>
+<div class="paragraph"><p>The CCNx protocol is general, supporting a wide range of network
+applications.  It may be natural to think of stored content
+applications such as distribution of video or document files, but the
+CCNx model also supports real-time communication and discovery
+protocols and is general enough to carry conversations between hosts
+such as TCP connections. The protocol supports a broad range of applications
+by leaving the choice of naming conventions to the application.  This
+document specifies the common functions that are independent of the
+contents of the names and data and the semantics of exchanges. In
+addition to this document, therefore, a complete specification of the
+use of the CCNx protocol for a particular application will require additional
+specification of the naming rules, data formats, and message
+semantics.  Such specifications of application protocols on top of the
+CCNx protocol (plus possibly API specifications) are called <em>profiles</em>.</p></div>
+<div class="paragraph"><p>The CCNx protocol is designed for end-to-end communication between
+applications and so it is intended to be integrated into application
+processing rather than being implemented as a separate layer.</p></div>
+<h3 id="_definitions">Definitions</h3><div style="clear:left"></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+node
+</dt>
+<dd>
+<p>
+  a CCNx network entity that implements forwarding and
+buffering
+</p>
+</dd>
+<dt class="hdlist1">
+party
+</dt>
+<dd>
+<p>
+  any entity in the network using the CCNx protocol to communicate.  Note
+that parties are not just machines, but also applications using the protocol.
+</p>
+</dd>
+<dt class="hdlist1">
+message
+</dt>
+<dd>
+<p>
+  a CCNx packet.  We use this term to avoid confusion with the
+lower-layer packet that may be carrying CCNx messages.  A single lower-layer
+packet (for example a single UDP packet) MAY contain more than one
+CCNx message.
+</p>
+</dd>
+</dl></div>
+</div>
+<h2 id="_message_format_and_encodings">Message Format and Encodings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Unlike many other protocols, the CCNx protocol does not have any
+fixed-length fields.  Instead, CCNx data formats are defined by XML
+schemas and encoded with explicitly identified field boundaries.  This
+design permits field values of arbitrary length, optional fields that
+consume no packet space when omitted, and nested structures.  The use
+of XML structure does not imply that field values are text strings nor
+does it require that messages be encoded as human-readable text.  Most
+fields are defined to contain arbitrary binary values, including those
+that identify content.</p></div>
+<div class="paragraph"><p>The wire format of CCNx messages is an <a href="BinaryEncoding.html">efficient binary
+encoding of XML structures</a> called <a href="BinaryEncoding.html">ccnb</a>, which defines
+such things as the byte order. There is also a text XML encoding which
+is useful for debugging, testing, presentation in documentation,
+etc. but MUST NOT be used on the wire.</p></div>
+</div>
+<h2 id="_content_identification">Content Identification</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The CCNx protocol accomplishes transfers of content by <em>name</em>,
+irrespective of the identities or locations of machines involved.</p></div>
+<div class="paragraph"><p>CCNx content names are hierarchically-structured, consisting of a
+number of <em>components</em>.  The hierarchical structure is like that of IP
+addresses, but CCNx names and name components have arbitrary lengths
+and the component divisions are explicitly identified unlike in the classless
+model of IP addresses.  The protocol does not depend on anything but
+the hierarchical structure of the names so they may contain arbitrary
+binary data such as encrypted data.</p></div>
+<div class="paragraph"><p>CCNx content names are not interpreted in the operation of the CCNx
+protocol itself, just matched.  All assignment of meaning to names or
+their component parts comes from application, institution, and/or global
+conventions reflected in prefix forwarding rules.</p></div>
+<div class="paragraph"><p>A CCNx name sometimes identifies a specific chunk of data, but in other
+cases identifies a collection of data by naming a point in
+the name tree under which there may be multiple pieces of data.
+A name identifying a collection of data is analogous to
+the address of a network in the host addressing scheme of IP, where the
+network address can be seen to identify the collection of hosts
+attached to that network.  In the case of naming a collection, the
+CCNx name is a prefix of the name of every piece of content in the
+collection, just as an IPv4 network address gives a prefix of the IP
+addresses of member hosts.  For this reason, a CCNx name may be
+referred to as a <em>name prefix</em> or simply <em>prefix</em>.</p></div>
+<div class="paragraph"><p>See <a href="Name.html">CCNx Name</a> for details of the structure and
+representation of names.</p></div>
+<div class="paragraph"><p>The CCNx name of a chunk of data always contains as its final, most
+specific component a value that is derived from the data, called the
+<em>digest component</em>.  Since it is derived from the data itself, the
+digest component is redundant and so is not transmitted.  For more
+details see <a href="DigestComponent.html">Implicit Digest Component</a>.</p></div>
+</div>
+<h2 id="_ccnx_message_types">CCNx Message Types</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are two message types in the CCNx protocol: <em>Interest</em> and
+<em>Data</em> (also called <em>Content</em> or <em>Content Object</em>).</p></div>
+<div class="paragraph"><p>The <a href="InterestMessage.html">Interest message</a> is used to request data
+by name.  An Interest message can identify a chunk of content to
+retrieve very specifically.  Alternatively, an Interest message can
+provide a name prefix and other qualifications to restrict what data
+is acceptable from the collection named by the prefix.</p></div>
+<div class="paragraph"><p>The <a href="ContentObject.html">Content Object</a> is used to supply data.  A
+Content Object message not only contains a data payload but the
+identifying name (without the implicit digest component),  a
+cryptographic signature, and identification of the signer (called the
+<em>publisher</em>) along with other information about the signing.
+Formally, a Content Object message is an immutable binding of a
+name, a publisher, and a chunk of data.  Every Content Object message
+is REQUIRED to contain a valid signature.  In this way, all data
+communicated with the CCNx protocol is attested.</p></div>
+<div class="paragraph"><p>Any CCNx party MAY choose to verify the signature on any Content
+Object message that it receives.  Applications that are going to make
+use of the data MUST verify first.  Verification MAY require public
+keys which are not themselves included in the Content Object message
+to be verified.  A CCNx party MUST discard a Content Object message
+that fails to verify.</p></div>
+<div class="paragraph"><p>The CCNx protocol does not provide a separate mechanism for key
+distribution, since keys can be distributed just like any other data
+using the general features of the protocol.  Profiles for key
+distribution are separate specifications, not part of the CCNx
+protocol itself.  Signature verification can confirm that a Content
+Object message has not been corrupted in transit (intentionally or
+otherwise) since it was originally signed, and that it was signed by
+the identified publisher, but these verifications are not the same as
+determining that the publisher in question is a trustworthy source of
+data for a particular application purpose.  CCNx parties SHOULD use
+trust management practices to decide whether to trust data from
+particular publishers for particular purposes, but such practices are
+not specified as part of the CCNx protocol itself.  The CCNx protocol
+is designed to ensure attestation of data, without constraining
+decisions about key distribution and trust management.</p></div>
+</div>
+<h2 id="_basic_exchange">Basic Exchange</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Communication using the CCNx protocol is receiver-controlled.  A
+consumer of data transmits an Interest message over available
+connectivity and any party receiving the message and having data that
+matches, or <em>satisfies</em>, the request (according to the specifications in the
+<a href="InterestMessage.html">Interest Message</a>) may transmit a matching Content
+Object message. Data MUST only be transmitted in response to an
+Interest that matches the Data.  An Interest message MAY be
+transmitted using broadcast or multicast facilities of the underlying
+transport in order to reach many potential sources of data with
+minimal bandwidth cost.</p></div>
+<div class="paragraph"><p>A party MUST transmit at most one Content Object message in response
+to a single received Interest message, even if the party has many
+Content Objects that match.  This one-for-one mapping between Interest
+and Data messages maintains a <em>flow balance</em> that allows the receiver
+to control the rate at which data is transmitted from a sender, and
+avoids consuming bandwidth to send data anywhere it is not wanted.</p></div>
+<div class="paragraph"><p>Nodes SHOULD implement <em>suppression</em> mechanisms to minimize the
+potential for two different nodes to transmit two Content Object
+messages in response to a single Interest received by both nodes (for
+example via broadcast or multicast).  The suppression mechanisms
+SHOULD include randomizing response times and detecting the fact that
+another node has broadcast or multicast a response so the Interest may
+be discarded. This version of the CCNx protocol does not specify
+suppression rules.</p></div>
+<div class="paragraph"><p>A receiver that desires to retrieve a large collection of data
+requiring multiple Content Object messages must transmit a sequence of
+Interest messages.  For pipelining, a receiver MAY transmit multiple
+Interest messages without waiting for data in response to each one before
+sending the next.  This is only possible if the receiver knows enough
+about the names of the Content Objects to construct different
+Interests in advance.  Sending multiple Interest messages with
+identical requests will usually cause the same Content Object to be
+transmitted repeatedly, since senders MUST respond to Interests based
+only on what content they have available at the time, and not on any
+memory of what Content Objects they have previously transmitted.</p></div>
+<div class="paragraph"><p>The CCNx protocol does not assume that underlying transport of
+messages is reliable.  To provide reliable delivery, Interest messages
+that are not satisfied in some reasonable period of time must be
+retransmitted.  A receiver MUST maintain a timer on unsatisfied
+Interests for which it still wants the data, and retransmit
+them when the timer expires.  This version of the CCNx protocol does
+not specify timer values.</p></div>
+<div class="paragraph"><p>These rules govern the basic Interest/Data exchange for local
+communication, that is communication between peers which directly
+receive message transmissions from each other.  Since the CCNx
+protocol may be used on top of any packet transport, this definition
+of local is quite broad, including pairs of nodes physically far apart
+but using a long-distance connection such as a TCP connection as a tunnel to
+transmit CCNx messages directly.  Multihop CCNx protocol communication
+requires forwarding of CCNx message which is specified in terms of the
+node model described in the next section.</p></div>
+</div>
+<h2 id="_ccnx_node_model">CCNx Node Model</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>A full CCNx node (as opposed to a limited CCNx party such as a single
+application) contains the following data structures to provide
+buffering/caching and loop-free forwarding.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Content Store (CS)
+</dt>
+<dd>
+<p>
+   A buffer memory organized for retrieval by longest prefix match
+   lookup on names.  Since CCNx Content Object messages are
+   self-identifying and self-authenticating, each one is potentially
+   useful to many consumers.  The CS SHOULD implement a replacement
+   policy that maximizes the possibility of reuse such as
+   Least Recently Used (LRU) or Least Frequently Used (LFU).  The CS
+   MUST also implement the <a href="Staleness.html">Staleness Bit</a>.  The CS
+   MAY retain Content Object messages indefinitely but is not required
+   to take any special measures to preserve them; the CS is a cache not
+   a persistent store.
+</p>
+</dd>
+<dt class="hdlist1">
+Forwarding Information Base (FIB)
+</dt>
+<dd>
+<p>
+   A table of destinations for Interests, organized for retrieval by
+   longest prefix match lookup on names.  Each prefix entry in the FIB
+   may point to a list of destinations rather than only one.
+</p>
+</dd>
+<dt class="hdlist1">
+Pending Interest Table (PIT)
+</dt>
+<dd>
+<p>
+   A table of sources for unsatisfied Interests, organized for
+   retrieval by longest prefix match lookup on names.  Each entry in
+   the PIT may point to a list of sources.  Entries in the PIT MUST
+   timeout rather than being held indefinitely.
+</p>
+</dd>
+<dt class="hdlist1">
+Face
+</dt>
+<dd>
+<p>
+   A <em>face</em> is a generalization of the concept of <em>interface</em>: a face
+   may be a connection to a network or directly to an application
+   party.  A face may be configured to send and receive broadcast or
+   multicast packets on a particular network interface, or to send and
+   receive packets using point-to-point addressing in the underlying
+   transport, or using a tunnel (for example a TCP tunnel).  A face
+   may also be the connection to a single application process running
+   on the same machine, via an encapsulation like UDP or an
+   OS-specific interprocess communication path.  All messages arrive
+   through a face and are sent out through a face.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Note that the tables listed above may be interconnected through a
+single index to minimize the cost of lookup operations at the core of
+CCNx message processing and forwarding.  Such an index must be ordered
+or prioritized to achieve the effect of the lookup order specified below.</p></div>
+<h3 id="_processing_interest_messages">Processing Interest Messages</h3><div style="clear:left"></div>
+<div class="paragraph"><p>An Interest Message is processed according to the following sequence:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Lookup is performed on CS.  If a matching ContentObject
+is found, it will be transmitted out the arrival face as a response to
+the Interest Message.  Note that to match a ContentObject must satisfy
+all of the specifications given in the Interest Message.  Note also
+that it may be that multiple ContentObjects simultaneously match in
+which case the specification in the <a href="InterestMessage.html">Interest
+Message</a> will be used to determine which object to return.  When a
+match is found in the CS, processing stops and the Interest
+Message is discarded since it has been satisfied.
+</p>
+</li>
+<li>
+<p>
+Lookup is performed on PIT.  If a matching Interest Message is
+found in the PIT it means that an equivalent Interest Message has
+already been forwarded and is pending.  The arrival face of the new
+Interest Message is added to the list of sources of unsatisfied
+Interests in the PIT entry and the the Interest Message is discarded.
+</p>
+</li>
+<li>
+<p>
+Lookup is performed on FIB.  If a matching prefix is found in the
+FIB, an entry is created in the PIT identifying the arrival face of
+the Interest Message and the message is transmitted according to the
+<em>strategy rules</em> to one or more of the destination faces registered
+for the prefix in the FIB.  Note that one of the destination faces may
+actually be connected to a local agent that uses the semantics of the
+name to dynamically configure new faces.
+</p>
+</li>
+<li>
+<p>
+If no match is found in the previous steps then the node has no way
+to satisfy the Interest Message and it is discarded.
+</p>
+</li>
+</ol></div>
+<h3 id="_processing_content_messages">Processing Content Messages</h3><div style="clear:left"></div>
+<div class="paragraph"><p>A ContentObject is processed according to the following sequence:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Lookup is performed on CS.  If a matching
+ContentObject is found it means that the newly arrived ContentObject
+is a duplicate which can safely be discarded, because any Interest
+Messages have already been satisfied and new ones will be satisfied
+out of the CS.
+</p>
+</li>
+<li>
+<p>
+Lookup is performed on PIT.  If there is a match in the PIT, the
+ContentObject is transmitted on all of the source faces for the
+Interests represented in the PIT.  A node MAY perform verification of
+the ContentObject before forwarding it, and MAY apply various policy
+restrictions.
+</p>
+</li>
+<li>
+<p>
+If no match is found in the previous steps, then the content is
+unsolicited.  A node MUST NOT forward unsolicited data and SHOULD
+discard unsolicited data but MAY store it in the CS in case it is
+subsequently requested.
+</p>
+</li>
+</ol></div>
+<h3 id="_strategy_rules">Strategy Rules</h3><div style="clear:left"></div>
+<div class="paragraph"><p>Unlike in IP, CCNx FIB entries may point to multiple destinations
+simultaneously.  The self-identifying nature of Interest Messages and
+ContentObjects means that loops can be avoided without establishing a
+spanning tree allowing only one destination for any particular prefix
+at any particular node.  The possibility of multiple destinations
+means that different strategies may be employed to select among them
+for forwarding messages.  A node MUST implement some strategy rule,
+even if it is only to transmit an Interest Message on all listed
+destination faces in sequence. A node MAY implement many different
+strategies.  Strategy rules SHOULD be specified by FIB entries: in
+this case the FIB entry MAY contain effectively a constrained program
+for handling the forwarding of Interest Messages addressing the
+particular prefix.</p></div>
+<div class="paragraph"><p>A node MUST discard PIT entries that have not been refreshed by the
+arrival of new Interest Messages within some timeout.  The new
+Interests confirm that the potential recipients are still interested
+in receiving content.  A node MUST retransmit Interest Messages
+periodically for pending PIT entries.  A node MAY use different
+timeouts for refreshing the liveness of received Interest Messages
+(<em>downstream interests</em>) from those used for retransmitting pending
+Interest Messages (<em>upstream interests</em>), and MAY use different
+timeouts associated for different faces.  In this way, each node
+SHOULD match to both to downstream and upstream parties.</p></div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2010-11-04 13:33:08 PDT
+</div>
+</div>
+</body>
+</html>

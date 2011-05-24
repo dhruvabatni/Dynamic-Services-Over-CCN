@@ -1,0 +1,193 @@
+.TH "cmd/ccn_xmltoccnb.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccn_xmltoccnb.c \- 
+.PP
+Utility to convert XML into ccn binary encoded data (ccnb).  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTOSS_WHITE\fP   1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "static void \fBbase64_decode_bytes\fP (struct base64_decoder *d, const void *p, size_t count)"
+.br
+.ti -1c
+.RI "static int \fBdict_lookup\fP (const char *key, const struct \fBccn_dict_entry\fP *dict, int n)"
+.br
+.ti -1c
+.RI "struct ccn_encoder * \fBccn_encoder_create\fP (FILE *outfile, const struct \fBccn_dict\fP *dtags)"
+.br
+.ti -1c
+.RI "void \fBccn_encoder_destroy\fP (struct ccn_encoder **cbp)"
+.br
+.ti -1c
+.RI "static void \fBemit_bytes\fP (struct ccn_encoder *u, const void *p, size_t length)"
+.br
+.ti -1c
+.RI "static void \fBemit_tt\fP (struct ccn_encoder *u, size_t numval, enum \fBccn_tt\fP tt)"
+.br
+.ti -1c
+.RI "static int \fBall_whitespace\fP (struct \fBccn_charbuf\fP *b)"
+.br
+.ti -1c
+.RI "static void \fBfinish_openudata\fP (struct ccn_encoder *u)"
+.br
+.ti -1c
+.RI "static void \fBemit_name\fP (struct ccn_encoder *u, enum \fBccn_tt\fP tt, const void *name)"
+.br
+.ti -1c
+.RI "static void \fBemit_xchars\fP (struct ccn_encoder *u, const XML_Char *xchars)"
+.br
+.ti -1c
+.RI "static void \fBemit_closer\fP (struct ccn_encoder *u)"
+.br
+.ti -1c
+.RI "static void \fBdo_start_element\fP (void *ud, const XML_Char *name, const XML_Char **atts)"
+.br
+.ti -1c
+.RI "static void \fBdo_end_element\fP (void *ud, const XML_Char *name)"
+.br
+.ti -1c
+.RI "static void \fBdo_character_data\fP (void *ud, const XML_Char *s, int len)"
+.br
+.ti -1c
+.RI "static void \fBdo_processing_instructions\fP (void *ud, const XML_Char *target, const XML_Char *data)"
+.br
+.ti -1c
+.RI "static int \fBprocess_fd\fP (int fd, FILE *outfile, int flags, const struct \fBccn_dict\fP *dtags)"
+.br
+.ti -1c
+.RI "static int \fBprocess_file\fP (char *path, int flags, const struct \fBccn_dict\fP *dtags)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility to convert XML into ccn binary encoded data (ccnb). 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccn_xmltoccnb.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define TOSS_WHITE   1"
+.PP
+Definition at line 391 of file ccn_xmltoccnb.c.
+.PP
+Referenced by main(), and process_fd().
+.SH "Function Documentation"
+.PP 
+.SS "static int all_whitespace (struct \fBccn_charbuf\fP * b)\fC [static]\fP"
+.PP
+Definition at line 200 of file ccn_xmltoccnb.c.
+.PP
+Referenced by finish_openudata().
+.SS "static void base64_decode_bytes (struct base64_decoder * d, const void * p, size_t count)\fC [static]\fP"
+.PP
+Definition at line 76 of file ccn_xmltoccnb.c.
+.PP
+Referenced by finish_openudata().
+.SS "struct ccn_encoder* ccn_encoder_create (FILE * outfile, const struct \fBccn_dict\fP * dtags)\fC [read]\fP"
+.PP
+Definition at line 148 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "void ccn_encoder_destroy (struct ccn_encoder ** cbp)"
+.PP
+Definition at line 164 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static int dict_lookup (const char * key, const struct \fBccn_dict_entry\fP * dict, int n)\fC [static]\fP"
+.PP
+Definition at line 138 of file ccn_xmltoccnb.c.
+.PP
+Referenced by emit_name().
+.SS "static void do_character_data (void * ud, const XML_Char * s, int len)\fC [static]\fP"
+.PP
+Definition at line 374 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static void do_end_element (void * ud, const XML_Char * name)\fC [static]\fP"
+.PP
+Definition at line 367 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static void do_processing_instructions (void * ud, const XML_Char * target, const XML_Char * data)\fC [static]\fP"
+.PP
+Definition at line 381 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static void do_start_element (void * ud, const XML_Char * name, const XML_Char ** atts)\fC [static]\fP"
+.PP
+Definition at line 333 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_fd().
+.SS "static void emit_bytes (struct ccn_encoder * u, const void * p, size_t length)\fC [static]\fP"
+.PP
+Definition at line 175 of file ccn_xmltoccnb.c.
+.PP
+Referenced by emit_closer(), emit_name(), emit_tt(), emit_xchars(), and finish_openudata().
+.SS "static void emit_closer (struct ccn_encoder * u)\fC [static]\fP"
+.PP
+Definition at line 325 of file ccn_xmltoccnb.c.
+.PP
+Referenced by do_end_element(), and do_processing_instructions().
+.SS "static void emit_name (struct ccn_encoder * u, enum \fBccn_tt\fP tt, const void * name)\fC [static]\fP"
+.PP
+Definition at line 298 of file ccn_xmltoccnb.c.
+.PP
+Referenced by do_start_element().
+.SS "static void emit_tt (struct ccn_encoder * u, size_t numval, enum \fBccn_tt\fP tt)\fC [static]\fP"
+.PP
+Definition at line 182 of file ccn_xmltoccnb.c.
+.PP
+Referenced by do_processing_instructions(), emit_name(), emit_xchars(), and finish_openudata().
+.SS "static void emit_xchars (struct ccn_encoder * u, const XML_Char * xchars)\fC [static]\fP"
+.PP
+Definition at line 316 of file ccn_xmltoccnb.c.
+.PP
+Referenced by do_processing_instructions(), and do_start_element().
+.SS "static void finish_openudata (struct ccn_encoder * u)\fC [static]\fP"
+.PP
+Definition at line 217 of file ccn_xmltoccnb.c.
+.PP
+Referenced by do_processing_instructions(), emit_closer(), emit_name(), and emit_xchars().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 492 of file ccn_xmltoccnb.c.
+.SS "static int process_fd (int fd, FILE * outfile, int flags, const struct \fBccn_dict\fP * dtags)\fC [static]\fP"
+.PP
+Definition at line 393 of file ccn_xmltoccnb.c.
+.PP
+Referenced by process_file().
+.SS "static int process_file (char * path, int flags, const struct \fBccn_dict\fP * dtags)\fC [static]\fP"
+.PP
+Definition at line 432 of file ccn_xmltoccnb.c.
+.PP
+Referenced by main().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 34 of file ccn_xmltoccnb.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

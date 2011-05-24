@@ -1,0 +1,85 @@
+.TH "lib/ccn_digest.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_digest.c \- 
+.PP
+Support for creating digests.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_digest * \fBccn_digest_create\fP (enum \fBccn_digest_id\fP id)"
+.br
+.ti -1c
+.RI "void \fBccn_digest_destroy\fP (struct ccn_digest **pd)"
+.br
+.ti -1c
+.RI "enum \fBccn_digest_id\fP \fBccn_digest_getid\fP (struct ccn_digest *d)"
+.br
+.ti -1c
+.RI "size_t \fBccn_digest_size\fP (struct ccn_digest *d)"
+.br
+.ti -1c
+.RI "void \fBccn_digest_init\fP (struct ccn_digest *d)"
+.br
+.ti -1c
+.RI "int \fBccn_digest_update\fP (struct ccn_digest *d, const void *data, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_digest_final\fP (struct ccn_digest *d, unsigned char *result, size_t digest_size)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for creating digests. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_digest.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "struct ccn_digest* ccn_digest_create (enum \fBccn_digest_id\fP id)\fC [read]\fP"
+.PP
+Definition at line 32 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "void ccn_digest_destroy (struct ccn_digest ** pd)"
+.PP
+Definition at line 54 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), and ccn_locate_key().
+.SS "int ccn_digest_final (struct ccn_digest * d, unsigned char * result, size_t digest_size)"
+.PP
+Definition at line 92 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "enum \fBccn_digest_id\fP ccn_digest_getid (struct ccn_digest * d)"
+.PP
+Definition at line 63 of file ccn_digest.c.
+.SS "void ccn_digest_init (struct ccn_digest * d)"
+.PP
+Definition at line 75 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SS "size_t ccn_digest_size (struct ccn_digest * d)"
+.PP
+Definition at line 69 of file ccn_digest.c.
+.PP
+Referenced by ccn_locate_key(), and main().
+.SS "int ccn_digest_update (struct ccn_digest * d, const void * data, size_t size)"
+.PP
+Definition at line 82 of file ccn_digest.c.
+.PP
+Referenced by ccn_digest_Content(), ccn_digest_ContentObject(), ccn_locate_key(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

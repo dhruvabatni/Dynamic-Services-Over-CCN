@@ -1,0 +1,174 @@
+.TH "lib/ccn_indexbuf.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_indexbuf.c \- 
+.PP
+Support for expandable buffer of non-negative values.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBELEMENT\fP   size_t"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBccn_indexbuf_create\fP (void)"
+.br
+.RI "\fICreate a new indexbuf. \fP"
+.ti -1c
+.RI "void \fBccn_indexbuf_destroy\fP (struct \fBccn_indexbuf\fP **cbp)"
+.br
+.RI "\fIDeallocate indexbuf. \fP"
+.ti -1c
+.RI "ELEMENT * \fBccn_indexbuf_reserve\fP (struct \fBccn_indexbuf\fP *c, size_t n)"
+.br
+.RI "\fIExpand buffer as necessary to hold at least n more values. \fP"
+.ti -1c
+.RI "int \fBccn_indexbuf_append\fP (struct \fBccn_indexbuf\fP *c, const ELEMENT *p, size_t n)"
+.br
+.RI "\fIAppend multiple elements to the indexbuf. \fP"
+.ti -1c
+.RI "int \fBccn_indexbuf_append_element\fP (struct \fBccn_indexbuf\fP *c, ELEMENT v)"
+.br
+.RI "\fIAppend v to the indexbuf. \fP"
+.ti -1c
+.RI "int \fBccn_indexbuf_member\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.ti -1c
+.RI "void \fBccn_indexbuf_remove_element\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.RI "\fIRemoves up to one instance of val from the indexbuf. \fP"
+.ti -1c
+.RI "int \fBccn_indexbuf_set_insert\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.ti -1c
+.RI "int \fBccn_indexbuf_remove_first_match\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.RI "\fIRemoves first occurrence of val, preserving order. \fP"
+.ti -1c
+.RI "void \fBccn_indexbuf_move_to_end\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.RI "\fIIf val is present in the indexbuf, move it to the final place. \fP"
+.ti -1c
+.RI "void \fBccn_indexbuf_move_to_front\fP (struct \fBccn_indexbuf\fP *x, ELEMENT val)"
+.br
+.RI "\fIIf val is present in the indexbuf, move it to the first place. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for expandable buffer of non-negative values. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_indexbuf.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define ELEMENT   size_t"
+.PP
+Definition at line 25 of file ccn_indexbuf.c.
+.PP
+Referenced by ccn_indexbuf_append(), ccn_indexbuf_append_element(), and ccn_indexbuf_reserve().
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_indexbuf_append (struct \fBccn_indexbuf\fP * c, const ELEMENT * p, size_t n)"
+.PP
+Append multiple elements to the indexbuf. \fBReturns:\fP
+.RS 4
+0 for success, -1 for failure. 
+.RE
+.PP
+
+.PP
+Definition at line 85 of file ccn_indexbuf.c.
+.SS "int ccn_indexbuf_append_element (struct \fBccn_indexbuf\fP * c, ELEMENT v)"
+.PP
+Append v to the indexbuf. \fBReturns:\fP
+.RS 4
+0 for success, -1 for failure. 
+.RE
+.PP
+
+.PP
+Definition at line 100 of file ccn_indexbuf.c.
+.SS "struct \fBccn_indexbuf\fP* ccn_indexbuf_create (void)\fC [read]\fP"
+.PP
+Create a new indexbuf. 
+.PP
+Definition at line 31 of file ccn_indexbuf.c.
+.PP
+Referenced by ccn_create_version(), ccn_dispatch_message(), ccn_indexbuf_obtain(), ccn_name_chop(), ccn_name_next_sibling(), ccn_parse_interest(), ccn_resolve_version(), ccn_sign_content(), ccnd_create(), ccnd_reg_uri(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), ccnd_start_notice(), ccnd_uri_listen(), content_queue_create(), content_skiplist_insert(), decode_message(), deliver_content(), get_outbound_faces(), indexbuf_obtain(), interest_handler(), main(), process_test(), and update_forward_to().
+.SS "void ccn_indexbuf_destroy (struct \fBccn_indexbuf\fP ** cbp)"
+.PP
+Deallocate indexbuf. 
+.PP
+Definition at line 42 of file ccn_indexbuf.c.
+.PP
+Referenced by ccn_create_version(), ccn_destroy(), ccn_dispatch_message(), ccn_indexbuf_release(), ccn_name_chop(), ccn_name_next_sibling(), ccn_parse_interest(), ccn_resolve_version(), ccn_sign_content(), ccnd_destroy(), ccnd_internal_client_stop(), ccnd_reg_uri(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), ccnd_start_notice(), ccnd_uri_listen(), check_forward_to(), consume(), content_queue_destroy(), content_skiplist_remove(), decode_message(), deliver_content(), finalize_nameprefix(), indexbuf_release(), interest_handler(), main(), propagate_interest(), and update_forward_to().
+.SS "int ccn_indexbuf_member (struct \fBccn_indexbuf\fP * x, ELEMENT val)"\fBReturns:\fP
+.RS 4
+index at which the element was found or appended, or -1 if not found. 
+.RE
+.PP
+
+.PP
+Definition at line 114 of file ccn_indexbuf.c.
+.SS "void ccn_indexbuf_move_to_end (struct \fBccn_indexbuf\fP * x, ELEMENT val)"
+.PP
+If val is present in the indexbuf, move it to the final place. 
+.PP
+Definition at line 188 of file ccn_indexbuf.c.
+.SS "void ccn_indexbuf_move_to_front (struct \fBccn_indexbuf\fP * x, ELEMENT val)"
+.PP
+If val is present in the indexbuf, move it to the first place. 
+.PP
+Definition at line 209 of file ccn_indexbuf.c.
+.SS "void ccn_indexbuf_remove_element (struct \fBccn_indexbuf\fP * x, ELEMENT val)"
+.PP
+Removes up to one instance of val from the indexbuf. Order of elements not preserved. 
+.PP
+Definition at line 130 of file ccn_indexbuf.c.
+.SS "int ccn_indexbuf_remove_first_match (struct \fBccn_indexbuf\fP * x, ELEMENT val)"
+.PP
+Removes first occurrence of val, preserving order. \fBReturns:\fP
+.RS 4
+index at which the element was found, or -1 if the element was not found. 
+.RE
+.PP
+
+.PP
+Definition at line 165 of file ccn_indexbuf.c.
+.SS "ELEMENT* ccn_indexbuf_reserve (struct \fBccn_indexbuf\fP * c, size_t n)"
+.PP
+Expand buffer as necessary to hold at least n more values. \fBReturns:\fP
+.RS 4
+pointer to reserved space 
+.RE
+.PP
+
+.PP
+Definition at line 59 of file ccn_indexbuf.c.
+.PP
+Referenced by ccn_indexbuf_append(), and ccn_indexbuf_append_element().
+.SS "int ccn_indexbuf_set_insert (struct \fBccn_indexbuf\fP * x, ELEMENT val)"\fBReturns:\fP
+.RS 4
+index at which the element was found or appended, or -1 in case of error. 
+.RE
+.PP
+
+.PP
+Definition at line 146 of file ccn_indexbuf.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

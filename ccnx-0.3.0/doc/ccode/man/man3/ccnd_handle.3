@@ -1,0 +1,738 @@
+.TH "ccnd_handle" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccnd_handle \- 
+.PP
+We pass this handle almost everywhere within ccnd.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "unsigned char \fBccnd_id\fP [32]"
+.br
+.RI "\fIsha256 digest of our public key \fP"
+.ti -1c
+.RI "struct hashtb * \fBfaces_by_fd\fP"
+.br
+.RI "\fIkeyed by fd \fP"
+.ti -1c
+.RI "struct hashtb * \fBdgram_faces\fP"
+.br
+.RI "\fIkeyed by sockaddr \fP"
+.ti -1c
+.RI "struct hashtb * \fBcontent_tab\fP"
+.br
+.RI "\fIkeyed by portion of ContentObject \fP"
+.ti -1c
+.RI "struct hashtb * \fBnameprefix_tab\fP"
+.br
+.RI "\fIkeyed by name prefix components \fP"
+.ti -1c
+.RI "struct hashtb * \fBpropagating_tab\fP"
+.br
+.RI "\fIkeyed by nonce \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBskiplinks\fP"
+.br
+.RI "\fIskiplist for content-ordered ops \fP"
+.ti -1c
+.RI "unsigned \fBforward_to_gen\fP"
+.br
+.RI "\fIfor forward_to updates \fP"
+.ti -1c
+.RI "unsigned \fBface_gen\fP"
+.br
+.RI "\fIfaceid generation number \fP"
+.ti -1c
+.RI "unsigned \fBface_rover\fP"
+.br
+.RI "\fIfor faceid allocation \fP"
+.ti -1c
+.RI "unsigned \fBface_limit\fP"
+.br
+.RI "\fIcurrent number of \fBface\fP slots \fP"
+.ti -1c
+.RI "struct \fBface\fP ** \fBfaces_by_faceid\fP"
+.br
+.RI "\fIarray with face_limit elements \fP"
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBreaper\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBage\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBclean\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBage_forwarding\fP"
+.br
+.ti -1c
+.RI "const char * \fBportstr\fP"
+.br
+.RI "\fI'main' port number \fP"
+.ti -1c
+.RI "unsigned \fBipv4_faceid\fP"
+.br
+.RI "\fIwildcard IPv4, bound to port \fP"
+.ti -1c
+.RI "unsigned \fBipv6_faceid\fP"
+.br
+.RI "\fIwildcard IPv6, bound to port \fP"
+.ti -1c
+.RI "nfds_t \fBnfds\fP"
+.br
+.RI "\fInumber of entries in fds array \fP"
+.ti -1c
+.RI "struct pollfd * \fBfds\fP"
+.br
+.RI "\fIused for poll system call \fP"
+.ti -1c
+.RI "struct \fBccn_gettime\fP \fBticktock\fP"
+.br
+.RI "\fIour time generator \fP"
+.ti -1c
+.RI "long \fBsec\fP"
+.br
+.RI "\fIcached gettime seconds \fP"
+.ti -1c
+.RI "unsigned \fBusec\fP"
+.br
+.RI "\fIcached gettime microseconds \fP"
+.ti -1c
+.RI "struct ccn_schedule * \fBsched\fP"
+.br
+.RI "\fIour schedule \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBscratch_charbuf\fP"
+.br
+.RI "\fIone-slot scratch cache \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBscratch_indexbuf\fP"
+.br
+.RI "\fIone-slot scratch cache \fP"
+.ti -1c
+.RI "\fBccn_accession_t\fP \fBaccession_base\fP"
+.br
+.RI "\fINext three fields are used for direct accession-to-content table. \fP"
+.ti -1c
+.RI "unsigned \fBcontent_by_accession_window\fP"
+.br
+.ti -1c
+.RI "struct \fBcontent_entry\fP ** \fBcontent_by_accession\fP"
+.br
+.ti -1c
+.RI "struct hashtb * \fBsparse_straggler_tab\fP"
+.br
+.RI "\fIThe following holds stragglers that would otherwise bloat the above. \fP"
+.ti -1c
+.RI "\fBccn_accession_t\fP \fBaccession\fP"
+.br
+.RI "\fInewest used accession number \fP"
+.ti -1c
+.RI "\fBccn_accession_t\fP \fBmin_stale\fP"
+.br
+.RI "\fIsmallest accession of stale content \fP"
+.ti -1c
+.RI "\fBccn_accession_t\fP \fBmax_stale\fP"
+.br
+.RI "\fIlargest accession of stale content \fP"
+.ti -1c
+.RI "unsigned long \fBcapacity\fP"
+.br
+.RI "\fImay toss content if there more than this many content objects in the store \fP"
+.ti -1c
+.RI "unsigned long \fBn_stale\fP"
+.br
+.RI "\fINumber of stale content objects. \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBunsol\fP"
+.br
+.RI "\fIunsolicited content \fP"
+.ti -1c
+.RI "unsigned long \fBoldformatcontent\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBoldformatcontentgrumble\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBoldformatinterests\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBoldformatinterestgrumble\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBcontent_dups_recvd\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBcontent_items_sent\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBinterests_accepted\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBinterests_dropped\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBinterests_sent\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBinterests_stuffed\fP"
+.br
+.ti -1c
+.RI "unsigned short \fBseed\fP [3]"
+.br
+.RI "\fIfor PRNG \fP"
+.ti -1c
+.RI "int \fBrunning\fP"
+.br
+.RI "\fItrue while should be running \fP"
+.ti -1c
+.RI "int \fBdebug\fP"
+.br
+.RI "\fIFor controlling debug output. \fP"
+.ti -1c
+.RI "\fBccnd_logger\fP \fBlogger\fP"
+.br
+.RI "\fIFor debug output. \fP"
+.ti -1c
+.RI "void * \fBloggerdata\fP"
+.br
+.RI "\fIPassed to logger. \fP"
+.ti -1c
+.RI "int \fBlogbreak\fP"
+.br
+.RI "\fIsee ccn_msg() \fP"
+.ti -1c
+.RI "unsigned long \fBlogtime\fP"
+.br
+.RI "\fIsee ccn_msg() \fP"
+.ti -1c
+.RI "int \fBlogpid\fP"
+.br
+.RI "\fIsee ccn_msg() \fP"
+.ti -1c
+.RI "int \fBmtu\fP"
+.br
+.RI "\fITarget size for stuffing interests. \fP"
+.ti -1c
+.RI "int \fBflood\fP"
+.br
+.RI "\fIInternal control for auto-reg. \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBautoreg\fP"
+.br
+.RI "\fIURIs to auto-register. \fP"
+.ti -1c
+.RI "int \fBforce_zero_freshness\fP"
+.br
+.RI "\fISimulate freshness=0 on all content. \fP"
+.ti -1c
+.RI "unsigned \fBinterest_faceid\fP"
+.br
+.RI "\fIfor self_reg internal client \fP"
+.ti -1c
+.RI "const char * \fBprogname\fP"
+.br
+.RI "\fIour name, for locating helpers \fP"
+.ti -1c
+.RI "struct ccn * \fBinternal_client\fP"
+.br
+.RI "\fIinternal client \fP"
+.ti -1c
+.RI "struct \fBface\fP * \fBface0\fP"
+.br
+.RI "\fIspecial \fBface\fP for internal client \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBservice_ccnb\fP"
+.br
+.RI "\fIfor local service discovery \fP"
+.ti -1c
+.RI "struct ccn_seqwriter * \fBnotice\fP"
+.br
+.RI "\fIfor notices of status changes \fP"
+.ti -1c
+.RI "struct \fBccn_indexbuf\fP * \fBchface\fP"
+.br
+.RI "\fIfaceids w/ recent status changes \fP"
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBinternal_client_refresh\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_scheduled_event\fP * \fBnotice_push\fP"
+.br
+.ti -1c
+.RI "unsigned \fBdata_pause_microsec\fP"
+.br
+.RI "\fItunable, see \fBchoose_face_delay()\fP \fP"
+.ti -1c
+.RI "void(* \fBappnonce\fP )(struct \fBccnd_handle\fP *, struct \fBface\fP *, struct \fBccn_charbuf\fP *)"
+.br
+.RI "\fIpluggable nonce generation \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+We pass this handle almost everywhere within ccnd. 
+.PP
+Definition at line 67 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "\fBccn_accession_t\fP \fBccnd_handle::accession\fP"
+.PP
+newest used accession number 
+.PP
+Definition at line 101 of file ccnd_private.h.
+.PP
+Referenced by clean_deamon(), cleanout_stragglers(), collect_stats_html(), collect_stats_xml(), expire_content(), and process_incoming_content().
+.SS "\fBccn_accession_t\fP \fBccnd_handle::accession_base\fP"
+.PP
+Next three fields are used for direct accession-to-content table. 
+.PP
+Definition at line 96 of file ccnd_private.h.
+.PP
+Referenced by clean_deamon(), cleanout_empties(), cleanout_stragglers(), content_from_accession(), enroll_content(), and finalize_content().
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::age\fP\fC [read]\fP"
+.PP
+Definition at line 81 of file ccnd_private.h.
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::age_forwarding\fP\fC [read]\fP"
+.PP
+Definition at line 83 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), and age_forwarding_needed().
+.SS "void(* \fBccnd_handle::appnonce\fP)(struct \fBccnd_handle\fP *, struct \fBface\fP *, struct \fBccn_charbuf\fP *)"
+.PP
+pluggable nonce generation 
+.PP
+Referenced by ccnd_create(), and propagate_interest().
+.SS "struct \fBccn_charbuf\fP* \fBccnd_handle::autoreg\fP\fC [read]\fP"
+.PP
+URIs to auto-register. 
+.PP
+Definition at line 128 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), and register_new_face().
+.SS "unsigned long \fBccnd_handle::capacity\fP"
+.PP
+may toss content if there more than this many content objects in the store 
+.PP
+Definition at line 104 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), clean_deamon(), expire_content(), and process_incoming_content().
+.SS "unsigned char \fBccnd_handle::ccnd_id\fP[32]"
+.PP
+sha256 digest of our public key 
+.PP
+Definition at line 68 of file ccnd_private.h.
+.PP
+Referenced by ccnd_append_debug_nonce(), ccnd_colorhash(), ccnd_init_internal_keystore(), ccnd_reg_ccnx_ccndid(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), ccnd_start_notice(), and ccnd_uri_listen().
+.SS "struct \fBccn_indexbuf\fP* \fBccnd_handle::chface\fP\fC [read]\fP"
+.PP
+faceids w/ recent status changes 
+.PP
+Definition at line 136 of file ccnd_private.h.
+.PP
+Referenced by ccnd_face_status_change(), ccnd_internal_client_stop(), ccnd_notice_push(), and ccnd_start_notice().
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::clean\fP\fC [read]\fP"
+.PP
+Definition at line 82 of file ccnd_private.h.
+.PP
+Referenced by clean_deamon(), and clean_needed().
+.SS "struct \fBcontent_entry\fP** \fBccnd_handle::content_by_accession\fP\fC [read]\fP"
+.PP
+Definition at line 98 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), cleanout_empties(), cleanout_stragglers(), content_from_accession(), enroll_content(), and finalize_content().
+.SS "unsigned \fBccnd_handle::content_by_accession_window\fP"
+.PP
+Definition at line 97 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), cleanout_empties(), cleanout_stragglers(), content_from_accession(), and enroll_content().
+.SS "unsigned long \fBccnd_handle::content_dups_recvd\fP"
+.PP
+Definition at line 112 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), and process_incoming_content().
+.SS "unsigned long \fBccnd_handle::content_items_sent\fP"
+.PP
+Definition at line 113 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), and send_content().
+.SS "struct hashtb* \fBccnd_handle::content_tab\fP\fC [read]\fP"
+.PP
+keyed by portion of ContentObject 
+.PP
+Definition at line 71 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), clean_deamon(), cleanout_stragglers(), collect_stats_html(), collect_stats_xml(), expire_content(), process_incoming_content(), and remove_content().
+.SS "unsigned \fBccnd_handle::data_pause_microsec\fP"
+.PP
+tunable, see \fBchoose_face_delay()\fP 
+.PP
+Definition at line 139 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), choose_face_delay(), and set_content_timer().
+.SS "int \fBccnd_handle::debug\fP"
+.PP
+For controlling debug output. 
+.PP
+Definition at line 120 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), age_forwarding(), ccn_stuff_interest(), ccnd_answer_req(), ccnd_create(), ccnd_debug_ccnb(), ccnd_msg(), ccnd_reg_prefix(), ccnd_req_newface(), ccnd_req_unreg(), ccnd_stats_http_set_debug(), consume_matching_interests(), content_sender(), do_propagate(), face_send_queue_insert(), find_first_match_candidate(), get_outbound_faces(), mark_stale(), next_child_at_level(), note_content_from(), pe_next_usec(), process_incoming_content(), process_incoming_interest(), process_input(), propagate_interest(), remove_content(), replan_propagation(), send_content(), and update_forward_to().
+.SS "struct hashtb* \fBccnd_handle::dgram_faces\fP\fC [read]\fP"
+.PP
+keyed by sockaddr 
+.PP
+Definition at line 70 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), ccnd_destroy_face(), check_dgram_faces(), collect_stats_html(), and get_dgram_source().
+.SS "struct \fBface\fP* \fBccnd_handle::face0\fP\fC [read]\fP"
+.PP
+special \fBface\fP for internal client 
+.PP
+Definition at line 133 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), ccnd_internal_client_start(), ccnd_send(), and process_internal_client_buffer().
+.SS "unsigned \fBccnd_handle::face_gen\fP"
+.PP
+faceid generation number 
+.PP
+Definition at line 76 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), enroll_face(), and finalize_face().
+.SS "unsigned \fBccnd_handle::face_limit\fP"
+.PP
+current number of \fBface\fP slots 
+.PP
+Definition at line 78 of file ccnd_private.h.
+.PP
+Referenced by ccnd_collect_stats(), ccnd_create(), ccnd_destroy(), ccnd_start_notice(), collect_faces_html(), collect_faces_xml(), and enroll_face().
+.SS "unsigned \fBccnd_handle::face_rover\fP"
+.PP
+for faceid allocation 
+.PP
+Definition at line 77 of file ccnd_private.h.
+.PP
+Referenced by enroll_face(), and finalize_face().
+.SS "struct \fBface\fP** \fBccnd_handle::faces_by_faceid\fP\fC [read]\fP"
+.PP
+array with face_limit elements 
+.PP
+Definition at line 79 of file ccnd_private.h.
+.PP
+Referenced by ccnd_collect_stats(), ccnd_create(), ccnd_destroy(), ccnd_start_notice(), collect_faces_html(), collect_faces_xml(), enroll_face(), face_from_faceid(), and finalize_face().
+.SS "struct hashtb* \fBccnd_handle::faces_by_fd\fP\fC [read]\fP"
+.PP
+keyed by fd 
+.PP
+Definition at line 69 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), ccnd_getboundsocket(), ccnd_shutdown_listeners(), collect_stats_html(), do_deferred_write(), faceid_from_fd(), finalize_face(), make_connection(), prepare_poll_fds(), process_input(), record_connection(), setup_multicast(), and shutdown_client_fd().
+.SS "struct pollfd* \fBccnd_handle::fds\fP\fC [read]\fP"
+.PP
+used for poll system call 
+.PP
+Definition at line 88 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), ccnd_run(), and prepare_poll_fds().
+.SS "int \fBccnd_handle::flood\fP"
+.PP
+Internal control for auto-reg. 
+.PP
+Definition at line 127 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_req_newface(), and register_new_face().
+.SS "int \fBccnd_handle::force_zero_freshness\fP"
+.PP
+Simulate freshness=0 on all content. 
+.PP
+Definition at line 129 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and set_content_timer().
+.SS "unsigned \fBccnd_handle::forward_to_gen\fP"
+.PP
+for forward_to updates 
+.PP
+Definition at line 75 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccnd_reg_prefix(), ccnd_req_unreg(), do_propagate(), get_outbound_faces(), match_interests(), nameprefix_seek(), propagate_interest(), replan_propagation(), and update_forward_to().
+.SS "unsigned \fBccnd_handle::interest_faceid\fP"
+.PP
+for self_reg internal client 
+.PP
+Definition at line 130 of file ccnd_private.h.
+.PP
+Referenced by ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), and do_propagate().
+.SS "unsigned long \fBccnd_handle::interests_accepted\fP"
+.PP
+Definition at line 114 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), and process_incoming_interest().
+.SS "unsigned long \fBccnd_handle::interests_dropped\fP"
+.PP
+Definition at line 115 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), process_incoming_interest(), and propagate_interest().
+.SS "unsigned long \fBccnd_handle::interests_sent\fP"
+.PP
+Definition at line 116 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), and do_propagate().
+.SS "unsigned long \fBccnd_handle::interests_stuffed\fP"
+.PP
+Definition at line 117 of file ccnd_private.h.
+.PP
+Referenced by ccn_stuff_interest(), collect_stats_html(), and collect_stats_xml().
+.SS "struct ccn* \fBccnd_handle::internal_client\fP\fC [read]\fP"
+.PP
+internal client 
+.PP
+Definition at line 132 of file ccnd_private.h.
+.PP
+Referenced by ccnd_init_internal_keystore(), ccnd_init_service_ccnb(), ccnd_internal_client_refresh(), ccnd_internal_client_start(), ccnd_internal_client_stop(), ccnd_send(), ccnd_start_notice(), ccnd_uri_listen(), and process_internal_client_buffer().
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::internal_client_refresh\fP\fC [read]\fP"
+.PP
+Definition at line 137 of file ccnd_private.h.
+.PP
+Referenced by ccnd_internal_client_refresh(), ccnd_internal_client_reschedule(), ccnd_internal_client_start(), and ccnd_internal_client_stop().
+.SS "unsigned \fBccnd_handle::ipv4_faceid\fP"
+.PP
+wildcard IPv4, bound to port 
+.PP
+Definition at line 85 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), ccnd_req_newface(), and sending_fd().
+.SS "unsigned \fBccnd_handle::ipv6_faceid\fP"
+.PP
+wildcard IPv6, bound to port 
+.PP
+Definition at line 86 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), ccnd_req_newface(), and sending_fd().
+.SS "int \fBccnd_handle::logbreak\fP"
+.PP
+see ccn_msg() 
+.PP
+Definition at line 123 of file ccnd_private.h.
+.PP
+Referenced by ccnd_msg().
+.SS "\fBccnd_logger\fP \fBccnd_handle::logger\fP"
+.PP
+For debug output. 
+.PP
+Definition at line 121 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and ccnd_msg().
+.SS "void* \fBccnd_handle::loggerdata\fP"
+.PP
+Passed to logger. 
+.PP
+Definition at line 122 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and ccnd_msg().
+.SS "int \fBccnd_handle::logpid\fP"
+.PP
+see ccn_msg() 
+.PP
+Definition at line 125 of file ccnd_private.h.
+.PP
+Referenced by ccnd_append_debug_nonce(), ccnd_create(), and ccnd_msg().
+.SS "unsigned long \fBccnd_handle::logtime\fP"
+.PP
+see ccn_msg() 
+.PP
+Definition at line 124 of file ccnd_private.h.
+.PP
+Referenced by ccnd_msg().
+.SS "\fBccn_accession_t\fP \fBccnd_handle::max_stale\fP"
+.PP
+largest accession of stale content 
+.PP
+Definition at line 103 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), clean_deamon(), expire_content(), and mark_stale().
+.SS "\fBccn_accession_t\fP \fBccnd_handle::min_stale\fP"
+.PP
+smallest accession of stale content 
+.PP
+Definition at line 102 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), clean_deamon(), expire_content(), and mark_stale().
+.SS "int \fBccnd_handle::mtu\fP"
+.PP
+Target size for stuffing interests. 
+.PP
+Definition at line 126 of file ccnd_private.h.
+.PP
+Referenced by ccn_stuff_interest(), ccnd_create(), and stuff_and_send().
+.SS "unsigned long \fBccnd_handle::n_stale\fP"
+.PP
+Number of stale content objects. 
+.PP
+Definition at line 106 of file ccnd_private.h.
+.PP
+Referenced by collect_stats_html(), collect_stats_xml(), mark_stale(), process_incoming_content(), and remove_content().
+.SS "struct hashtb* \fBccnd_handle::nameprefix_tab\fP\fC [read]\fP"
+.PP
+keyed by name prefix components 
+.PP
+Definition at line 72 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding(), ccn_stuff_interest(), ccnd_collect_stats(), ccnd_create(), ccnd_destroy(), ccnd_reg_prefix(), ccnd_req_unreg(), check_nameprefix_entries(), collect_forwarding_html(), collect_forwarding_xml(), collect_stats_html(), collect_stats_xml(), match_interests(), nameprefix_longest_match(), and process_incoming_interest().
+.SS "nfds_t \fBccnd_handle::nfds\fP"
+.PP
+number of entries in fds array 
+.PP
+Definition at line 87 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), ccnd_run(), and prepare_poll_fds().
+.SS "struct ccn_seqwriter* \fBccnd_handle::notice\fP\fC [read]\fP"
+.PP
+for notices of status changes 
+.PP
+Definition at line 135 of file ccnd_private.h.
+.PP
+Referenced by ccnd_internal_client_stop(), ccnd_notice_push(), ccnd_start_notice(), and post_face_notice().
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::notice_push\fP\fC [read]\fP"
+.PP
+Definition at line 138 of file ccnd_private.h.
+.PP
+Referenced by ccnd_face_status_change(), ccnd_internal_client_stop(), and ccnd_notice_push().
+.SS "unsigned long \fBccnd_handle::oldformatcontent\fP"
+.PP
+Definition at line 108 of file ccnd_private.h.
+.PP
+Referenced by process_incoming_content().
+.SS "unsigned long \fBccnd_handle::oldformatcontentgrumble\fP"
+.PP
+Definition at line 109 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and process_incoming_content().
+.SS "unsigned long \fBccnd_handle::oldformatinterestgrumble\fP"
+.PP
+Definition at line 111 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and process_incoming_interest().
+.SS "unsigned long \fBccnd_handle::oldformatinterests\fP"
+.PP
+Definition at line 110 of file ccnd_private.h.
+.PP
+Referenced by process_incoming_interest().
+.SS "const char* \fBccnd_handle::portstr\fP"
+.PP
+'main' port number 
+.PP
+Definition at line 84 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_init_internal_keystore(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), and ccnd_msg().
+.SS "const char* \fBccnd_handle::progname\fP"
+.PP
+our name, for locating helpers 
+.PP
+Definition at line 131 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), and ccnd_init_internal_keystore().
+.SS "struct hashtb* \fBccnd_handle::propagating_tab\fP\fC [read]\fP"
+.PP
+keyed by nonce 
+.PP
+Definition at line 73 of file ccnd_private.h.
+.PP
+Referenced by ccnd_collect_stats(), ccnd_create(), ccnd_destroy(), check_propagating(), collect_stats_html(), collect_stats_xml(), is_duplicate_flooded(), and propagate_interest().
+.SS "struct \fBccn_scheduled_event\fP* \fBccnd_handle::reaper\fP\fC [read]\fP"
+.PP
+Definition at line 80 of file ccnd_private.h.
+.PP
+Referenced by reap(), and reap_needed().
+.SS "int \fBccnd_handle::running\fP"
+.PP
+true while should be running 
+.PP
+Definition at line 119 of file ccnd_private.h.
+.PP
+Referenced by ccnd_run(), and check_comm_file().
+.SS "struct ccn_schedule* \fBccnd_handle::sched\fP\fC [read]\fP"
+.PP
+our schedule 
+.PP
+Definition at line 92 of file ccnd_private.h.
+.PP
+Referenced by age_forwarding_needed(), ccnd_create(), ccnd_destroy(), ccnd_face_status_change(), ccnd_internal_client_reschedule(), ccnd_internal_client_start(), ccnd_internal_client_stop(), ccnd_run(), clean_needed(), content_queue_destroy(), face_send_queue_insert(), propagate_interest(), reap_needed(), and set_content_timer().
+.SS "struct \fBccn_charbuf\fP* \fBccnd_handle::scratch_charbuf\fP\fC [read]\fP"
+.PP
+one-slot scratch cache 
+.PP
+Definition at line 93 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), charbuf_obtain(), and charbuf_release().
+.SS "struct \fBccn_indexbuf\fP* \fBccnd_handle::scratch_indexbuf\fP\fC [read]\fP"
+.PP
+one-slot scratch cache 
+.PP
+Definition at line 94 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), indexbuf_obtain(), and indexbuf_release().
+.SS "long \fBccnd_handle::sec\fP"
+.PP
+cached gettime seconds 
+.PP
+Definition at line 90 of file ccnd_private.h.
+.PP
+Referenced by ccnd_append_debug_nonce(), and ccnd_gettime().
+.SS "unsigned short \fBccnd_handle::seed\fP[3]"
+.PP
+for PRNG 
+.PP
+Definition at line 118 of file ccnd_private.h.
+.PP
+Referenced by ccnd_append_debug_nonce(), ccnd_append_plain_nonce(), ccnd_reseed(), content_skiplist_insert(), do_propagate(), nameprefix_seek(), propagate_interest(), and randomize_content_delay().
+.SS "struct \fBccn_charbuf\fP* \fBccnd_handle::service_ccnb\fP\fC [read]\fP"
+.PP
+for local service discovery 
+.PP
+Definition at line 134 of file ccnd_private.h.
+.PP
+Referenced by ccnd_answer_req(), ccnd_init_service_ccnb(), and ccnd_internal_client_stop().
+.SS "struct \fBccn_indexbuf\fP* \fBccnd_handle::skiplinks\fP\fC [read]\fP"
+.PP
+skiplist for content-ordered ops 
+.PP
+Definition at line 74 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), content_skiplist_findbefore(), and content_skiplist_insert().
+.SS "struct hashtb* \fBccnd_handle::sparse_straggler_tab\fP\fC [read]\fP"
+.PP
+The following holds stragglers that would otherwise bloat the above. 
+.PP
+Definition at line 100 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), cleanout_stragglers(), collect_stats_html(), collect_stats_xml(), content_from_accession(), and finalize_content().
+.SS "struct \fBccn_gettime\fP \fBccnd_handle::ticktock\fP\fC [read]\fP"
+.PP
+our time generator 
+.PP
+Definition at line 89 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create().
+.SS "struct \fBccn_indexbuf\fP* \fBccnd_handle::unsol\fP\fC [read]\fP"
+.PP
+unsolicited content 
+.PP
+Definition at line 107 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy(), clean_deamon(), and process_incoming_content().
+.SS "unsigned \fBccnd_handle::usec\fP"
+.PP
+cached gettime microseconds 
+.PP
+Definition at line 91 of file ccnd_private.h.
+.PP
+Referenced by ccnd_append_debug_nonce(), and ccnd_gettime().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

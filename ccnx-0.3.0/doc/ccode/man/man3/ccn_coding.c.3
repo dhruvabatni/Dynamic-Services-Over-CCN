@@ -1,0 +1,86 @@
+.TH "lib/ccn_coding.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_coding.c \- 
+.PP
+Support for scanning and parsing ccnb-encoded data.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBXML\fP(goop)   ((void)0)"
+.br
+.RI "\fIThis macro documents what's happening in the state machine by hinting at the XML syntax would be emitted in a re-encoder. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "ssize_t \fBccn_skeleton_decode\fP (struct \fBccn_skeleton_decoder\fP *d, const unsigned char *p, size_t n)"
+.br
+.RI "\fIDecodes ccnb decoded data. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for scanning and parsing ccnb-encoded data. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_coding.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define XML(goop)   ((void)0)"
+.PP
+This macro documents what's happening in the state machine by hinting at the XML syntax would be emitted in a re-encoder. But it actually does nothing. 
+.PP
+Definition at line 27 of file ccn_coding.c.
+.PP
+Referenced by ccn_skeleton_decode().
+.SH "Function Documentation"
+.PP 
+.SS "ssize_t ccn_skeleton_decode (struct \fBccn_skeleton_decoder\fP * d, const unsigned char * p, size_t n)"
+.PP
+Decodes ccnb decoded data. \fBParameters:\fP
+.RS 4
+\fId\fP holds the current state of the decoder. 
+.br
+\fIp\fP points to a new block of ccnb data to feed to the decoder. 
+.br
+\fIn\fP is the size of the input, in bytes. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of bytes consumed.
+.RE
+.PP
+The client should ensure that the decoder is initialized to all zero before the first call. In the default mode, the decoder will return only when it runs out of data, encounters an error, or reaches the end of the element that it started at. This is a good way to pull ccnb-encoded objects from a byte stream.
+.PP
+By setting the CCN_DSTATE_PAUSE bit is set in the decoder state, the decoder will additionally return just after recognizing each token. In this instance, use \fBCCN_GET_TT_FROM_DSTATE()\fP to extract the token type from the decoder state; CCN_CLOSE will be reported as CCN_NO_TOKEN.
+.PP
+The pause bit persists, so the end test should take that into account by using the \fBCCN_FINAL_DSTATE()\fP macro instead of testing for state 0.
+.PP
+Once an error state is entered, no addition input is processed.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBccn_buf_decoder_start()\fP, \fBccn_buf_advance()\fP, \fBccn_buf_check_close()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file ccn_coding.c.
+.PP
+Referenced by ccn_buf_advance(), ccn_buf_decoder_start(), ccn_process_input(), ccn_put(), ccnbx(), main(), process_input(), process_input_buffer(), process_input_message(), and process_test().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

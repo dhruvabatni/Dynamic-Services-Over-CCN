@@ -1,0 +1,159 @@
+.TH "face" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+face \- 
+.PP
+One of our active faces.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBrecv_fd\fP"
+.br
+.RI "\fIsocket for receiving \fP"
+.ti -1c
+.RI "unsigned \fBsendface\fP"
+.br
+.RI "\fIfaceid for sending (maybe == faceid) \fP"
+.ti -1c
+.RI "int \fBflags\fP"
+.br
+.RI "\fICCN_FACE_* \fBface\fP flags. \fP"
+.ti -1c
+.RI "int \fBsurplus\fP"
+.br
+.RI "\fIsends since last successful recv \fP"
+.ti -1c
+.RI "unsigned \fBfaceid\fP"
+.br
+.RI "\fIinternal \fBface\fP id \fP"
+.ti -1c
+.RI "unsigned \fBrecvcount\fP"
+.br
+.RI "\fIfor activity level monitoring \fP"
+.ti -1c
+.RI "struct \fBcontent_queue\fP * \fBq\fP [CCN_CQ_N]"
+.br
+.RI "\fIoutgoing content, per delay class \fP"
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBinbuf\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_skeleton_decoder\fP \fBdecoder\fP"
+.br
+.ti -1c
+.RI "size_t \fBoutbufindex\fP"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBoutbuf\fP"
+.br
+.ti -1c
+.RI "struct sockaddr * \fBaddr\fP"
+.br
+.ti -1c
+.RI "socklen_t \fBaddrlen\fP"
+.br
+.ti -1c
+.RI "int \fBpending_interests\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+One of our active faces. 
+.PP
+Definition at line 174 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "struct sockaddr* \fBface::addr\fP\fC [read]\fP"
+.PP
+Definition at line 186 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_new_face_msg(), ccnd_send(), check_dgram_faces(), collect_faces_html(), collect_faces_xml(), get_dgram_source(), init_face_flags(), make_connection(), post_face_notice(), record_connection(), sending_fd(), and setup_multicast().
+.SS "socklen_t \fBface::addrlen\fP"
+.PP
+Definition at line 187 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_send(), get_dgram_source(), make_connection(), record_connection(), and setup_multicast().
+.SS "struct \fBccn_skeleton_decoder\fP \fBface::decoder\fP\fC [read]\fP"
+.PP
+Definition at line 183 of file ccnd_private.h.
+.PP
+Referenced by process_input(), and process_input_buffer().
+.SS "unsigned \fBface::faceid\fP"
+.PP
+internal \fBface\fP id 
+.PP
+Definition at line 179 of file ccnd_private.h.
+.PP
+Referenced by accept_connection(), adjust_outbound_for_existing_interests(), ccn_stuff_interest(), ccnd_append_debug_nonce(), ccnd_debug_ccnb(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), ccnd_new_face_msg(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_start_notice(), ccnd_stats_handle_http_connection(), collect_faces_html(), collect_faces_xml(), consume_matching_interests(), do_propagate(), enroll_face(), face_from_faceid(), face_send_queue_insert(), faceid_from_fd(), finalize_face(), get_dgram_source(), get_outbound_faces(), handle_send_error(), make_connection(), match_interests(), process_incoming_content(), process_incoming_interest(), process_input(), process_input_buffer(), propagate_interest(), register_new_face(), replan_propagation(), sending_fd(), setup_multicast(), and shutdown_client_fd().
+.SS "int \fBface::flags\fP"
+.PP
+CCN_FACE_* \fBface\fP flags. 
+.PP
+Definition at line 177 of file ccnd_private.h.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), ccnd_create(), ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_new_face_msg(), ccnd_reg_prefix(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), ccnd_send(), ccnd_shutdown_listeners(), ccnd_stats_handle_http_connection(), check_dgram_faces(), choose_content_delay_class(), choose_face_delay(), collect_faces_html(), collect_faces_xml(), content_sender(), do_deferred_write(), do_propagate(), face_send_queue_insert(), finalize_face(), get_dgram_source(), get_outbound_faces(), handle_send_error(), init_face_flags(), make_connection(), match_interests(), post_face_notice(), prepare_poll_fds(), process_incoming_content(), process_incoming_interest(), process_input(), process_input_message(), register_new_face(), replan_propagation(), send_content(), setup_multicast(), and stuff_and_send().
+.SS "struct \fBccn_charbuf\fP* \fBface::inbuf\fP\fC [read]\fP"
+.PP
+Definition at line 182 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), ccnd_stats_handle_http_connection(), finalize_face(), process_input(), process_input_buffer(), process_internal_client_buffer(), and shutdown_client_fd().
+.SS "struct \fBccn_charbuf\fP* \fBface::outbuf\fP\fC [read]\fP"
+.PP
+Definition at line 185 of file ccnd_private.h.
+.PP
+Referenced by ccnd_destroy(), ccnd_send(), do_deferred_write(), finalize_face(), handle_send_error(), make_connection(), prepare_poll_fds(), and shutdown_client_fd().
+.SS "size_t \fBface::outbufindex\fP"
+.PP
+Definition at line 184 of file ccnd_private.h.
+.PP
+Referenced by ccnd_send(), do_deferred_write(), handle_send_error(), and make_connection().
+.SS "int \fBface::pending_interests\fP"
+.PP
+Definition at line 188 of file ccnd_private.h.
+.PP
+Referenced by ccnd_collect_stats(), collect_faces_html(), collect_faces_xml(), consume(), and propagate_interest().
+.SS "struct \fBcontent_queue\fP* \fBface::q\fP[CCN_CQ_N]\fC [read]\fP"
+.PP
+outgoing content, per delay class 
+.PP
+Definition at line 181 of file ccnd_private.h.
+.PP
+Referenced by face_send_queue_insert(), finalize_face(), process_incoming_content(), and process_incoming_interest().
+.SS "int \fBface::recv_fd\fP"
+.PP
+socket for receiving 
+.PP
+Definition at line 175 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_send(), finalize_face(), get_dgram_source(), prepare_poll_fds(), process_input(), record_connection(), send_http_response(), sending_fd(), setup_multicast(), and shutdown_client_fd().
+.SS "unsigned \fBface::recvcount\fP"
+.PP
+for activity level monitoring 
+.PP
+Definition at line 180 of file ccnd_private.h.
+.PP
+Referenced by check_dgram_faces(), collect_faces_html(), collect_faces_xml(), get_dgram_source(), and process_input().
+.SS "unsigned \fBface::sendface\fP"
+.PP
+faceid for sending (maybe == faceid) 
+.PP
+Definition at line 176 of file ccnd_private.h.
+.PP
+Referenced by ccnd_create(), collect_faces_html(), collect_faces_xml(), get_dgram_source(), record_connection(), sending_fd(), and setup_multicast().
+.SS "int \fBface::surplus\fP"
+.PP
+sends since last successful recv 
+.PP
+Definition at line 178 of file ccnd_private.h.
+.PP
+Referenced by ccnd_send(), content_sender(), and process_input().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

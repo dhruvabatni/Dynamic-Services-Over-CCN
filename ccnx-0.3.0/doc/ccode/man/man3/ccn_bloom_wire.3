@@ -1,0 +1,69 @@
+.TH "ccn_bloom_wire" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_bloom_wire \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "unsigned char \fBlg_bits\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBn_hash\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBmethod\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBreserved\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBseed\fP [4]"
+.br
+.ti -1c
+.RI "unsigned char \fBbloom\fP [1024]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 78 of file bloom.h.
+.SH "Field Documentation"
+.PP 
+.SS "unsigned char \fBccn_bloom_wire::bloom\fP[1024]"
+.PP
+Definition at line 84 of file bloom.h.
+.PP
+Referenced by ccn_bloom_insert(), ccn_bloom_match_wire(), ccn_bloom_validate_wire(), and ccn_bloom_wiresize().
+.SS "unsigned char \fBccn_bloom_wire::lg_bits\fP"
+.PP
+Definition at line 79 of file bloom.h.
+.PP
+Referenced by ccn_bloom_create(), ccn_bloom_from_wire(), ccn_bloom_insert(), ccn_bloom_match_wire(), ccn_bloom_validate_wire(), and ccn_bloom_wiresize().
+.SS "unsigned char \fBccn_bloom_wire::method\fP"
+.PP
+Definition at line 81 of file bloom.h.
+.PP
+Referenced by ccn_bloom_create(), and ccn_bloom_validate_wire().
+.SS "unsigned char \fBccn_bloom_wire::n_hash\fP"
+.PP
+Definition at line 80 of file bloom.h.
+.PP
+Referenced by ccn_bloom_create(), ccn_bloom_insert(), ccn_bloom_match_wire(), and ccn_bloom_validate_wire().
+.SS "unsigned char \fBccn_bloom_wire::reserved\fP"
+.PP
+Definition at line 82 of file bloom.h.
+.PP
+Referenced by ccn_bloom_validate_wire().
+.SS "unsigned char \fBccn_bloom_wire::seed\fP[4]"
+.PP
+Definition at line 83 of file bloom.h.
+.PP
+Referenced by bloom_seed(), and ccn_bloom_create().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

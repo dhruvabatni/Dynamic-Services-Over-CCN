@@ -1,0 +1,189 @@
+.TH "lib/hashtb.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/hashtb.c \- 
+.PP
+Hash table.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBDATA\fP(ht, p)   ((void *)((p) + 1))"
+.br
+.ti -1c
+.RI "#define \fBKEY\fP(ht, p)   ((unsigned char *)((p) + 1) + ht->item_size)"
+.br
+.ti -1c
+.RI "#define \fBCHECKHTE\fP(ht, hte)   ((uintptr_t)((hte)->priv[1]) == ~(uintptr_t)(ht))"
+.br
+.ti -1c
+.RI "#define \fBMARKHTE\fP(ht, hte)   ((hte)->priv[1] = (void*)~(uintptr_t)(ht))"
+.br
+.ti -1c
+.RI "#define \fBMAX_ENUMERATORS\fP   30"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBhashtb_hash\fP (const unsigned char *key, size_t key_size)"
+.br
+.ti -1c
+.RI "struct hashtb * \fBhashtb_create\fP (size_t item_size, const struct \fBhashtb_param\fP *param)"
+.br
+.ti -1c
+.RI "void * \fBhashtb_get_param\fP (struct hashtb *ht, struct \fBhashtb_param\fP *param)"
+.br
+.ti -1c
+.RI "void \fBhashtb_destroy\fP (struct hashtb **htp)"
+.br
+.ti -1c
+.RI "int \fBhashtb_n\fP (struct hashtb *ht)"
+.br
+.ti -1c
+.RI "void * \fBhashtb_lookup\fP (struct hashtb *ht, const void *key, size_t keysize)"
+.br
+.ti -1c
+.RI "static void \fBsetpos\fP (struct \fBhashtb_enumerator\fP *hte, struct node **pp)"
+.br
+.ti -1c
+.RI "static struct node ** \fBscan_buckets\fP (struct hashtb *ht, unsigned b)"
+.br
+.ti -1c
+.RI "struct \fBhashtb_enumerator\fP * \fBhashtb_start\fP (struct hashtb *ht, struct \fBhashtb_enumerator\fP *hte)"
+.br
+.ti -1c
+.RI "void \fBhashtb_end\fP (struct \fBhashtb_enumerator\fP *hte)"
+.br
+.ti -1c
+.RI "void \fBhashtb_next\fP (struct \fBhashtb_enumerator\fP *hte)"
+.br
+.ti -1c
+.RI "int \fBhashtb_seek\fP (struct \fBhashtb_enumerator\fP *hte, const void *key, size_t keysize, size_t extsize)"
+.br
+.ti -1c
+.RI "void \fBhashtb_delete\fP (struct \fBhashtb_enumerator\fP *hte)"
+.br
+.ti -1c
+.RI "void \fBhashtb_rehash\fP (struct hashtb *ht, unsigned n_buckets)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Hash table. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBhashtb.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CHECKHTE(ht, hte)   ((uintptr_t)((hte)->priv[1]) == ~(uintptr_t)(ht))"
+.PP
+Definition at line 38 of file hashtb.c.
+.PP
+Referenced by hashtb_delete(), and hashtb_end().
+.SS "#define DATA(ht, p)   ((void *)((p) + 1))"
+.PP
+Definition at line 35 of file hashtb.c.
+.PP
+Referenced by hashtb_lookup(), and setpos().
+.SS "#define KEY(ht, p)   ((unsigned char *)((p) + 1) + ht->item_size)"
+.PP
+Definition at line 36 of file hashtb.c.
+.PP
+Referenced by hashtb_delete(), hashtb_lookup(), hashtb_seek(), and setpos().
+.SS "#define MARKHTE(ht, hte)   ((hte)->priv[1] = (void*)~(uintptr_t)(ht))"
+.PP
+Definition at line 39 of file hashtb.c.
+.PP
+Referenced by hashtb_start().
+.SS "#define MAX_ENUMERATORS   30"
+.PP
+Definition at line 164 of file hashtb.c.
+.PP
+Referenced by hashtb_start().
+.SH "Function Documentation"
+.PP 
+.SS "struct hashtb* hashtb_create (size_t item_size, const struct \fBhashtb_param\fP * param)\fC [read]\fP"
+.PP
+Definition at line 62 of file hashtb.c.
+.PP
+Referenced by ccn_create(), ccn_express_interest(), ccn_matrix_create(), ccn_set_interest_filter_with_flags(), ccnd_create(), and main().
+.SS "void hashtb_delete (struct \fBhashtb_enumerator\fP * hte)"
+.PP
+Definition at line 261 of file hashtb.c.
+.PP
+Referenced by ccn_cache_key(), ccn_clean_all_interests(), ccn_get_public_key(), ccn_matrix_getbounds(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccnd_destroy_face(), ccnd_shutdown_listeners(), check_dgram_faces(), check_nameprefix_entries(), check_propagating(), finalize_content(), get_dgram_source(), hashtb_destroy(), main(), process_incoming_content(), propagate_interest(), record_connection(), remove_content(), and shutdown_client_fd().
+.SS "void hashtb_destroy (struct hashtb ** htp)"
+.PP
+Definition at line 90 of file hashtb.c.
+.PP
+Referenced by ccn_destroy(), ccn_matrix_destroy(), ccnd_destroy(), and main().
+.SS "void hashtb_end (struct \fBhashtb_enumerator\fP * hte)"
+.PP
+Definition at line 179 of file hashtb.c.
+.PP
+Referenced by age_forwarding(), ccn_cache_key(), ccn_clean_all_interests(), ccn_destroy(), ccn_express_interest(), ccn_get_public_key(), ccn_load_private_key(), ccn_locate_key(), ccn_matrix_destroy(), ccn_matrix_getbounds(), ccn_notify_ccndid_changed(), ccn_process_scheduled_operations(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccn_stuff_interest(), ccnd_collect_stats(), ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_reg_prefix(), ccnd_shutdown_listeners(), check_dgram_faces(), check_nameprefix_entries(), check_propagating(), cleanout_stragglers(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), finalize_content(), get_dgram_source(), hashtb_destroy(), is_duplicate_flooded(), main(), make_connection(), prepare_poll_fds(), process_incoming_content(), process_incoming_interest(), propagate_interest(), record_connection(), remove_content(), setup_multicast(), and shutdown_client_fd().
+.SS "void* hashtb_get_param (struct hashtb * ht, struct \fBhashtb_param\fP * param)"
+.PP
+Definition at line 82 of file hashtb.c.
+.PP
+Referenced by finalize_content(), finalize_face(), finalize_nameprefix(), finalize_propagating(), and finally().
+.SS "size_t hashtb_hash (const unsigned char * key, size_t key_size)"
+.PP
+Definition at line 52 of file hashtb.c.
+.PP
+Referenced by hashtb_lookup(), and hashtb_seek().
+.SS "void* hashtb_lookup (struct hashtb * ht, const void * key, size_t keysize)"
+.PP
+Definition at line 115 of file hashtb.c.
+.PP
+Referenced by ccn_check_pub_arrival(), ccn_dispatch_message(), ccn_locate_key(), ccn_matrix_fetch(), ccnd_req_unreg(), content_from_accession(), do_deferred_write(), faceid_from_fd(), main(), match_interests(), nameprefix_longest_match(), and process_input().
+.SS "int hashtb_n (struct hashtb * ht)"
+.PP
+Definition at line 109 of file hashtb.c.
+.PP
+Referenced by ccn_matrix_getbounds(), clean_deamon(), cleanout_stragglers(), collect_stats_html(), collect_stats_xml(), Dump(), expire_content(), and prepare_poll_fds().
+.SS "void hashtb_next (struct \fBhashtb_enumerator\fP * hte)"
+.PP
+Definition at line 203 of file hashtb.c.
+.PP
+Referenced by age_forwarding(), ccn_clean_all_interests(), ccn_destroy(), ccn_matrix_getbounds(), ccn_notify_ccndid_changed(), ccn_process_scheduled_operations(), ccn_stuff_interest(), ccnd_collect_stats(), ccnd_getboundsocket(), ccnd_shutdown_listeners(), check_dgram_faces(), check_nameprefix_entries(), check_propagating(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), make_connection(), prepare_poll_fds(), and setup_multicast().
+.SS "void hashtb_rehash (struct hashtb * ht, unsigned n_buckets)"
+.PP
+Definition at line 286 of file hashtb.c.
+.PP
+Referenced by hashtb_seek().
+.SS "int hashtb_seek (struct \fBhashtb_enumerator\fP * hte, const void * key, size_t keysize, size_t extsize)"
+.PP
+Definition at line 217 of file hashtb.c.
+.PP
+Referenced by ccn_cache_key(), ccn_express_interest(), ccn_get_public_key(), ccn_load_private_key(), ccn_locate_key(), ccn_matrix_store(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccnd_destroy_face(), cleanout_stragglers(), finalize_content(), get_dgram_source(), is_duplicate_flooded(), main(), nameprefix_seek(), process_incoming_content(), propagate_interest(), record_connection(), remove_content(), and shutdown_client_fd().
+.SS "struct \fBhashtb_enumerator\fP* hashtb_start (struct hashtb * ht, struct \fBhashtb_enumerator\fP * hte)\fC [read]\fP"
+.PP
+Definition at line 166 of file hashtb.c.
+.PP
+Referenced by age_forwarding(), ccn_cache_key(), ccn_clean_all_interests(), ccn_destroy(), ccn_express_interest(), ccn_get_public_key(), ccn_load_private_key(), ccn_locate_key(), ccn_matrix_create(), ccn_matrix_getbounds(), ccn_notify_ccndid_changed(), ccn_process_scheduled_operations(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccn_stuff_interest(), ccnd_collect_stats(), ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_reg_prefix(), ccnd_shutdown_listeners(), check_dgram_faces(), check_nameprefix_entries(), check_propagating(), cleanout_stragglers(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), finalize_content(), get_dgram_source(), hashtb_destroy(), is_duplicate_flooded(), main(), make_connection(), prepare_poll_fds(), process_incoming_content(), process_incoming_interest(), propagate_interest(), record_connection(), remove_content(), setup_multicast(), and shutdown_client_fd().
+.SS "static struct node** scan_buckets (struct hashtb * ht, unsigned b)\fC [static, read]\fP"
+.PP
+Definition at line 156 of file hashtb.c.
+.PP
+Referenced by hashtb_delete(), hashtb_next(), and hashtb_start().
+.SS "static void setpos (struct \fBhashtb_enumerator\fP * hte, struct node ** pp)\fC [static]\fP"
+.PP
+Definition at line 134 of file hashtb.c.
+.PP
+Referenced by hashtb_delete(), hashtb_end(), hashtb_next(), hashtb_seek(), and hashtb_start().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

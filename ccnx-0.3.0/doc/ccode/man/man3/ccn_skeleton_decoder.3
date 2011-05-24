@@ -1,0 +1,87 @@
+.TH "ccn_skeleton_decoder" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_skeleton_decoder \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "ssize_t \fBindex\fP"
+.br
+.RI "\fINumber of bytes processed. \fP"
+.ti -1c
+.RI "int \fBstate\fP"
+.br
+.RI "\fIDecoder state. \fP"
+.ti -1c
+.RI "int \fBnest\fP"
+.br
+.RI "\fIElement nesting. \fP"
+.ti -1c
+.RI "size_t \fBnumval\fP"
+.br
+.RI "\fICurrent numval, meaning depends on state. \fP"
+.ti -1c
+.RI "size_t \fBtoken_index\fP"
+.br
+.RI "\fIStarting index of most-recent token. \fP"
+.ti -1c
+.RI "size_t \fBelement_index\fP"
+.br
+.RI "\fIStarting index of most-recent element. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 167 of file coding.h.
+.SH "Field Documentation"
+.PP 
+.SS "size_t \fBccn_skeleton_decoder::element_index\fP"
+.PP
+Starting index of most-recent element. 
+.PP
+Definition at line 173 of file coding.h.
+.PP
+Referenced by ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_PublisherID(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_skeleton_decode(), and process_test().
+.SS "ssize_t \fBccn_skeleton_decoder::index\fP"
+.PP
+Number of bytes processed. 
+.PP
+Definition at line 168 of file coding.h.
+.PP
+Referenced by ccn_buf_advance(), ccn_buf_match_attr(), ccn_buf_match_blob(), ccn_buf_match_udata(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_name_comp_get(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_parse_nonNegativeInteger(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_process_input(), ccn_ref_tagged_BLOB(), ccn_skeleton_decode(), ccnbx(), main(), process_input(), process_input_buffer(), process_input_message(), and process_test().
+.SS "int \fBccn_skeleton_decoder::nest\fP"
+.PP
+Element nesting. 
+.PP
+Definition at line 170 of file coding.h.
+.PP
+Referenced by ccn_buf_advance_past_element(), ccn_skeleton_decode(), ccnbx(), main(), and process_test().
+.SS "size_t \fBccn_skeleton_decoder::numval\fP"
+.PP
+Current numval, meaning depends on state. 
+.PP
+Definition at line 171 of file coding.h.
+.PP
+Referenced by ccn_buf_match_attr(), ccn_buf_match_blob(), ccn_buf_match_dtag(), ccn_buf_match_udata(), ccn_parse_nonNegativeInteger(), ccn_parse_required_tagged_BLOB(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_skeleton_decode(), ccnbx(), process_input_message(), and process_test().
+.SS "int \fBccn_skeleton_decoder::state\fP"
+.PP
+Decoder state. 
+.PP
+Definition at line 169 of file coding.h.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance_past_element(), ccn_buf_check_close(), ccn_buf_decoder_start(), ccn_buf_match_attr(), ccn_buf_match_dtag(), ccn_buf_match_some_blob(), ccn_buf_match_some_dtag(), ccn_buf_match_udata(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_interest_lifetime(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_nonNegativeInteger(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_process_input(), ccn_put(), ccn_ref_tagged_BLOB(), ccn_skeleton_decode(), ccn_uri_append(), ccnbx(), find_first_match_candidate(), main(), make_template(), process_input(), process_input_buffer(), process_input_message(), and process_test().
+.SS "size_t \fBccn_skeleton_decoder::token_index\fP"
+.PP
+Starting index of most-recent token. 
+.PP
+Definition at line 172 of file coding.h.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_match_blob(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_forwarding_entry_parse(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_PublisherID(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_pubid_matches(), ccn_skeleton_decode(), ccnbx(), find_first_match_candidate(), make_template(), and process_test().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

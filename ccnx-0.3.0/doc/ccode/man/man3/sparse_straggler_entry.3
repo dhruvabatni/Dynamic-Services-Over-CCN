@@ -1,0 +1,34 @@
+.TH "sparse_straggler_entry" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+sparse_straggler_entry \- 
+.PP
+The sparse_straggler hash table, keyed by accession, holds scattered entries that would otherwise bloat the direct content_by_accession table.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct \fBcontent_entry\fP * \fBcontent\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The sparse_straggler hash table, keyed by accession, holds scattered entries that would otherwise bloat the direct content_by_accession table. 
+.PP
+Definition at line 243 of file ccnd_private.h.
+.SH "Field Documentation"
+.PP 
+.SS "struct \fBcontent_entry\fP* \fBsparse_straggler_entry::content\fP\fC [read]\fP"
+.PP
+Definition at line 244 of file ccnd_private.h.
+.PP
+Referenced by cleanout_stragglers(), and content_from_accession().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

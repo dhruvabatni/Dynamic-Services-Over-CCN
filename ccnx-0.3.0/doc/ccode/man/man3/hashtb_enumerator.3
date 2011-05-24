@@ -1,0 +1,77 @@
+.TH "hashtb_enumerator" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+hashtb_enumerator \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "struct hashtb * \fBht\fP"
+.br
+.ti -1c
+.RI "const void * \fBkey\fP"
+.br
+.ti -1c
+.RI "size_t \fBkeysize\fP"
+.br
+.ti -1c
+.RI "size_t \fBextsize\fP"
+.br
+.ti -1c
+.RI "void * \fBdata\fP"
+.br
+.ti -1c
+.RI "size_t \fBdatasize\fP"
+.br
+.ti -1c
+.RI "void * \fBpriv\fP [3]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 73 of file hashtb.h.
+.SH "Field Documentation"
+.PP 
+.SS "void* \fBhashtb_enumerator::data\fP"
+.PP
+Definition at line 78 of file hashtb.h.
+.PP
+Referenced by age_forwarding(), ccn_cache_key(), ccn_clean_all_interests(), ccn_destroy(), ccn_express_interest(), ccn_get_public_key(), ccn_load_private_key(), ccn_locate_key(), ccn_matrix_getbounds(), ccn_notify_ccndid_changed(), ccn_process_scheduled_operations(), ccn_set_interest_filter_with_flags(), ccn_sign_content(), ccn_stuff_interest(), ccnd_collect_stats(), ccnd_destroy_face(), ccnd_getboundsocket(), ccnd_reg_prefix(), ccnd_shutdown_listeners(), check_dgram_faces(), check_nameprefix_entries(), check_propagating(), cleanout_stragglers(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), finalize_content(), finalize_face(), finalize_interest_filter(), finalize_keystore(), finalize_nameprefix(), finalize_pkey(), finalize_propagating(), get_dgram_source(), is_duplicate_flooded(), main(), make_connection(), nameprefix_seek(), prepare_poll_fds(), process_incoming_content(), process_incoming_interest(), propagate_interest(), record_connection(), setpos(), setup_multicast(), and shutdown_client_fd().
+.SS "size_t \fBhashtb_enumerator::datasize\fP"
+.PP
+Definition at line 79 of file hashtb.h.
+.PP
+Referenced by hashtb_start().
+.SS "size_t \fBhashtb_enumerator::extsize\fP"
+.PP
+Definition at line 77 of file hashtb.h.
+.PP
+Referenced by Dump(), process_incoming_content(), record_connection(), and setpos().
+.SS "struct hashtb* \fBhashtb_enumerator::ht\fP\fC [read]\fP"
+.PP
+Definition at line 74 of file hashtb.h.
+.PP
+Referenced by ccn_matrix_getbounds(), finalize_content(), finalize_face(), finalize_nameprefix(), finalize_propagating(), finally(), hashtb_delete(), hashtb_end(), hashtb_next(), hashtb_seek(), hashtb_start(), and setpos().
+.SS "const void* \fBhashtb_enumerator::key\fP"
+.PP
+Definition at line 75 of file hashtb.h.
+.PP
+Referenced by age_forwarding(), ccn_matrix_getbounds(), ccn_process_scheduled_operations(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), finally(), get_dgram_source(), hashtb_delete(), hashtb_destroy(), process_incoming_content(), record_connection(), and setpos().
+.SS "size_t \fBhashtb_enumerator::keysize\fP"
+.PP
+Definition at line 76 of file hashtb.h.
+.PP
+Referenced by age_forwarding(), ccn_process_scheduled_operations(), collect_forwarding_html(), collect_forwarding_xml(), Dump(), get_dgram_source(), process_incoming_content(), record_connection(), and setpos().
+.SS "void* \fBhashtb_enumerator::priv\fP[3]"
+.PP
+Definition at line 80 of file hashtb.h.
+.PP
+Referenced by hashtb_delete(), hashtb_end(), hashtb_next(), and setpos().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

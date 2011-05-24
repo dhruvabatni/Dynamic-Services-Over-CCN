@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1repo_1_1_content_tree_1_1_search.html" title="Implements the generic pieces of both left and right searches." alt="" coords="7,29,225,53"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1repo_1_1_content_tree_1_1_left_search.html" title="Search for data matching an interest that specifies either the leftmost (canonically..." alt="" coords="280,5,515,29"/>
+<area shape="rect" id="node5" href="$classorg_1_1ccnx_1_1ccn_1_1impl_1_1repo_1_1_content_tree_1_1_right_search.html" title="Search for data matching an interest in which the rightmost (canonically largest)..." alt="" coords="276,53,519,77"/>
+</map>

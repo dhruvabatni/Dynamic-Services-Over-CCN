@@ -1,0 +1,174 @@
+.TH "cmd/ccncatchunks2.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccncatchunks2.c \- 
+.PP
+Reads stuff written by ccnsendchunks, writes to stdout.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPIPELIMIT\fP   (1U << 7)"
+.br
+.ti -1c
+.RI "#define \fBGOT_HERE\fP()   ((void)(__LINE__))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBfill_holes\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "static void \fBmygettime\fP (const struct \fBccn_gettime\fP *self, struct \fBccn_timeval\fP *result)"
+.br
+.ti -1c
+.RI "static void \fBupdate_rtt\fP (struct mydata *md, int incoming, unsigned slot)"
+.br
+.ti -1c
+.RI "static int \fBreporter\fP (struct ccn_schedule *sched, void *clienth, struct \fBccn_scheduled_event\fP *ev, int flags)"
+.br
+.ti -1c
+.RI "void \fBprint_summary\fP (struct mydata *md)"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBmake_template\fP (struct mydata *md)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBsequenced_name\fP (struct mydata *md, uintmax_t seq)"
+.br
+.ti -1c
+.RI "static void \fBask_more\fP (struct mydata *md, uintmax_t seq)"
+.br
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBhole_filled\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "static int \fBis_final\fP (struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static FILE * \fBlogstream\fP = NULL"
+.br
+.ti -1c
+.RI "static struct \fBccn_gettime\fP \fBmyticker\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Reads stuff written by ccnsendchunks, writes to stdout. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccncatchunks2.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define GOT_HERE()   ((void)(__LINE__))"
+.PP
+Definition at line 35 of file ccncatchunks2.c.
+.SS "#define PIPELIMIT   (1U << 7)"
+.PP
+Definition at line 33 of file ccncatchunks2.c.
+.PP
+Referenced by ask_more(), incoming_content(), and main().
+.SH "Function Documentation"
+.PP 
+.SS "static void ask_more (struct mydata * md, uintmax_t seq)\fC [static]\fP"
+.PP
+Definition at line 271 of file ccncatchunks2.c.
+.PP
+Referenced by incoming_content(), and main().
+.SS "static int fill_holes (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Definition at line 311 of file ccncatchunks2.c.
+.PP
+Referenced by update_rtt().
+.SS "static enum \fBccn_upcall_res\fP hole_filled (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 301 of file ccncatchunks2.c.
+.PP
+Referenced by fill_holes().
+.SS "enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 391 of file ccncatchunks2.c.
+.SS "static int is_final (struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 356 of file ccncatchunks2.c.
+.PP
+Referenced by incoming_content().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 513 of file ccncatchunks2.c.
+.SS "struct \fBccn_charbuf\fP* make_template (struct mydata * md)\fC [read]\fP"
+.PP
+Definition at line 232 of file ccncatchunks2.c.
+.SS "static void mygettime (const struct \fBccn_gettime\fP * self, struct \fBccn_timeval\fP * result)\fC [static]\fP"
+.PP
+Definition at line 101 of file ccncatchunks2.c.
+.SS "void print_summary (struct mydata * md)"
+.PP
+Definition at line 199 of file ccncatchunks2.c.
+.PP
+Referenced by incoming_content(), and main().
+.SS "static int reporter (struct ccn_schedule * sched, void * clienth, struct \fBccn_scheduled_event\fP * ev, int flags)\fC [static]\fP"
+.PP
+Definition at line 167 of file ccncatchunks2.c.
+.PP
+Referenced by fill_holes(), and main().
+.SS "static struct \fBccn_charbuf\fP* sequenced_name (struct mydata * md, uintmax_t seq)\fC [static, read]\fP"
+.PP
+Definition at line 252 of file ccncatchunks2.c.
+.PP
+Referenced by ask_more(), and fill_holes().
+.SS "static void update_rtt (struct mydata * md, int incoming, unsigned slot)\fC [static]\fP"
+.PP
+Definition at line 117 of file ccncatchunks2.c.
+.PP
+Referenced by ask_more(), and incoming_content().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 87 of file ccncatchunks2.c.
+.SH "Variable Documentation"
+.PP 
+.SS "FILE* \fBlogstream\fP = NULL\fC [static]\fP"
+.PP
+Definition at line 84 of file ccncatchunks2.c.
+.PP
+Referenced by main(), and update_rtt().
+.SS "struct \fBccn_gettime\fP \fBmyticker\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+ {
+    'timer',
+    &mygettime,
+    1000000,
+    NULL
+}
+.fi
+.PP
+Definition at line 109 of file ccncatchunks2.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

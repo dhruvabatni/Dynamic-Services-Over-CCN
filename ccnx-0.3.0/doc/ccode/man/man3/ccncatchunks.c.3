@@ -1,0 +1,69 @@
+.TH "cmd/ccncatchunks.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccncatchunks.c \- 
+.PP
+Reads stuff written by ccnsendchunks, writes to stdout.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCHUNK_SIZE\fP   1024"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBmake_template\fP (struct mydata *md, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Reads stuff written by ccnsendchunks, writes to stdout. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccncatchunks.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CHUNK_SIZE   1024"
+.PP
+Definition at line 64 of file ccncatchunks.c.
+.PP
+Referenced by incoming_content().
+.SH "Function Documentation"
+.PP 
+.SS "enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 67 of file ccncatchunks.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 147 of file ccncatchunks.c.
+.SS "struct \fBccn_charbuf\fP* make_template (struct mydata * md, struct \fBccn_upcall_info\fP * info)\fC [read]\fP"
+.PP
+Definition at line 45 of file ccncatchunks.c.
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 29 of file ccncatchunks.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

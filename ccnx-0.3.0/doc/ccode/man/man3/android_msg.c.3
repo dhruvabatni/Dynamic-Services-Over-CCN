@@ -1,0 +1,74 @@
+.TH "ccnd/android_msg.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccnd/android_msg.c \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBccnd_msg\fP (struct \fBccnd_handle\fP *h, const char *fmt,...)"
+.br
+.RI "\fICopyright (C) 2009,2010 Palo Alto Research Center, Inc. \fP"
+.ti -1c
+.RI "void \fBccnd_debug_ccnb\fP (struct \fBccnd_handle\fP *h, int lineno, const char *msg, struct \fBface\fP *\fBface\fP, const unsigned char *ccnb, size_t ccnb_size)"
+.br
+.RI "\fIProduce a ccnd debug trace entry. \fP"
+.ti -1c
+.RI "void \fBccnd_usage\fP (void)"
+.br
+.RI "\fIPrint the ccnd usage message on stderr. \fP"
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void ccnd_debug_ccnb (struct \fBccnd_handle\fP * h, int lineno, const char * msg, struct \fBface\fP * face, const unsigned char * ccnb, size_t ccnb_size)"
+.PP
+Produce a ccnd debug trace entry. Output is produced by calling ccnd_msg. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIlineno\fP caller's source line number (usually __LINE__) 
+.br
+\fImsg\fP a short text tag to identify the entry 
+.br
+\fI\fBface\fP\fP handle of associated \fBface\fP; may be NULL 
+.br
+\fIccnb\fP points to ccnb-encoded Interest or ContentObject 
+.br
+\fIccnb_size\fP is in bytes 
+.RE
+.PP
+
+.PP
+Definition at line 79 of file android_msg.c.
+.PP
+Referenced by adjust_outbound_for_existing_interests(), age_forwarding(), ccn_stuff_interest(), ccnd_answer_req(), ccnd_reg_prefix(), ccnd_req_unreg(), consume_matching_interests(), do_propagate(), face_send_queue_insert(), find_first_match_candidate(), mark_stale(), next_child_at_level(), pe_next_usec(), process_incoming_content(), process_incoming_interest(), propagate_interest(), remove_content(), send_content(), and set_content_timer().
+.SS "void ccnd_msg (struct \fBccnd_handle\fP * h, const char * fmt,  ...)"
+.PP
+Copyright (C) 2009,2010 Palo Alto Research Center, Inc. This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. Logging support for ccnd, for Android platform Produce ccnd debug output to the Android log. Output is produced on stderr under the control of h->debug; prepends decimal timestamp and process identification. Caller should not supply newlines. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIfmt\fP printf-like format string 
+.RE
+.PP
+
+.PP
+Definition at line 47 of file android_msg.c.
+.PP
+Referenced by accept_connection(), ccnd_close_fd(), ccnd_collect_stats(), ccnd_create(), ccnd_debug_ccnb(), ccnd_getboundsocket(), ccnd_init_internal_keystore(), ccnd_listen_on_address(), ccnd_listen_on_wildcards(), ccnd_new_face_msg(), ccnd_parse_uri_list(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_run(), ccnd_send(), ccnd_setsockopt_v6only(), ccnd_start_notice(), ccnd_stats_http_set_debug(), check_comm_file(), content_sender(), create_local_listener(), do_deferred_write(), establish_min_recv_bufsize(), face_send_queue_insert(), finalize_content(), finalize_face(), get_outbound_faces(), handle_send_error(), main(), make_connection(), nameprefix_longest_match(), note_content_from(), process_incoming_content(), process_incoming_interest(), process_input(), process_input_buffer(), process_input_message(), propagate_interest(), record_connection(), replan_propagation(), setup_multicast(), shutdown_client_fd(), start_ccnd(), and update_forward_to().
+.SS "void ccnd_usage (void)"
+.PP
+Print the ccnd usage message on stderr. Does not exit. 
+.PP
+Definition at line 122 of file android_msg.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

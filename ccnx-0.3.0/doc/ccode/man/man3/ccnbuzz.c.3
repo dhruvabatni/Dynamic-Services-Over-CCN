@@ -1,0 +1,84 @@
+.TH "cmd/ccnbuzz.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnbuzz.c \- 
+.PP
+Pre-reads stuff written by ccnsendchunks, produces no output.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.RI "\fIPre-reads stuff written by ccnsendchunks, produces no output This is meant to be run in parallel with ccncatchunks to experiment with the benefits of one kind of pipelining. \fP"
+.ti -1c
+.RI "static void \fBappend_bloom_element\fP (struct \fBccn_charbuf\fP *templ, enum \fBccn_dtag\fP dtag, struct ccn_bloom *b)"
+.br
+.ti -1c
+.RI "static void \fBappend_bf_all\fP (struct \fBccn_charbuf\fP *c)"
+.br
+.ti -1c
+.RI "static struct ccn_bloom * \fBmake_partition\fP (unsigned i, int lg_n)"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBmake_template\fP (struct mydata *md, struct \fBccn_upcall_info\fP *info, struct ccn_bloom *b)"
+.br
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Pre-reads stuff written by ccnsendchunks, produces no output. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnbuzz.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "static void append_bf_all (struct \fBccn_charbuf\fP * c)\fC [static]\fP"
+.PP
+Definition at line 91 of file ccnbuzz.c.
+.PP
+Referenced by make_template().
+.SS "static void append_bloom_element (struct \fBccn_charbuf\fP * templ, enum \fBccn_dtag\fP dtag, struct ccn_bloom * b)\fC [static]\fP"
+.PP
+Definition at line 74 of file ccnbuzz.c.
+.PP
+Referenced by make_template().
+.SS "static enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 214 of file ccnbuzz.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 272 of file ccnbuzz.c.
+.SS "static struct ccn_bloom* make_partition (unsigned i, int lg_n)\fC [static, read]\fP"
+.PP
+Definition at line 103 of file ccnbuzz.c.
+.PP
+Referenced by main().
+.SS "struct \fBccn_charbuf\fP* make_template (struct mydata * md, struct \fBccn_upcall_info\fP * info, struct ccn_bloom * b)\fC [read]\fP"
+.PP
+Definition at line 125 of file ccnbuzz.c.
+.PP
+Referenced by ask_more(), fill_holes(), incoming_content(), and main().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Pre-reads stuff written by ccnsendchunks, produces no output This is meant to be run in parallel with ccncatchunks to experiment with the benefits of one kind of pipelining. The idea is to use the Exclude Bloom filters to artificially divide the possible interests into several different classes. For example, you might use 8 bits per Bloom filter, and just one hash function, so the 8 different filters B0 = 01111111 B1 = 10111111 ... B8 = 11111110 will serve to partition the interests into 8 different classes and so at any given time and node there can be 8 different pending interests for the prefix. When a piece of content arrives at the endpoint, a new interest is issued that uses the same Bloom filter, but is restricted to content with a larger sequence number than the content that just arrived. The 'real' consumer gets its content by explicitly using the sequence numbers in its requests; almost all of these will get fullfilled out of a nearby cache and so few of the actual interests will need to propagate out to the network. Note that this scheme does not need to be aware of the sequence numbering algorithm; it only relies on them to be increasing according to the canonical ordering. 
+.PP
+Definition at line 58 of file ccnbuzz.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

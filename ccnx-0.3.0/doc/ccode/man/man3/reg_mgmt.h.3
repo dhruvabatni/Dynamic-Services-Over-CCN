@@ -1,0 +1,143 @@
+.TH "include/ccn/reg_mgmt.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/reg_mgmt.h \- 
+.PP
+Part of the CCNx C Library.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_forwarding_entry\fP"
+.br
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_FORW_ACTIVE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_CHILD_INHERIT\fP   2"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_ADVERTISE\fP   4"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_LAST\fP   8"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_CAPTURE\fP   16"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_LOCAL\fP   32"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_TAP\fP   64"
+.br
+.ti -1c
+.RI "#define \fBCCN_FORW_PUBMASK\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_forwarding_entry\fP * \fBccn_forwarding_entry_parse\fP (const unsigned char *p, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_forwarding_entry_destroy\fP (struct \fBccn_forwarding_entry\fP **)"
+.br
+.RI "\fIDestroy the result of \fBccn_forwarding_entry_parse()\fP. \fP"
+.ti -1c
+.RI "int \fBccnb_append_forwarding_entry\fP (struct \fBccn_charbuf\fP *, const struct \fBccn_forwarding_entry\fP *)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Part of the CCNx C Library. 
+
+Copyright (C) 2009-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBreg_mgmt.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_FORW_ACTIVE   1"
+.PP
+Definition at line 37 of file reg_mgmt.h.
+.PP
+Referenced by ccn_set_interest_filter(), ccnd_internal_client_start(), ccnd_reg_ccnx_ccndid(), ccnd_uri_listen(), collect_forwarding_html(), collect_forwarding_xml(), main(), register_new_face(), seek_forwarding(), and update_forward_to().
+.SS "#define CCN_FORW_ADVERTISE   4"
+.PP
+Definition at line 39 of file reg_mgmt.h.
+.PP
+Referenced by ccnd_reg_ccnx_ccndid().
+.SS "#define CCN_FORW_CAPTURE   16"
+.PP
+Definition at line 41 of file reg_mgmt.h.
+.PP
+Referenced by ccnd_reg_ccnx_ccndid(), and update_forward_to().
+.SS "#define CCN_FORW_CHILD_INHERIT   2"
+.PP
+Definition at line 38 of file reg_mgmt.h.
+.PP
+Referenced by ccn_set_interest_filter(), ccnd_internal_client_start(), ccnd_reg_ccnx_ccndid(), ccnd_uri_listen(), main(), register_new_face(), seek_forwarding(), and update_forward_to().
+.SS "#define CCN_FORW_LAST   8"
+.PP
+Definition at line 40 of file reg_mgmt.h.
+.PP
+Referenced by ccnd_reg_prefix(), main(), and update_forward_to().
+.SS "#define CCN_FORW_LOCAL   32"
+.PP
+Definition at line 42 of file reg_mgmt.h.
+.PP
+Referenced by ccnd_internal_client_start(), get_outbound_faces(), match_interests(), process_incoming_interest(), and replan_propagation().
+.SS "#define CCN_FORW_PUBMASK"\fBValue:\fP
+.PP
+.nf
+(CCN_FORW_ACTIVE        | \
+                          CCN_FORW_CHILD_INHERIT | \
+                          CCN_FORW_ADVERTISE     | \
+                          CCN_FORW_LAST          | \
+                          CCN_FORW_CAPTURE       | \
+                          CCN_FORW_LOCAL         | \
+                          CCN_FORW_TAP           )
+.fi
+.PP
+Definition at line 44 of file reg_mgmt.h.
+.PP
+Referenced by ccnd_reg_prefix(), and process_command_tokens().
+.SS "#define CCN_FORW_TAP   64"
+.PP
+Definition at line 43 of file reg_mgmt.h.
+.PP
+Referenced by update_forward_to().
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_forwarding_entry_destroy (struct \fBccn_forwarding_entry\fP **)"
+.PP
+Destroy the result of \fBccn_forwarding_entry_parse()\fP. 
+.PP
+Definition at line 101 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), handle_prefix_reg_reply(), main(), and register_unregister_prefix().
+.SS "struct \fBccn_forwarding_entry\fP* ccn_forwarding_entry_parse (const unsigned char * p, size_t size)\fC [read]\fP"
+.PP
+Definition at line 30 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), handle_prefix_reg_reply(), main(), and register_unregister_prefix().
+.SS "int ccnb_append_forwarding_entry (struct \fBccn_charbuf\fP *, const struct \fBccn_forwarding_entry\fP *)"
+.PP
+Definition at line 111 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccn_initiate_prefix_reg(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), main(), and register_unregister_prefix().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

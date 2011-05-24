@@ -1,0 +1,109 @@
+.TH "include/ccn/seqwriter.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/seqwriter.h \- 
+.PP
+Part of the CCNx C Library.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_seqwriter * \fBccn_seqw_create\fP (struct ccn *h, struct \fBccn_charbuf\fP *name)"
+.br
+.RI "\fICreate a seqwriter for writing data to a versioned, segmented stream. \fP"
+.ti -1c
+.RI "int \fBccn_seqw_possible_interest\fP (struct ccn_seqwriter *w)"
+.br
+.RI "\fIAssert that an interest has possibly been expressed that matches the seqwriter's data. \fP"
+.ti -1c
+.RI "int \fBccn_seqw_batch_start\fP (struct ccn_seqwriter *w)"
+.br
+.RI "\fIStart a batch of writes. \fP"
+.ti -1c
+.RI "int \fBccn_seqw_write\fP (struct ccn_seqwriter *w, const void *buf, size_t size)"
+.br
+.RI "\fIWrite some data to a seqwriter. \fP"
+.ti -1c
+.RI "int \fBccn_seqw_batch_end\fP (struct ccn_seqwriter *w)"
+.br
+.RI "\fIEnd a batch of writes. \fP"
+.ti -1c
+.RI "int \fBccn_seqw_close\fP (struct ccn_seqwriter *w)"
+.br
+.RI "\fIClose the seqwriter, which will be freed. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Part of the CCNx C Library. 
+
+Copyright (C) 2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBseqwriter.h\fP.
+.SH "Function Documentation"
+.PP 
+.SS "int ccn_seqw_batch_end (struct ccn_seqwriter * w)"
+.PP
+End a batch of writes. 
+.PP
+Definition at line 243 of file ccn_seqwriter.c.
+.PP
+Referenced by ccnd_notice_push().
+.SS "int ccn_seqw_batch_start (struct ccn_seqwriter * w)"
+.PP
+Start a batch of writes. This will delay the signing of content objects until the batch ends, producing a more efficient result. Must have a matching \fBccn_seqw_batch_end()\fP call. Batching may be nested. 
+.PP
+Definition at line 232 of file ccn_seqwriter.c.
+.PP
+Referenced by ccnd_notice_push().
+.SS "int ccn_seqw_close (struct ccn_seqwriter * w)"
+.PP
+Close the seqwriter, which will be freed. 
+.PP
+Definition at line 271 of file ccn_seqwriter.c.
+.PP
+Referenced by main().
+.SS "struct ccn_seqwriter* ccn_seqw_create (struct ccn * h, struct \fBccn_charbuf\fP * name)\fC [read]\fP"
+.PP
+Create a seqwriter for writing data to a versioned, segmented stream. \fBParameters:\fP
+.RS 4
+\fIname\fP is a ccnb-encoded Name. It will be provided with a version based on the current time unless it already ends in a version component. 
+.RE
+.PP
+
+.PP
+Definition at line 130 of file ccn_seqwriter.c.
+.PP
+Referenced by ccnd_start_notice(), and main().
+.SS "int ccn_seqw_possible_interest (struct ccn_seqwriter * w)"
+.PP
+Assert that an interest has possibly been expressed that matches the seqwriter's data. This is useful, for example, if the seqwriter was created in response to an interest. 
+.PP
+Definition at line 258 of file ccn_seqwriter.c.
+.SS "int ccn_seqw_write (struct ccn_seqwriter * w, const void * buf, size_t size)"
+.PP
+Write some data to a seqwriter. This is roughly analogous to a write(2) call in non-blocking mode.
+.PP
+The current implementation returns an error and refuses the new data if it does not fit in the current buffer. That is, there are no partial writes. In this case, the caller should \fBccn_run()\fP for a little while and retry.
+.PP
+It is also an error to attempt to write more than 4096 bytes.
+.PP
+\fBReturns:\fP
+.RS 4
+the size written, or -1 for an error. In case of an error, the caller may test \fBccn_geterror()\fP for values of EAGAIN or EINVAL from errno.h. 
+.RE
+.PP
+
+.PP
+Definition at line 188 of file ccn_seqwriter.c.
+.PP
+Referenced by ccn_seqw_batch_end(), ccn_seqw_close(), ccn_seqw_possible_interest(), main(), and post_face_notice().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

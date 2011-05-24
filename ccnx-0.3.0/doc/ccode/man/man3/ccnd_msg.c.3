@@ -1,0 +1,94 @@
+.TH "ccnd/ccnd_msg.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccnd/ccnd_msg.c \- 
+.PP
+Logging support for ccnd.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBccnd_msg\fP (struct \fBccnd_handle\fP *h, const char *fmt,...)"
+.br
+.RI "\fIProduce ccnd debug output. \fP"
+.ti -1c
+.RI "void \fBccnd_debug_ccnb\fP (struct \fBccnd_handle\fP *h, int lineno, const char *msg, struct \fBface\fP *\fBface\fP, const unsigned char *ccnb, size_t ccnb_size)"
+.br
+.RI "\fIProduce a ccnd debug trace entry. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBccnd_usage_message\fP"
+.br
+.RI "\fICCND Usage message. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Logging support for ccnd. 
+
+Part of ccnd - the CCNx Daemon.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnd_msg.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void ccnd_debug_ccnb (struct \fBccnd_handle\fP * h, int lineno, const char * msg, struct \fBface\fP * face, const unsigned char * ccnb, size_t ccnb_size)"
+.PP
+Produce a ccnd debug trace entry. Output is produced by calling ccnd_msg. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIlineno\fP caller's source line number (usually __LINE__) 
+.br
+\fImsg\fP a short text tag to identify the entry 
+.br
+\fI\fBface\fP\fP handle of associated \fBface\fP; may be NULL 
+.br
+\fIccnb\fP points to ccnb-encoded Interest or ContentObject 
+.br
+\fIccnb_size\fP is in bytes 
+.RE
+.PP
+
+.PP
+Definition at line 88 of file ccnd_msg.c.
+.SS "void ccnd_msg (struct \fBccnd_handle\fP * h, const char * fmt,  ...)"
+.PP
+Produce ccnd debug output. Copyright (C) 2009,2010 Palo Alto Research Center, Inc.
+.PP
+Output is produced via h->logger under the control of h->debug; prepends decimal timestamp and process identification. Caller should not supply newlines. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIfmt\fP printf-like format string 
+.RE
+.PP
+
+.PP
+Definition at line 44 of file ccnd_msg.c.
+.SH "Variable Documentation"
+.PP 
+.SS "const char* \fBccnd_usage_message\fP"
+.PP
+CCND Usage message. 
+.PP
+Definition at line 132 of file ccnd_msg.c.
+.PP
+Referenced by ccnd_usage(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

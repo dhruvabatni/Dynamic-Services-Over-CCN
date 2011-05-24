@@ -1,0 +1,58 @@
+.TH "lib/ccn_reg_mgmt.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_reg_mgmt.c \- 
+.PP
+Support for parsing and creating ForwardingEntry elements.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_forwarding_entry\fP * \fBccn_forwarding_entry_parse\fP (const unsigned char *p, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_forwarding_entry_destroy\fP (struct \fBccn_forwarding_entry\fP **pfe)"
+.br
+.RI "\fIDestroy the result of \fBccn_forwarding_entry_parse()\fP. \fP"
+.ti -1c
+.RI "int \fBccnb_append_forwarding_entry\fP (struct \fBccn_charbuf\fP *c, const struct \fBccn_forwarding_entry\fP *fe)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for parsing and creating ForwardingEntry elements. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_reg_mgmt.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_forwarding_entry_destroy (struct \fBccn_forwarding_entry\fP ** pfe)"
+.PP
+Destroy the result of \fBccn_forwarding_entry_parse()\fP. 
+.PP
+Definition at line 101 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccn_forwarding_entry_parse(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), handle_prefix_reg_reply(), main(), and register_unregister_prefix().
+.SS "struct \fBccn_forwarding_entry\fP* ccn_forwarding_entry_parse (const unsigned char * p, size_t size)\fC [read]\fP"
+.PP
+Definition at line 30 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), handle_prefix_reg_reply(), main(), and register_unregister_prefix().
+.SS "int ccnb_append_forwarding_entry (struct \fBccn_charbuf\fP * c, const struct \fBccn_forwarding_entry\fP * fe)"
+.PP
+Definition at line 111 of file ccn_reg_mgmt.c.
+.PP
+Referenced by ccn_initiate_prefix_reg(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), main(), and register_unregister_prefix().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

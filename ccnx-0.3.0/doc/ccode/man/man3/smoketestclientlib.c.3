@@ -1,0 +1,103 @@
+.TH "lib/smoketestclientlib.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/smoketestclientlib.c \- 
+.PP
+Simple program for smoke-test of ccn client lib.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprintraw\fP (const void *r, int n)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBoutgoing_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static struct \fBccn_closure\fP \fBincoming_content_action\fP"
+.br
+.ti -1c
+.RI "static unsigned char \fBrawbuf\fP [1024 *1024]"
+.br
+.ti -1c
+.RI "static ssize_t \fBrawlen\fP"
+.br
+.ti -1c
+.RI "static struct \fBccn_closure\fP \fBinterest_filter\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Simple program for smoke-test of ccn client lib. 
+
+A CCNx program.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBsmoketestclientlib.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "static enum \fBccn_upcall_res\fP incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 47 of file smoketestclientlib.c.
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 102 of file smoketestclientlib.c.
+.SS "enum \fBccn_upcall_res\fP outgoing_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 71 of file smoketestclientlib.c.
+.SS "void printraw (const void * r, int n)"
+.PP
+Definition at line 29 of file smoketestclientlib.c.
+.PP
+Referenced by incoming_content(), main(), and outgoing_content().
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBccn_closure\fP \fBincoming_content_action\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+ {
+    .p = &incoming_content
+}
+.fi
+.PP
+Definition at line 63 of file smoketestclientlib.c.
+.SS "struct \fBccn_closure\fP \fBinterest_filter\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+ {
+    .p = &outgoing_content
+}
+.fi
+.PP
+Definition at line 97 of file smoketestclientlib.c.
+.PP
+Referenced by ccn_destroy(), ccn_dispatch_message(), ccn_notify_ccndid_changed(), ccn_process_scheduled_operations(), ccn_set_interest_filter_with_flags(), and finalize_interest_filter().
+.SS "unsigned char \fBrawbuf\fP[1024 *1024]\fC [static]\fP"
+.PP
+Definition at line 67 of file smoketestclientlib.c.
+.SS "ssize_t \fBrawlen\fP\fC [static]\fP"
+.PP
+Definition at line 68 of file smoketestclientlib.c.
+.PP
+Referenced by main(), outgoing_content(), and send_ccnb_file().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

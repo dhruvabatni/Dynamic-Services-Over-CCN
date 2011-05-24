@@ -1,0 +1,88 @@
+.TH "include/ccn/face_mgmt.h" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/ccn/face_mgmt.h \- 
+.PP
+Part of the CCNx C Library.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_face_instance\fP"
+.br
+.in -1c
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_NO_FACEID\fP   (~0U)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_face_instance\fP * \fBccn_face_instance_parse\fP (const unsigned char *p, size_t size)"
+.br
+.RI "\fIParse a ccnb-ecoded FaceInstance into an internal representation. \fP"
+.ti -1c
+.RI "void \fBccn_face_instance_destroy\fP (struct \fBccn_face_instance\fP **)"
+.br
+.RI "\fIDestroy the result of \fBccn_face_instance_parse()\fP. \fP"
+.ti -1c
+.RI "int \fBccnb_append_face_instance\fP (struct \fBccn_charbuf\fP *, const struct \fBccn_face_instance\fP *)"
+.br
+.RI "\fIMarshal an internal \fBface\fP instance representation into ccnb form. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Part of the CCNx C Library. 
+
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBface_mgmt.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_NO_FACEID   (~0U)"
+.PP
+Definition at line 27 of file face_mgmt.h.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_face_instance_destroy (struct \fBccn_face_instance\fP **)"
+.PP
+Destroy the result of \fBccn_face_instance_parse()\fP. 
+.PP
+Definition at line 109 of file ccn_face_mgmt.c.
+.PP
+Referenced by ccn_face_instance_parse(), ccnd_req_destroyface(), ccnd_req_newface(), create_face(), main(), prefix_face_list_destroy(), prefix_face_list_item_create(), and process_prefix_face_list_item().
+.SS "struct \fBccn_face_instance\fP* ccn_face_instance_parse (const unsigned char * p, size_t size)\fC [read]\fP"
+.PP
+Parse a ccnb-ecoded FaceInstance into an internal representation. The space used for the various strings is held by the charbuf. A client may replace the strings with other pointers, but then assumes responsibilty for managing those pointers. 
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to newly allocated structure describing the \fBface\fP, or NULL if there is an error. 
+.RE
+.PP
+
+.PP
+Definition at line 41 of file ccn_face_mgmt.c.
+.PP
+Referenced by ccnd_req_destroyface(), ccnd_req_newface(), create_face(), and main().
+.SS "int ccnb_append_face_instance (struct \fBccn_charbuf\fP *, const struct \fBccn_face_instance\fP *)"
+.PP
+Marshal an internal \fBface\fP instance representation into ccnb form. 
+.PP
+Definition at line 123 of file ccn_face_mgmt.c.
+.PP
+Referenced by ccnd_req_destroyface(), ccnd_req_newface(), create_face(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,809 @@
+.TH "lib/ccn_client.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_client.c \- 
+.PP
+Support for ccn clients.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCN_FORW_WAITING_CCNDID\fP   (1<<30)"
+.br
+.ti -1c
+.RI "#define \fBNOTE_ERR\fP(h, e)   (h->err = (e), h->errline = __LINE__, ccn_note_err(h))"
+.br
+.ti -1c
+.RI "#define \fBNOTE_ERRNO\fP(h)   NOTE_ERR(h, errno)"
+.br
+.ti -1c
+.RI "#define \fBTHIS_CANNOT_HAPPEN\fP(h)   do { NOTE_ERR(h, -73); ccn_perror(h, 'Can't happen');} while (0)"
+.br
+.ti -1c
+.RI "#define \fBXXX\fP   do { NOTE_ERR(h, -76); ccn_perror(h, 'Please write some more code here'); } while (0)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBccn_refresh_interest\fP (struct ccn *, struct expressed_interest *)"
+.br
+.ti -1c
+.RI "static void \fBccn_initiate_prefix_reg\fP (struct ccn *, const void *, size_t, struct \fBinterest_filter\fP *)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_pkey\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_keystore\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "static int \fBccn_pushout\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static int \fBtv_earlier\fP (const struct timeval *a, const struct timeval *b)"
+.br
+.ti -1c
+.RI "void \fBccn_perror\fP (struct ccn *h, const char *s)"
+.br
+.RI "\fIProduce message on standard error output describing the last error encountered during a call using the given handle. \fP"
+.ti -1c
+.RI "static int \fBccn_note_err\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "int \fBccn_seterror\fP (struct ccn *h, int error_code)"
+.br
+.RI "\fISet the error code in a ccn handle. \fP"
+.ti -1c
+.RI "int \fBccn_geterror\fP (struct ccn *h)"
+.br
+.RI "\fIRecover last error code. \fP"
+.ti -1c
+.RI "static struct \fBccn_indexbuf\fP * \fBccn_indexbuf_obtain\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static void \fBccn_indexbuf_release\fP (struct ccn *h, struct \fBccn_indexbuf\fP *c)"
+.br
+.ti -1c
+.RI "static void \fBccn_replace_handler\fP (struct ccn *h, struct \fBccn_closure\fP **dstp, struct \fBccn_closure\fP *src)"
+.br
+.ti -1c
+.RI "struct ccn * \fBccn_create\fP (void)"
+.br
+.RI "\fICreate a client handle. \fP"
+.ti -1c
+.RI "int \fBccn_connect\fP (struct ccn *h, const char *name)"
+.br
+.RI "\fIConnect to local ccnd. \fP"
+.ti -1c
+.RI "int \fBccn_get_connection_fd\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "int \fBccn_disconnect\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static void \fBccn_gripe\fP (struct expressed_interest *i)"
+.br
+.ti -1c
+.RI "static void \fBreplace_interest_msg\fP (struct expressed_interest *interest, struct \fBccn_charbuf\fP *cb)"
+.br
+.ti -1c
+.RI "static struct expressed_interest * \fBccn_destroy_interest\fP (struct ccn *h, struct expressed_interest *i)"
+.br
+.ti -1c
+.RI "void \fBccn_check_interests\fP (struct expressed_interest *list)"
+.br
+.ti -1c
+.RI "void \fBccn_clean_interests_by_prefix\fP (struct ccn *h, struct interests_by_prefix *entry)"
+.br
+.ti -1c
+.RI "void \fBccn_destroy\fP (struct ccn **hp)"
+.br
+.ti -1c
+.RI "static int \fBccn_check_namebuf\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, int prefix_comps, int omit_possible_digest)"
+.br
+.ti -1c
+.RI "static void \fBccn_construct_interest\fP (struct ccn *h, struct \fBccn_charbuf\fP *name_prefix, struct \fBccn_charbuf\fP *interest_template, struct expressed_interest *dest)"
+.br
+.ti -1c
+.RI "int \fBccn_express_interest\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action, struct \fBccn_charbuf\fP *interest_template)"
+.br
+.ti -1c
+.RI "static void \fBfinalize_interest_filter\fP (struct \fBhashtb_enumerator\fP *e)"
+.br
+.ti -1c
+.RI "int \fBccn_set_interest_filter_with_flags\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action, int forw_flags)"
+.br
+.ti -1c
+.RI "int \fBccn_set_interest_filter\fP (struct ccn *h, struct \fBccn_charbuf\fP *namebuf, struct \fBccn_closure\fP *action)"
+.br
+.ti -1c
+.RI "int \fBccn_put\fP (struct ccn *h, const void *p, size_t length)"
+.br
+.ti -1c
+.RI "int \fBccn_output_is_pending\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "struct \fBccn_charbuf\fP * \fBccn_grab_buffered_output\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static int \fBccn_get_content_type\fP (const unsigned char *ccnb, const struct \fBccn_parsed_ContentObject\fP *pco)"
+.br
+.ti -1c
+.RI "static void \fBccn_digest_Content\fP (const unsigned char *content_object, struct \fBccn_parsed_ContentObject\fP *pc, unsigned char *digest, size_t digest_bytes)"
+.br
+.RI "\fICompute the digest of just the Content portion of content_object. \fP"
+.ti -1c
+.RI "static int \fBccn_cache_key\fP (struct ccn *h, const unsigned char *ccnb, size_t size, struct \fBccn_parsed_ContentObject\fP *pco)"
+.br
+.ti -1c
+.RI "static int \fBccn_locate_key\fP (struct ccn *h, const unsigned char *msg, struct \fBccn_parsed_ContentObject\fP *pco, struct ccn_pkey **pubkey)"
+.br
+.RI "\fIExamine a ContentObject and try to find the public key needed to verify it. \fP"
+.ti -1c
+.RI "static int \fBccn_append_link_name\fP (struct \fBccn_charbuf\fP *name, const unsigned char *data, size_t data_size)"
+.br
+.RI "\fIGet the name out of a Link. \fP"
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBhandle_key\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.RI "\fICalled when we get an answer to a KeyLocator fetch issued by ccn_initiate_key_fetch. \fP"
+.ti -1c
+.RI "static int \fBccn_initiate_key_fetch\fP (struct ccn *h, unsigned char *msg, struct \fBccn_parsed_ContentObject\fP *pco, struct expressed_interest *trigger_interest)"
+.br
+.ti -1c
+.RI "static void \fBccn_check_pub_arrival\fP (struct ccn *h, struct expressed_interest *interest)"
+.br
+.RI "\fIIf we were waiting for a key and it has arrived, refresh the interest. \fP"
+.ti -1c
+.RI "void \fBccn_dispatch_message\fP (struct ccn *h, unsigned char *msg, size_t size)"
+.br
+.RI "\fIDispatch a message through the registered upcalls. \fP"
+.ti -1c
+.RI "static int \fBccn_process_input\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static void \fBccn_update_refresh_us\fP (struct ccn *h, struct timeval *tv)"
+.br
+.ti -1c
+.RI "static void \fBccn_age_interest\fP (struct ccn *h, struct expressed_interest *interest, const unsigned char *key, size_t keysize)"
+.br
+.ti -1c
+.RI "static void \fBccn_clean_all_interests\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static void \fBccn_notify_ccndid_changed\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "int \fBccn_process_scheduled_operations\fP (struct ccn *h)"
+.br
+.RI "\fIProcess any scheduled operations that are due. \fP"
+.ti -1c
+.RI "int \fBccn_set_run_timeout\fP (struct ccn *h, int timeout)"
+.br
+.RI "\fIModify ccn_run timeout. \fP"
+.ti -1c
+.RI "int \fBccn_run\fP (struct ccn *h, int timeout)"
+.br
+.RI "\fIRun the ccn client event loop. \fP"
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBhandle_simple_incoming_content\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBccn_get\fP (struct ccn *h, struct \fBccn_charbuf\fP *name, struct \fBccn_charbuf\fP *interest_template, int timeout_ms, struct \fBccn_charbuf\fP *resultbuf, struct \fBccn_parsed_ContentObject\fP *pcobuf, struct \fBccn_indexbuf\fP *compsbuf, int flags)"
+.br
+.RI "\fIGet a single matching ContentObject This is a convenience for getting a single matching ContentObject. \fP"
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBhandle_ping_response\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "static void \fBccn_initiate_ping\fP (struct ccn *h)"
+.br
+.ti -1c
+.RI "static enum \fBccn_upcall_res\fP \fBhandle_prefix_reg_reply\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBccn_verify_content\fP (struct ccn *h, const unsigned char *msg, struct \fBccn_parsed_ContentObject\fP *pco)"
+.br
+.RI "\fIVerify a ContentObject using the public key from either the object itself or our cache of keys. \fP"
+.ti -1c
+.RI "int \fBccn_load_private_key\fP (struct ccn *h, const char *keystore_path, const char *keystore_passphrase, struct \fBccn_charbuf\fP *pubid_out)"
+.br
+.RI "\fILoad a private key from a keystore file. \fP"
+.ti -1c
+.RI "int \fBccn_load_default_key\fP (struct ccn *h, const char *keystore_path, const char *keystore_passphrase)"
+.br
+.RI "\fILoad the handle's default signing key from a keystore. \fP"
+.ti -1c
+.RI "int \fBccn_get_public_key\fP (struct ccn *h, const struct \fBccn_signing_params\fP *params, struct \fBccn_charbuf\fP *digest_result, struct \fBccn_charbuf\fP *result)"
+.br
+.RI "\fIPlace the public key associated with the params into result buffer, and its digest into digest_result. \fP"
+.ti -1c
+.RI "int \fBccn_chk_signing_params\fP (struct ccn *h, const struct \fBccn_signing_params\fP *params, struct \fBccn_signing_params\fP *result, struct \fBccn_charbuf\fP **ptimestamp, struct \fBccn_charbuf\fP **pfinalblockid, struct \fBccn_charbuf\fP **pkeylocator)"
+.br
+.RI "\fIThis is mostly for use within the library, but may be useful for some clients. \fP"
+.ti -1c
+.RI "int \fBccn_sign_content\fP (struct ccn *h, struct \fBccn_charbuf\fP *resultbuf, const struct \fBccn_charbuf\fP *name_prefix, const struct \fBccn_signing_params\fP *params, const void *data, size_t size)"
+.br
+.RI "\fICreate a signed ContentObject. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for ccn clients. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_client.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCN_FORW_WAITING_CCNDID   (1<<30)"
+.PP
+Definition at line 98 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_prefix_reg(), and ccn_notify_ccndid_changed().
+.SS "#define NOTE_ERR(h, e)   (h->err = (e), h->errline = __LINE__, ccn_note_err(h))"
+.PP
+Definition at line 105 of file ccn_client.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_connect(), ccn_construct_interest(), ccn_get_public_key(), ccn_load_default_key(), ccn_locate_key(), ccn_put(), ccn_run(), ccn_sign_content(), handle_ping_response(), and handle_prefix_reg_reply().
+.SS "#define NOTE_ERRNO(h)   NOTE_ERR(h, errno)"
+.PP
+Definition at line 106 of file ccn_client.c.
+.PP
+Referenced by ccn_cache_key(), ccn_chk_signing_params(), ccn_connect(), ccn_create(), ccn_disconnect(), ccn_express_interest(), ccn_initiate_key_fetch(), ccn_initiate_prefix_reg(), ccn_load_private_key(), ccn_locate_key(), ccn_process_input(), ccn_pushout(), ccn_put(), ccn_run(), ccn_set_interest_filter_with_flags(), and handle_ping_response().
+.SS "#define THIS_CANNOT_HAPPEN(h)   do { NOTE_ERR(h, -73); ccn_perror(h, 'Can't happen');} while (0)"
+.PP
+Definition at line 108 of file ccn_client.c.
+.PP
+Referenced by ccn_locate_key().
+.SS "#define XXX   do { NOTE_ERR(h, -76); ccn_perror(h, 'Please write some more code here'); } while (0)"
+.PP
+Definition at line 111 of file ccn_client.c.
+.PP
+Referenced by ccn_locate_key(), and handle_prefix_reg_reply().
+.SH "Function Documentation"
+.PP 
+.SS "static void ccn_age_interest (struct ccn * h, struct expressed_interest * interest, const unsigned char * key, size_t keysize)\fC [static]\fP"
+.PP
+Definition at line 1303 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SS "static int ccn_append_link_name (struct \fBccn_charbuf\fP * name, const unsigned char * data, size_t data_size)\fC [static]\fP"
+.PP
+Get the name out of a Link. XXX - this needs a better home. 
+.PP
+Definition at line 954 of file ccn_client.c.
+.PP
+Referenced by handle_key().
+.SS "static int ccn_cache_key (struct ccn * h, const unsigned char * ccnb, size_t size, struct \fBccn_parsed_ContentObject\fP * pco)\fC [static]\fP"
+.PP
+Definition at line 796 of file ccn_client.c.
+.PP
+Referenced by ccn_dispatch_message().
+.SS "void ccn_check_interests (struct expressed_interest * list)"
+.PP
+Definition at line 385 of file ccn_client.c.
+.PP
+Referenced by ccn_clean_interests_by_prefix(), and ccn_process_scheduled_operations().
+.SS "static int ccn_check_namebuf (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, int prefix_comps, int omit_possible_digest)\fC [static]\fP"
+.PP
+Definition at line 462 of file ccn_client.c.
+.PP
+Referenced by ccn_express_interest(), and ccn_set_interest_filter_with_flags().
+.SS "static void ccn_check_pub_arrival (struct ccn * h, struct expressed_interest * interest)\fC [static]\fP"
+.PP
+If we were waiting for a key and it has arrived, refresh the interest. 
+.PP
+Definition at line 1109 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SS "int ccn_chk_signing_params (struct ccn * h, const struct \fBccn_signing_params\fP * params, struct \fBccn_signing_params\fP * result, struct \fBccn_charbuf\fP ** ptimestamp, struct \fBccn_charbuf\fP ** pfinalblockid, struct \fBccn_charbuf\fP ** pkeylocator)"
+.PP
+This is mostly for use within the library, but may be useful for some clients. 
+.PP
+Definition at line 2050 of file ccn_client.c.
+.PP
+Referenced by ccn_get_public_key(), ccn_sign_content(), and ccnd_init_internal_keystore().
+.SS "static void ccn_clean_all_interests (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 1373 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SS "void ccn_clean_interests_by_prefix (struct ccn * h, struct interests_by_prefix * entry)"
+.PP
+Definition at line 397 of file ccn_client.c.
+.PP
+Referenced by ccn_clean_all_interests().
+.SS "int ccn_connect (struct ccn * h, const char * name)"
+.PP
+Connect to local ccnd. \fBParameters:\fP
+.RS 4
+\fIh\fP is a ccn library handle 
+.br
+\fIname\fP is the name of the unix-domain socket to connect to; use NULL to get the default. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the fd for the connection, or -1 for error. 
+.RE
+.PP
+
+.PP
+Definition at line 288 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), and main().
+.SS "static void ccn_construct_interest (struct ccn * h, struct \fBccn_charbuf\fP * name_prefix, struct \fBccn_charbuf\fP * interest_template, struct expressed_interest * dest)\fC [static]\fP"
+.PP
+Definition at line 498 of file ccn_client.c.
+.PP
+Referenced by ccn_express_interest().
+.SS "struct ccn* ccn_create (void)\fC [read]\fP"
+.PP
+Create a client handle. The new handle is not yet connected. On error, returns NULL and sets errno. Errors: ENOMEM 
+.PP
+Definition at line 239 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), ccnd_internal_client_start(), and main().
+.SS "void ccn_destroy (struct ccn ** hp)"
+.PP
+Definition at line 418 of file ccn_client.c.
+.PP
+Referenced by ccn_get(), ccnd_internal_client_start(), ccnd_internal_client_stop(), and main().
+.SS "static struct expressed_interest* ccn_destroy_interest (struct ccn * h, struct expressed_interest * i)\fC [static, read]\fP"
+.PP
+Definition at line 369 of file ccn_client.c.
+.PP
+Referenced by ccn_clean_interests_by_prefix(), and ccn_destroy().
+.SS "static void ccn_digest_Content (const unsigned char * content_object, struct \fBccn_parsed_ContentObject\fP * pc, unsigned char * digest, size_t digest_bytes)\fC [static]\fP"
+.PP
+Compute the digest of just the Content portion of content_object. 
+.PP
+Definition at line 768 of file ccn_client.c.
+.PP
+Referenced by ccn_cache_key().
+.SS "int ccn_disconnect (struct ccn * h)"
+.PP
+Definition at line 323 of file ccn_client.c.
+.PP
+Referenced by ccn_destroy(), ccn_process_input(), ccn_run(), and main().
+.SS "void ccn_dispatch_message (struct ccn * h, unsigned char * msg, size_t size)"
+.PP
+Dispatch a message through the registered upcalls. This is not used by normal ccn clients, but is made available for use when ccnd needs to communicate with its internal client. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.br
+\fImsg\fP is the ccnb-encoded Interest or ContentObject. 
+.br
+\fIsize\fP is its size in bytes. 
+.RE
+.PP
+
+.PP
+Definition at line 1130 of file ccn_client.c.
+.PP
+Referenced by ccn_process_input(), and ccnd_send().
+.SS "int ccn_express_interest (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action, struct \fBccn_charbuf\fP * interest_template)"
+.PP
+Definition at line 540 of file ccn_client.c.
+.PP
+Referenced by ask_more(), ccn_get(), ccn_initiate_key_fetch(), ccn_initiate_ping(), ccn_initiate_prefix_reg(), express_bulkdata_interest(), express_my_interest(), fill_holes(), handle_key(), incoming_content(), and main().
+.SS "int ccn_get (struct ccn * h, struct \fBccn_charbuf\fP * name, struct \fBccn_charbuf\fP * interest_template, int timeout_ms, struct \fBccn_charbuf\fP * resultbuf, struct \fBccn_parsed_ContentObject\fP * pcobuf, struct \fBccn_indexbuf\fP * compsbuf, int flags)"
+.PP
+Get a single matching ContentObject This is a convenience for getting a single matching ContentObject. Blocks until a matching ContentObject arrives or there is a timeout. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. If NULL or ccn_get is called from inside an upcall, a new connection will be used and upcalls from other requests will not be processed while ccn_get is active. 
+.br
+\fIname\fP holds a ccnb-encoded Name 
+.br
+\fIinterest_template\fP conveys other fields to be used in the interest (may be NULL). 
+.br
+\fItimeout_ms\fP limits the time spent waiting for an answer (milliseconds). 
+.br
+\fIresultbuf\fP is updated to contain the ccnb-encoded ContentObject. 
+.br
+\fIpcobuf\fP may be supplied to save the client the work of re-parsing the ContentObject; may be NULL if this information is not actually needed. 
+.br
+\fIcompsbuf\fP works similarly. 
+.br
+\fIflags\fP - CCN_GET_NOKEYWAIT means that it is permitted to return unverified data. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, -1 for an error. 
+.RE
+.PP
+
+.PP
+Definition at line 1618 of file ccn_client.c.
+.PP
+Referenced by ccn_get_header(), ccn_resolve_version(), create_face(), get_ccndid(), main(), and register_unregister_prefix().
+.SS "int ccn_get_connection_fd (struct ccn * h)"
+.PP
+Definition at line 317 of file ccn_client.c.
+.SS "static int ccn_get_content_type (const unsigned char * ccnb, const struct \fBccn_parsed_ContentObject\fP * pco)\fC [static]\fP"
+.PP
+Definition at line 746 of file ccn_client.c.
+.PP
+Referenced by ccn_cache_key(), ccn_dispatch_message(), and handle_key().
+.SS "int ccn_get_public_key (struct ccn * h, const struct \fBccn_signing_params\fP * params, struct \fBccn_charbuf\fP * digest_result, struct \fBccn_charbuf\fP * result)"
+.PP
+Place the public key associated with the params into result buffer, and its digest into digest_result. This is for one of our signing keys, not just any key. Result buffers may be NULL if the corresponding result is not wanted.
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, negative for error 
+.RE
+.PP
+
+.PP
+Definition at line 1998 of file ccn_client.c.
+.PP
+Referenced by ccnd_init_service_ccnb().
+.SS "int ccn_geterror (struct ccn * h)"
+.PP
+Recover last error code. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may be NULL. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the most recently set error code, or 0 if h is NULL. 
+.RE
+.PP
+
+.PP
+Definition at line 186 of file ccn_client.c.
+.SS "struct \fBccn_charbuf\fP* ccn_grab_buffered_output (struct ccn * h)\fC [read]\fP"
+.PP
+Definition at line 716 of file ccn_client.c.
+.PP
+Referenced by process_internal_client_buffer().
+.SS "static void ccn_gripe (struct expressed_interest * i)\fC [static]\fP"
+.PP
+Definition at line 342 of file ccn_client.c.
+.PP
+Referenced by ccn_age_interest(), ccn_check_interests(), ccn_destroy_interest(), ccn_dispatch_message(), ccn_refresh_interest(), and replace_interest_msg().
+.SS "static struct \fBccn_indexbuf\fP* ccn_indexbuf_obtain (struct ccn * h)\fC [static, read]\fP"
+.PP
+Definition at line 194 of file ccn_client.c.
+.PP
+Referenced by ccn_age_interest(), and ccn_dispatch_message().
+.SS "static void ccn_indexbuf_release (struct ccn * h, struct \fBccn_indexbuf\fP * c)\fC [static]\fP"
+.PP
+Definition at line 205 of file ccn_client.c.
+.PP
+Referenced by ccn_age_interest(), and ccn_dispatch_message().
+.SS "static int ccn_initiate_key_fetch (struct ccn * h, unsigned char * msg, struct \fBccn_parsed_ContentObject\fP * pco, struct expressed_interest * trigger_interest)\fC [static]\fP"
+.PP
+Definition at line 1037 of file ccn_client.c.
+.PP
+Referenced by ccn_dispatch_message().
+.SS "static void ccn_initiate_ping (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 1720 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_prefix_reg().
+.SS "static void ccn_initiate_prefix_reg (struct ccn * h, const void * prefix, size_t prefix_size, struct \fBinterest_filter\fP * i)\fC [static]\fP"
+.PP
+Definition at line 1789 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SS "int ccn_load_default_key (struct ccn * h, const char * keystore_path, const char * keystore_passphrase)"
+.PP
+Load the handle's default signing key from a keystore. This call is only required for applications that use something other than the user's default signing key as the handle's default. It should be called early and at most once. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIkeystore_path\fP is the pathname of the keystore file 
+.br
+\fIkeystore_passphrase\fP is the passphase needed to unlock the keystore 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+is 0 for success, negative for error. 
+.RE
+.PP
+
+.PP
+Definition at line 1960 of file ccn_client.c.
+.PP
+Referenced by ccnd_init_internal_keystore().
+.SS "int ccn_load_private_key (struct ccn * h, const char * keystore_path, const char * keystore_passphrase, struct \fBccn_charbuf\fP * pubid_out)"
+.PP
+Load a private key from a keystore file. This call is only required for applications that use something other than the user's default signing key. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIkeystore_path\fP is the pathname of the keystore file 
+.br
+\fIkeystore_passphrase\fP is the passphase needed to unlock the keystore 
+.br
+\fIpubid_out,if\fP not NULL, is loaded with the digest of the public key 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+is 0 for success, negative for error. 
+.RE
+.PP
+
+.PP
+Definition at line 1895 of file ccn_client.c.
+.PP
+Referenced by ccn_chk_signing_params(), and ccn_load_default_key().
+.SS "static int ccn_locate_key (struct ccn * h, const unsigned char * msg, struct \fBccn_parsed_ContentObject\fP * pco, struct ccn_pkey ** pubkey)\fC [static]\fP"
+.PP
+Examine a ContentObject and try to find the public key needed to verify it. It might be present in our cache of keys, or in the object itself; in either of these cases, we can satisfy the request right away. Or there may be an indirection (a KeyName), in which case return without the key. The final possibility is that there is no key locator we can make sense of. 
+.PP
+\fBReturns:\fP
+.RS 4
+negative for error, 0 when pubkey is filled in, or 1 if the key needs to be requested. 
+.RE
+.PP
+
+.PP
+Definition at line 863 of file ccn_client.c.
+.PP
+Referenced by ccn_dispatch_message(), and ccn_verify_content().
+.SS "static int ccn_note_err (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 155 of file ccn_client.c.
+.PP
+Referenced by ccn_seterror().
+.SS "static void ccn_notify_ccndid_changed (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 1390 of file ccn_client.c.
+.PP
+Referenced by handle_ping_response().
+.SS "int ccn_output_is_pending (struct ccn * h)"
+.PP
+Definition at line 710 of file ccn_client.c.
+.PP
+Referenced by ccn_grab_buffered_output(), ccn_process_scheduled_operations(), and ccn_run().
+.SS "void ccn_perror (struct ccn * h, const char * s)"
+.PP
+Produce message on standard error output describing the last error encountered during a call using the given handle. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may not be NULL. 
+.br
+\fIs\fP is a client-supplied message; if NULL a message will be supplied where available. 
+.RE
+.PP
+
+.PP
+Definition at line 140 of file ccn_client.c.
+.PP
+Referenced by ccn_create(), ccn_note_err(), ccn_resolve_version(), and main().
+.SS "static int ccn_process_input (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 1239 of file ccn_client.c.
+.PP
+Referenced by ccn_run().
+.SS "int ccn_process_scheduled_operations (struct ccn * h)"
+.PP
+Process any scheduled operations that are due. This is not used by normal ccn clients, but is made available for use by ccnd to run its internal client. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of microseconds until the next thing needs to happen. 
+.RE
+.PP
+
+.PP
+Definition at line 1414 of file ccn_client.c.
+.PP
+Referenced by ccn_run(), and ccnd_internal_client_refresh().
+.SS "static int ccn_pushout (struct ccn * h)\fC [static]\fP"
+.PP
+Definition at line 646 of file ccn_client.c.
+.PP
+Referenced by ccn_disconnect(), ccn_put(), and ccn_run().
+.SS "int ccn_put (struct ccn * h, const void * p, size_t length)"
+.PP
+Definition at line 668 of file ccn_client.c.
+.PP
+Referenced by ccn_refresh_interest(), ccn_seqw_write(), ccnd_answer_req(), incoming_interest(), interest_handler(), main(), outgoing_content(), and seqw_incoming_interest().
+.SS "static void ccn_refresh_interest (struct ccn * h, struct expressed_interest * interest)\fC [static]\fP"
+.PP
+Definition at line 727 of file ccn_client.c.
+.PP
+Referenced by ccn_age_interest(), ccn_check_pub_arrival(), ccn_dispatch_message(), and ccn_express_interest().
+.SS "static void ccn_replace_handler (struct ccn * h, struct \fBccn_closure\fP ** dstp, struct \fBccn_closure\fP * src)\fC [static]\fP"
+.PP
+Definition at line 215 of file ccn_client.c.
+.PP
+Referenced by ccn_destroy(), ccn_destroy_interest(), ccn_dispatch_message(), ccn_express_interest(), ccn_process_scheduled_operations(), and ccn_set_interest_filter_with_flags().
+.SS "int ccn_run (struct ccn * h, int timeout)"
+.PP
+Run the ccn client event loop. This may serve as the main event loop for simple apps by passing a timeout value of -1. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.br
+\fItimeout\fP is in milliseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a negative value for error, zero for success. 
+.RE
+.PP
+
+.PP
+Definition at line 1491 of file ccn_client.c.
+.PP
+Referenced by ccn_dump_names(), ccn_get(), and main().
+.SS "int ccn_set_interest_filter (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action)"
+.PP
+Definition at line 638 of file ccn_client.c.
+.PP
+Referenced by ccn_seqw_close(), ccn_seqw_create(), ccnd_uri_listen(), and main().
+.SS "int ccn_set_interest_filter_with_flags (struct ccn * h, struct \fBccn_charbuf\fP * namebuf, struct \fBccn_closure\fP * action, int forw_flags)"
+.PP
+Definition at line 607 of file ccn_client.c.
+.PP
+Referenced by ccn_set_interest_filter(), and main().
+.SS "int ccn_set_run_timeout (struct ccn * h, int timeout)"
+.PP
+Modify ccn_run timeout. This may be called from an upcall to change the timeout value. Most often this will be used to set the timeout to zero so that ccn_run will return control to the client. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle. 
+.br
+\fItimeout\fP is in milliseconds. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+old timeout value. 
+.RE
+.PP
+
+.PP
+Definition at line 1475 of file ccn_client.c.
+.PP
+Referenced by handle_simple_incoming_content(), incoming_content(), and incoming_interest().
+.SS "int ccn_seterror (struct ccn * h, int error_code)"
+.PP
+Set the error code in a ccn handle. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle - may be NULL. 
+.br
+\fIerror_code\fP is the code to set. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+-1 in all cases. 
+.RE
+.PP
+
+.PP
+Definition at line 169 of file ccn_client.c.
+.PP
+Referenced by ccn_resolve_version(), and ccn_seqw_write().
+.SS "int ccn_sign_content (struct ccn * h, struct \fBccn_charbuf\fP * resultbuf, const struct \fBccn_charbuf\fP * name_prefix, const struct \fBccn_signing_params\fP * params, const void * data, size_t size)"
+.PP
+Create a signed ContentObject. \fBParameters:\fP
+.RS 4
+\fIh\fP is the ccn handle 
+.br
+\fIresultbuf\fP - result buffer to which the ContentObject will be appended 
+.br
+\fIname_prefix\fP contains the ccnb-encoded name 
+.br
+\fIparams\fP describe the ancillary information needed 
+.br
+\fIdata\fP points to the raw content 
+.br
+\fIsize\fP is the size of the raw content, in bytes 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 for success, -1 for error 
+.RE
+.PP
+
+.PP
+Definition at line 2209 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_prefix_reg(), ccnd_answer_req(), ccnd_init_service_ccnb(), main(), and seqw_next_cob().
+.SS "static void ccn_update_refresh_us (struct ccn * h, struct timeval * tv)\fC [static]\fP"
+.PP
+Definition at line 1287 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SS "int ccn_verify_content (struct ccn * h, const unsigned char * msg, struct \fBccn_parsed_ContentObject\fP * pco)"
+.PP
+Verify a ContentObject using the public key from either the object itself or our cache of keys. This routine does not attempt to fetch the public key if it is not at hand. 
+.PP
+\fBReturns:\fP
+.RS 4
+negative for error, 0 verification success, or 1 if the key needs to be requested. 
+.RE
+.PP
+
+.PP
+Definition at line 1866 of file ccn_client.c.
+.PP
+Referenced by ccnd_answer_req().
+.SS "static void finalize_interest_filter (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 597 of file ccn_client.c.
+.PP
+Referenced by ccn_set_interest_filter_with_flags().
+.SS "static void finalize_keystore (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 1982 of file ccn_client.c.
+.PP
+Referenced by ccn_create().
+.SS "static void finalize_pkey (struct \fBhashtb_enumerator\fP * e)\fC [static]\fP"
+.PP
+Definition at line 845 of file ccn_client.c.
+.PP
+Referenced by ccn_create().
+.SS "static enum \fBccn_upcall_res\fP handle_key (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Called when we get an answer to a KeyLocator fetch issued by ccn_initiate_key_fetch. This does not really have to do much, since the main content handling logic picks up the keys as they go by. 
+.PP
+Definition at line 983 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_key_fetch().
+.SS "static enum \fBccn_upcall_res\fP handle_ping_response (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 1679 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_ping().
+.SS "static enum \fBccn_upcall_res\fP handle_prefix_reg_reply (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 1735 of file ccn_client.c.
+.PP
+Referenced by ccn_initiate_prefix_reg().
+.SS "static enum \fBccn_upcall_res\fP handle_simple_incoming_content (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)\fC [static]\fP"
+.PP
+Definition at line 1559 of file ccn_client.c.
+.PP
+Referenced by ccn_get().
+.SS "static void replace_interest_msg (struct expressed_interest * interest, struct \fBccn_charbuf\fP * cb)\fC [static]\fP"
+.PP
+Definition at line 348 of file ccn_client.c.
+.PP
+Referenced by ccn_construct_interest(), ccn_destroy_interest(), ccn_dispatch_message(), and ccn_process_scheduled_operations().
+.SS "static int tv_earlier (const struct timeval * a, const struct timeval * b)\fC [static]\fP"
+.PP
+Definition at line 123 of file ccn_client.c.
+.PP
+Referenced by ccn_process_scheduled_operations().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

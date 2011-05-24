@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1security_1_1access_1_1_access_control_manager.html" title="Abstract class containing core functionality we expect to be common across all access..." alt="" coords="7,5,297,29"/>
+<area shape="rect" id="node3" href="$classorg_1_1ccnx_1_1ccn_1_1profiles_1_1security_1_1access_1_1group_1_1_group_access_control_manager.html" title="This class implements a basic Group&#45;based access control scheme." alt="" coords="347,5,696,29"/>
+</map>

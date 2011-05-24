@@ -1,0 +1,88 @@
+.TH "cmd/ccnbx.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ccnbx.c \- 
+.PP
+Utility to extract a field from ccn binary encoded data.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCCNBX_OPT_UNADORNED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBCCNBX_OPT_VERBOSE\fP   2"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "static int \fBdtag_lookup\fP (const char *key)"
+.br
+.ti -1c
+.RI "static int \fBccnbx\fP (const char *path, const char *selector, int opt)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility to extract a field from ccn binary encoded data. 
+
+A CCNx command-line utility.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnbx.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CCNBX_OPT_UNADORNED   1"
+.PP
+Definition at line 34 of file ccnbx.c.
+.PP
+Referenced by ccnbx(), and main().
+.SS "#define CCNBX_OPT_VERBOSE   2"
+.PP
+Definition at line 35 of file ccnbx.c.
+.PP
+Referenced by ccnbx(), and main().
+.SH "Function Documentation"
+.PP 
+.SS "static int ccnbx (const char * path, const char * selector, int opt)\fC [static]\fP"
+.PP
+\fBBug\fP
+.RS 4
+This would be confused by attributes 
+.RE
+.PP
+
+.PP
+Definition at line 66 of file ccnbx.c.
+.PP
+Referenced by main().
+.SS "static int dtag_lookup (const char * key)\fC [static]\fP"
+.PP
+Definition at line 54 of file ccnbx.c.
+.PP
+Referenced by ccnbx().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 155 of file ccnbx.c.
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 38 of file ccnbx.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

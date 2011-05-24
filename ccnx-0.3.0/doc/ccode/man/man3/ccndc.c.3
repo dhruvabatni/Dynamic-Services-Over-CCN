@@ -1,0 +1,345 @@
+.TH "libexec/ccndc.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+libexec/ccndc.c \- 
+.PP
+Bring up a link to another ccnd.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBBIND_8_COMPAT\fP"
+.br
+.ti -1c
+.RI "#define \fBAI_ADDRCONFIG\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNS_MAXMSG\fP   65535"
+.br
+.ti -1c
+.RI "#define \fBT_SRV\fP   33"
+.br
+.ti -1c
+.RI "#define \fBOP_REG\fP   0"
+.br
+.ti -1c
+.RI "#define \fBOP_UNREG\fP   1"
+.br
+.ti -1c
+.RI "#define \fBON_ERROR_EXIT\fP(resval)   on_error_exit((resval), __LINE__)"
+.br
+.ti -1c
+.RI "#define \fBON_ERROR_CLEANUP\fP(resval)"
+.br
+.ti -1c
+.RI "#define \fBON_NULL_CLEANUP\fP(resval)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBusage\fP (const char *progname)"
+.br
+.ti -1c
+.RI "void \fBccndc_warn\fP (int lineno, char *format,...)"
+.br
+.ti -1c
+.RI "void \fBccndc_fatal\fP (int line, char *format,...)"
+.br
+.ti -1c
+.RI "static void \fBon_error_exit\fP (int res, int lineno)"
+.br
+.ti -1c
+.RI "static void \fBinitialize_global_data\fP (void)"
+.br
+.ti -1c
+.RI "static int \fBget_ccndid\fP (struct ccn *h, const unsigned char *\fBccndid\fP, size_t ccndid_storage_size)"
+.br
+.ti -1c
+.RI "static struct prefix_face_list_item * \fBprefix_face_list_item_create\fP (struct \fBccn_charbuf\fP *prefix, int ipproto, int mcast_ttl, char *host, char *port, char *mcastif, int lifetime, int flags)"
+.br
+.ti -1c
+.RI "static void \fBprefix_face_list_destroy\fP (struct prefix_face_list_item **pflpp)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBsigned_info_create\fP (struct ccn_keystore *keystore)"
+.br
+.ti -1c
+.RI "static struct \fBccn_face_instance\fP * \fBcreate_face\fP (struct ccn *h, struct ccn_keystore *keystore, struct \fBccn_face_instance\fP *face_instance)"
+.br
+.RI "\fICreate a \fBface\fP based on the \fBface\fP attributes. \fP"
+.ti -1c
+.RI "static int \fBregister_unregister_prefix\fP (struct ccn *h, struct ccn_keystore *keystore, int operation, struct \fBccn_charbuf\fP *name_prefix, struct \fBccn_face_instance\fP *face_instance, int flags)"
+.br
+.RI "\fIRegister an interest prefix as being routed to a given \fBface\fP. \fP"
+.ti -1c
+.RI "static int \fBprocess_command_tokens\fP (struct prefix_face_list_item *pfltail, int lineno, char *cmd, char *uri, char *proto, char *host, char *port, char *flags, char *mcastttl, char *mcastif)"
+.br
+.ti -1c
+.RI "static int \fBread_configfile\fP (const char *filename, struct prefix_face_list_item *pfltail)"
+.br
+.ti -1c
+.RI "int \fBquery_srv\fP (const unsigned char *domain, int domain_size, char **hostp, int *portp, char **proto)"
+.br
+.ti -1c
+.RI "void \fBprocess_prefix_face_list_item\fP (struct ccn *h, struct ccn_keystore *keystore, struct prefix_face_list_item *pfl)"
+.br
+.ti -1c
+.RI "enum \fBccn_upcall_res\fP \fBincoming_interest\fP (struct \fBccn_closure\fP *selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP *info)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBlocal_scope_template\fP = NULL"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBno_name\fP = NULL"
+.br
+.ti -1c
+.RI "static unsigned char \fBccndid_storage\fP [32] = {0}"
+.br
+.ti -1c
+.RI "static const unsigned char * \fBccndid\fP = \fBccndid_storage\fP"
+.br
+.ti -1c
+.RI "static size_t \fBccndid_size\fP"
+.br
+.ti -1c
+.RI "int \fBverbose\fP = 0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Bring up a link to another ccnd. 
+
+A CCNx program.
+.PP
+Copyright (C) 2009-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccndc.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define AI_ADDRCONFIG   0"
+.PP
+Definition at line 52 of file ccndc.c.
+.PP
+Referenced by main(), open_socket(), and process_command_tokens().
+.SS "#define BIND_8_COMPAT"
+.PP
+Definition at line 31 of file ccndc.c.
+.SS "#define NS_MAXMSG   65535"
+.PP
+Definition at line 56 of file ccndc.c.
+.PP
+Referenced by query_srv().
+.SS "#define ON_ERROR_CLEANUP(resval)"\fBValue:\fP
+.PP
+.nf
+{                  \
+if ((resval) < 0) { \
+if (verbose > 0) ccndc_warn (__LINE__, 'OnError cleanup\n'); \
+goto Cleanup; \
+} \
+}
+.fi
+.PP
+Definition at line 145 of file ccndc.c.
+.PP
+Referenced by create_face(), register_unregister_prefix(), and signed_info_create().
+.SS "#define ON_ERROR_EXIT(resval)   on_error_exit((resval), __LINE__)"
+.PP
+Definition at line 135 of file ccndc.c.
+.PP
+Referenced by get_ccndid(), initialize_global_data(), and main().
+.SS "#define ON_NULL_CLEANUP(resval)"\fBValue:\fP
+.PP
+.nf
+{                   \
+if ((resval) == NULL) { \
+if (verbose > 0) ccndc_warn(__LINE__, 'OnNull cleanup\n'); \
+goto Cleanup; \
+} \
+}
+.fi
+.PP
+Definition at line 153 of file ccndc.c.
+.PP
+Referenced by create_face(), and register_unregister_prefix().
+.SS "#define OP_REG   0"
+.PP
+Definition at line 69 of file ccndc.c.
+.PP
+Referenced by process_prefix_face_list_item(), and register_unregister_prefix().
+.SS "#define OP_UNREG   1"
+.PP
+Definition at line 70 of file ccndc.c.
+.SS "#define T_SRV   33"
+.PP
+Definition at line 66 of file ccndc.c.
+.PP
+Referenced by query_srv().
+.SH "Function Documentation"
+.PP 
+.SS "void ccndc_fatal (int line, char * format,  ...)"
+.PP
+Definition at line 123 of file ccndc.c.
+.PP
+Referenced by on_error_exit(), process_command_tokens(), and read_configfile().
+.SS "void ccndc_warn (int lineno, char * format,  ...)"
+.PP
+Definition at line 111 of file ccndc.c.
+.PP
+Referenced by process_command_tokens(), and process_prefix_face_list_item().
+.SS "static struct \fBccn_face_instance\fP* create_face (struct ccn * h, struct ccn_keystore * keystore, struct \fBccn_face_instance\fP * face_instance)\fC [static, read]\fP"
+.PP
+Create a \fBface\fP based on the \fBface\fP attributes. \fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIkeystore\fP a ccn keystore containing the keys used to authenticate this operation 
+.br
+\fIface_instance\fP the parameters of the \fBface\fP to be created 
+.br
+\fIflags\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returns new face_instance representing the \fBface\fP created 
+.RE
+.PP
+
+.PP
+Definition at line 338 of file ccndc.c.
+.PP
+Referenced by process_prefix_face_list_item().
+.SS "static int get_ccndid (struct ccn * h, const unsigned char * ccndid, size_t ccndid_storage_size)\fC [static]\fP"
+.PP
+Definition at line 190 of file ccndc.c.
+.PP
+Referenced by main().
+.SS "enum \fBccn_upcall_res\fP incoming_interest (struct \fBccn_closure\fP * selfp, enum \fBccn_upcall_kind\fP kind, struct \fBccn_upcall_info\fP * info)"
+.PP
+Definition at line 822 of file ccndc.c.
+.PP
+Referenced by main().
+.SS "static void initialize_global_data (void)\fC [static]\fP"
+.PP
+Definition at line 162 of file ccndc.c.
+.PP
+Referenced by main().
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 888 of file ccndc.c.
+.SS "static void on_error_exit (int res, int lineno)\fC [static]\fP"
+.PP
+Definition at line 138 of file ccndc.c.
+.SS "static void prefix_face_list_destroy (struct prefix_face_list_item ** pflpp)\fC [static]\fP"
+.PP
+Definition at line 280 of file ccndc.c.
+.PP
+Referenced by incoming_interest(), and main().
+.SS "static struct prefix_face_list_item* prefix_face_list_item_create (struct \fBccn_charbuf\fP * prefix, int ipproto, int mcast_ttl, char * host, char * port, char * mcastif, int lifetime, int flags)\fC [static, read]\fP"
+.PP
+Definition at line 229 of file ccndc.c.
+.PP
+Referenced by process_command_tokens().
+.SS "static int process_command_tokens (struct prefix_face_list_item * pfltail, int lineno, char * cmd, char * uri, char * proto, char * host, char * port, char * flags, char * mcastttl, char * mcastif)\fC [static]\fP"
+.PP
+Definition at line 498 of file ccndc.c.
+.PP
+Referenced by incoming_interest(), main(), and read_configfile().
+.SS "void process_prefix_face_list_item (struct ccn * h, struct ccn_keystore * keystore, struct prefix_face_list_item * pfl)"
+.PP
+Definition at line 778 of file ccndc.c.
+.PP
+Referenced by incoming_interest(), and main().
+.SS "int query_srv (const unsigned char * domain, int domain_size, char ** hostp, int * portp, char ** proto)"
+.PP
+Definition at line 680 of file ccndc.c.
+.PP
+Referenced by incoming_interest().
+.SS "static int read_configfile (const char * filename, struct prefix_face_list_item * pfltail)\fC [static]\fP"
+.PP
+Definition at line 625 of file ccndc.c.
+.PP
+Referenced by main().
+.SS "static int register_unregister_prefix (struct ccn * h, struct ccn_keystore * keystore, int operation, struct \fBccn_charbuf\fP * name_prefix, struct \fBccn_face_instance\fP * face_instance, int flags)\fC [static]\fP"
+.PP
+Register an interest prefix as being routed to a given \fBface\fP. \fBParameters:\fP
+.RS 4
+\fIh\fP the ccnd handle 
+.br
+\fIkeystore\fP a ccn keystore containing the keys used to authenticate this operation 
+.br
+\fIname_prefix\fP the prefix to be registered 
+.br
+\fIface_instance\fP the \fBface\fP to which the interests with the prefix should be routed 
+.br
+\fIflags\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returns (positive) faceid on success, -1 on error 
+.RE
+.PP
+
+.PP
+Definition at line 415 of file ccndc.c.
+.PP
+Referenced by process_prefix_face_list_item().
+.SS "static struct \fBccn_charbuf\fP* signed_info_create (struct ccn_keystore * keystore)\fC [static, read]\fP"
+.PP
+Definition at line 297 of file ccndc.c.
+.PP
+Referenced by create_face(), and register_unregister_prefix().
+.SS "static void usage (const char * progname)\fC [static]\fP"
+.PP
+Definition at line 98 of file ccndc.c.
+.PP
+Referenced by main(), and process_options().
+.SH "Variable Documentation"
+.PP 
+.SS "const unsigned char* \fBccndid\fP = \fBccndid_storage\fP\fC [static]\fP"
+.PP
+Definition at line 88 of file ccndc.c.
+.PP
+Referenced by handle_ping_response(), main(), and process_prefix_face_list_item().
+.SS "size_t \fBccndid_size\fP\fC [static]\fP"
+.PP
+Definition at line 89 of file ccndc.c.
+.PP
+Referenced by main(), and process_prefix_face_list_item().
+.SS "unsigned char \fBccndid_storage\fP[32] = {0}\fC [static]\fP"
+.PP
+Definition at line 87 of file ccndc.c.
+.PP
+Referenced by main().
+.SS "struct \fBccn_charbuf\fP* \fBlocal_scope_template\fP = NULL\fC [static]\fP"
+.PP
+Definition at line 85 of file ccndc.c.
+.SS "struct \fBccn_charbuf\fP* \fBno_name\fP = NULL\fC [static]\fP"
+.PP
+Definition at line 86 of file ccndc.c.
+.SS "int \fBverbose\fP = 0"
+.PP
+Definition at line 94 of file ccndc.c.
+.PP
+Referenced by ccnbx(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

@@ -1,0 +1,50 @@
+.TH "ccn_sockets" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccn_sockets \- 
+.PP
+Holds a pair of socket file descriptors.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBrecving\fP"
+.br
+.RI "\fIfile descriptor to use for input (recv) \fP"
+.ti -1c
+.RI "int \fBsending\fP"
+.br
+.RI "\fIfile descriptor to use for output (send) \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Holds a pair of socket file descriptors. 
+
+Some platforms/modes of operations require separate sockets for sending and receiving, so we accomodate that with this pairing. It is fine for the two file descriptors to be the same. 
+.PP
+Definition at line 32 of file sockcreate.h.
+.SH "Field Documentation"
+.PP 
+.SS "int \fBccn_sockets::recving\fP"
+.PP
+file descriptor to use for input (recv) 
+.PP
+Definition at line 33 of file sockcreate.h.
+.PP
+Referenced by ccn_setup_socket(), and setup_multicast().
+.SS "int \fBccn_sockets::sending\fP"
+.PP
+file descriptor to use for output (send) 
+.PP
+Definition at line 34 of file sockcreate.h.
+.PP
+Referenced by ccn_setup_socket(), and setup_multicast().
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

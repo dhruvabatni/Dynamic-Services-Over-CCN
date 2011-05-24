@@ -1,0 +1,175 @@
+.TH "ccnd/ccnd_stats.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ccnd/ccnd_stats.c \- 
+.PP
+Statistics presentation for ccnd.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCRLF\fP   '\\r\\n'"
+.br
+.ti -1c
+.RI "#define \fBNL\fP   '\\n'"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBccnd_collect_stats\fP (struct \fBccnd_handle\fP *h, struct ccnd_stats *ans)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBcollect_stats_html\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBsend_http_response\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, const char *mime_type, struct \fBccn_charbuf\fP *response)"
+.br
+.ti -1c
+.RI "static struct \fBccn_charbuf\fP * \fBcollect_stats_xml\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBccnd_stats_http_set_debug\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP, int level)"
+.br
+.ti -1c
+.RI "int \fBccnd_stats_handle_http_connection\fP (struct \fBccnd_handle\fP *h, struct \fBface\fP *\fBface\fP)"
+.br
+.ti -1c
+.RI "static void \fBcollect_faces_html\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *b)"
+.br
+.ti -1c
+.RI "static void \fBcollect_forwarding_html\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *b)"
+.br
+.ti -1c
+.RI "static unsigned \fBccnd_colorhash\fP (struct \fBccnd_handle\fP *h)"
+.br
+.ti -1c
+.RI "static void \fBcollect_faces_xml\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *b)"
+.br
+.ti -1c
+.RI "static void \fBcollect_forwarding_xml\fP (struct \fBccnd_handle\fP *h, struct \fBccn_charbuf\fP *b)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const char * \fBresp404\fP"
+.br
+.ti -1c
+.RI "static const char * \fBresp405\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Statistics presentation for ccnd. 
+
+Part of ccnd - the CCNx Daemon.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccnd_stats.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define CRLF   '\\r\\n'"
+.PP
+Definition at line 46 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_http_set_debug(), main(), and send_http_response().
+.SS "#define NL   '\\n'"
+.PP
+Definition at line 47 of file ccnd_stats.c.
+.PP
+Referenced by collect_faces_html(), collect_faces_xml(), collect_forwarding_html(), collect_stats_html(), and collect_stats_xml().
+.SH "Function Documentation"
+.PP 
+.SS "static int ccnd_collect_stats (struct \fBccnd_handle\fP * h, struct ccnd_stats * ans)\fC [static]\fP"
+.PP
+Definition at line 168 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_html(), and collect_stats_xml().
+.SS "static unsigned ccnd_colorhash (struct \fBccnd_handle\fP * h)\fC [static]\fP"
+.PP
+Definition at line 304 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_html().
+.SS "int ccnd_stats_handle_http_connection (struct \fBccnd_handle\fP * h, struct \fBface\fP * face)"
+.PP
+Definition at line 86 of file ccnd_stats.c.
+.PP
+Referenced by process_input().
+.SS "static void ccnd_stats_http_set_debug (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, int level)\fC [static]\fP"
+.PP
+Definition at line 73 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection().
+.SS "static void collect_faces_html (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * b)\fC [static]\fP"
+.PP
+Definition at line 210 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_html().
+.SS "static void collect_faces_xml (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * b)\fC [static]\fP"
+.PP
+Definition at line 380 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_xml().
+.SS "static void collect_forwarding_html (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * b)\fC [static]\fP"
+.PP
+Definition at line 261 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_html().
+.SS "static void collect_forwarding_xml (struct \fBccnd_handle\fP * h, struct \fBccn_charbuf\fP * b)\fC [static]\fP"
+.PP
+Definition at line 417 of file ccnd_stats.c.
+.PP
+Referenced by collect_stats_xml().
+.SS "static struct \fBccn_charbuf\fP * collect_stats_html (struct \fBccnd_handle\fP * h)\fC [static, read]\fP"
+.PP
+Definition at line 314 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection().
+.SS "static struct \fBccn_charbuf\fP * collect_stats_xml (struct \fBccnd_handle\fP * h)\fC [static, read]\fP"
+.PP
+Definition at line 460 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection().
+.SS "static void send_http_response (struct \fBccnd_handle\fP * h, struct \fBface\fP * face, const char * mime_type, struct \fBccn_charbuf\fP * response)\fC [static]\fP"
+.PP
+Definition at line 145 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection(), and ccnd_stats_http_set_debug().
+.SH "Variable Documentation"
+.PP 
+.SS "const char* \fBresp404\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+
+    'HTTP/1.1 404 Not Found' CRLF
+    'Connection: close' CRLF CRLF
+.fi
+.PP
+Definition at line 64 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection().
+.SS "const char* \fBresp405\fP\fC [static]\fP"\fBInitial value:\fP
+.PP
+.nf
+
+    'HTTP/1.1 405 Method Not Allowed' CRLF
+    'Connection: close' CRLF CRLF
+.fi
+.PP
+Definition at line 68 of file ccnd_stats.c.
+.PP
+Referenced by ccnd_stats_handle_http_connection().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

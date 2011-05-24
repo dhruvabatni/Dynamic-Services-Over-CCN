@@ -1,0 +1,140 @@
+.TH "lib/ccn_bloom.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_bloom.c \- 
+.PP
+Support for Bloom filters.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct ccn_bloom * \fBccn_bloom_create\fP (int estimated_members, const unsigned char seed[4])"
+.br
+.RI "\fICreate an empty Bloom filter constructor. \fP"
+.ti -1c
+.RI "struct \fBccn_bloom_wire\fP * \fBccn_bloom_validate_wire\fP (const void *buf, size_t size)"
+.br
+.ti -1c
+.RI "struct ccn_bloom * \fBccn_bloom_from_wire\fP (const void *data, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_bloom_destroy\fP (struct ccn_bloom **bp)"
+.br
+.ti -1c
+.RI "static int \fBbloom_seed\fP (const struct \fBccn_bloom_wire\fP *f)"
+.br
+.ti -1c
+.RI "static int \fBbloom_nexthash\fP (int s, int u)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_insert\fP (struct ccn_bloom *b, const void *key, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_match_wire\fP (const struct \fBccn_bloom_wire\fP *f, const void *key, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_match\fP (struct ccn_bloom *b, const void *key, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_n\fP (struct ccn_bloom *b)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_wiresize\fP (struct ccn_bloom *b)"
+.br
+.ti -1c
+.RI "int \fBccn_bloom_store_wire\fP (struct ccn_bloom *b, unsigned char *dest, size_t destsize)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for Bloom filters. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_bloom.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "static int bloom_nexthash (int s, int u)\fC [static]\fP"
+.PP
+Definition at line 127 of file ccn_bloom.c.
+.PP
+Referenced by ccn_bloom_insert(), and ccn_bloom_match_wire().
+.SS "static int bloom_seed (const struct \fBccn_bloom_wire\fP * f)\fC [static]\fP"
+.PP
+Definition at line 115 of file ccn_bloom.c.
+.PP
+Referenced by ccn_bloom_insert(), and ccn_bloom_match_wire().
+.SS "struct ccn_bloom* ccn_bloom_create (int estimated_members, const unsigned char seed[4])\fC [read]\fP"
+.PP
+Create an empty Bloom filter constructor. \fBParameters:\fP
+.RS 4
+\fIestimated_members\fP is an estimate of the number of elements that will be inserted into the filter 
+.br
+\fIseed\fP is used to seed the hash functions 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a new, empty Bloom filter constructor 
+.RE
+.PP
+
+.PP
+Definition at line 38 of file ccn_bloom.c.
+.PP
+Referenced by main().
+.SS "void ccn_bloom_destroy (struct ccn_bloom ** bp)"
+.PP
+Definition at line 104 of file ccn_bloom.c.
+.PP
+Referenced by ccn_bloom_create(), ccn_bloom_from_wire(), and main().
+.SS "struct ccn_bloom* ccn_bloom_from_wire (const void * data, size_t size)\fC [read]\fP"
+.PP
+Definition at line 86 of file ccn_bloom.c.
+.PP
+Referenced by make_partition().
+.SS "int ccn_bloom_insert (struct ccn_bloom * b, const void * key, size_t size)"
+.PP
+Definition at line 142 of file ccn_bloom.c.
+.PP
+Referenced by main().
+.SS "int ccn_bloom_match (struct ccn_bloom * b, const void * key, size_t size)"
+.PP
+Definition at line 189 of file ccn_bloom.c.
+.PP
+Referenced by main().
+.SS "int ccn_bloom_match_wire (const struct \fBccn_bloom_wire\fP * f, const void * key, size_t size)"
+.PP
+Definition at line 168 of file ccn_bloom.c.
+.PP
+Referenced by ccn_bloom_match(), and ccn_content_matches_interest().
+.SS "int ccn_bloom_n (struct ccn_bloom * b)"
+.PP
+Definition at line 195 of file ccn_bloom.c.
+.SS "int ccn_bloom_store_wire (struct ccn_bloom * b, unsigned char * dest, size_t destsize)"
+.PP
+Definition at line 211 of file ccn_bloom.c.
+.PP
+Referenced by append_bloom_element().
+.SS "struct \fBccn_bloom_wire\fP* ccn_bloom_validate_wire (const void * buf, size_t size)\fC [read]\fP"
+.PP
+Definition at line 69 of file ccn_bloom.c.
+.PP
+Referenced by append_bf_all(), ccn_bloom_from_wire(), and ccn_content_matches_interest().
+.SS "int ccn_bloom_wiresize (struct ccn_bloom * b)"
+.PP
+Definition at line 201 of file ccn_bloom.c.
+.PP
+Referenced by append_bloom_element(), ccn_bloom_store_wire(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

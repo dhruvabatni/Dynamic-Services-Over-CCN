@@ -1,0 +1,104 @@
+.TH "lib/ccn_uri.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_uri.c \- 
+.PP
+Support for ccnx:/URI/.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBccn_uri_append_percentescaped\fP (struct \fBccn_charbuf\fP *c, const unsigned char *data, size_t size)"
+.br
+.RI "\fIThis appends to c a percent-escaped representation of the component passed in. \fP"
+.ti -1c
+.RI "int \fBccn_uri_append\fP (struct \fBccn_charbuf\fP *c, const unsigned char *ccnb, size_t size, int includescheme)"
+.br
+.RI "\fIThis appends to c a URI representation of the ccnb-encoded Name element passed in. \fP"
+.ti -1c
+.RI "static int \fBhexit\fP (int c)"
+.br
+.ti -1c
+.RI "static int \fBccn_append_uri_component\fP (struct \fBccn_charbuf\fP *c, const char *s, size_t limit, size_t *cont)"
+.br
+.ti -1c
+.RI "static int \fBccn_name_last_component_offset\fP (const unsigned char *ccnb, size_t size)"
+.br
+.ti -1c
+.RI "int \fBccn_name_from_uri\fP (struct \fBccn_charbuf\fP *c, const char *uri)"
+.br
+.RI "\fIConvert a ccnx-scheme URI to a ccnb-encoded Name. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for ccnx:/URI/. 
+
+..
+.PP
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009, 2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_uri.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "static int ccn_append_uri_component (struct \fBccn_charbuf\fP * c, const char * s, size_t limit, size_t * cont)\fC [static]\fP"
+.PP
+Definition at line 161 of file ccn_uri.c.
+.PP
+Referenced by ccn_name_from_uri().
+.SS "int ccn_name_from_uri (struct \fBccn_charbuf\fP * c, const char * uri)"
+.PP
+Convert a ccnx-scheme URI to a ccnb-encoded Name. The converted result is placed in c. On input, c may contain a base name, in which case relative URIs are allowed. Otherwise c should start out empty, and the URI must be absolute. 
+.PP
+\fBReturns:\fP
+.RS 4
+-1 if an error is found, otherwise returns the number of characters that were processed. 
+.RE
+.PP
+
+.PP
+\fBBug\fP
+.RS 4
+XXX - need to error out on other uri schemes 
+.RE
+.PP
+
+.PP
+Definition at line 249 of file ccn_uri.c.
+.PP
+Referenced by ccn_initiate_ping(), ccn_initiate_prefix_reg(), ccnd_init_service_ccnb(), ccnd_parse_uri_list(), ccnd_reg_ccnx_ccndid(), ccnd_reg_uri(), ccnd_start_notice(), ccnd_uri_listen(), get_ccndid(), main(), and process_command_tokens().
+.SS "static int ccn_name_last_component_offset (const unsigned char * ccnb, size_t size)\fC [static]\fP"
+.PP
+Definition at line 220 of file ccn_uri.c.
+.PP
+Referenced by ccn_name_from_uri().
+.SS "int ccn_uri_append (struct \fBccn_charbuf\fP * c, const unsigned char * ccnb, size_t size, int includescheme)"
+.PP
+This appends to c a URI representation of the ccnb-encoded Name element passed in. For convenience, it will also look inside of a ContentObject or Interest object to find the Name. Components that consist solely of zero or more dots are converted by adding 3 more dots so there are no ambiguities with . or .. or whether a component is empty or absent. Will prepend 'ccnx:' unless includescheme is 0 
+.PP
+Definition at line 88 of file ccn_uri.c.
+.PP
+Referenced by ccnd_debug_ccnb(), ccnd_reg_ccnx_ccndid(), ccnd_uri_listen(), collect_forwarding_html(), collect_forwarding_xml(), incoming_content(), main(), and process_prefix_face_list_item().
+.SS "void ccn_uri_append_percentescaped (struct \fBccn_charbuf\fP * c, const unsigned char * data, size_t size)"
+.PP
+This appends to c a percent-escaped representation of the component passed in. Only generic URI unreserved characters are not escaped. Components that consist solely of zero or more dots are converted by adding 3 more dots so there are no ambiguities with . or .. or whether a component is empty or absent. (cf. ccn_uri_append) 
+.PP
+Definition at line 51 of file ccn_uri.c.
+.PP
+Referenced by ccn_uri_append(), and incoming_interest().
+.SS "static int hexit (int c)\fC [static]\fP"
+.PP
+Definition at line 130 of file ccn_uri.c.
+.PP
+Referenced by ccn_append_uri_component().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

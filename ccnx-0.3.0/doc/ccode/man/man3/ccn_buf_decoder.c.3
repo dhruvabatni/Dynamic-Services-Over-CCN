@@ -1,0 +1,356 @@
+.TH "lib/ccn_buf_decoder.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_buf_decoder.c \- 
+.PP
+Support for Interest and ContentObject decoding.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBccn_buf_decoder\fP * \fBccn_buf_decoder_start\fP (struct \fBccn_buf_decoder\fP *d, const unsigned char *buf, size_t size)"
+.br
+.ti -1c
+.RI "void \fBccn_buf_advance\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_dtag\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_some_dtag\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_some_blob\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_blob\fP (struct \fBccn_buf_decoder\fP *d, const unsigned char **bufp, size_t *sizep)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_udata\fP (struct \fBccn_buf_decoder\fP *d, const char *s)"
+.br
+.ti -1c
+.RI "int \fBccn_buf_match_attr\fP (struct \fBccn_buf_decoder\fP *d, const char *s)"
+.br
+.ti -1c
+.RI "void \fBccn_buf_check_close\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.RI "\fIEnter an error state if element closer not found. \fP"
+.ti -1c
+.RI "int \fBccn_buf_advance_past_element\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_required_tagged_BLOB\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_optional_tagged_BLOB\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "uintmax_t \fBccn_parse_required_tagged_binary_number\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.br
+.ti -1c
+.RI "uintmax_t \fBccn_parse_optional_tagged_binary_number\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen, uintmax_t default_value)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_required_tagged_UDATA\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_optional_tagged_UDATA\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_tagged_string\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag, struct \fBccn_charbuf\fP *store)"
+.br
+.RI "\fIParses a ccnb-encoded element expected to contain a UDATA string. \fP"
+.ti -1c
+.RI "int \fBccn_parse_Name\fP (struct \fBccn_buf_decoder\fP *d, struct \fBccn_indexbuf\fP *components)"
+.br
+.RI "\fIParses a ccnb-encoded name. \fP"
+.ti -1c
+.RI "int \fBccn_parse_PublisherID\fP (struct \fBccn_buf_decoder\fP *d, struct \fBccn_parsed_interest\fP *pi)"
+.br
+.ti -1c
+.RI "static int \fBccn_parse_optional_Any_or_Bloom\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_Exclude\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_nonNegativeInteger\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_uintmax\fP (struct \fBccn_buf_decoder\fP *d, uintmax_t *result)"
+.br
+.RI "\fIParse a potentially large non-negative integer. \fP"
+.ti -1c
+.RI "int \fBccn_parse_timestamp\fP (struct \fBccn_buf_decoder\fP *d)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_required_tagged_timestamp\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_optional_tagged_nonNegativeInteger\fP (struct \fBccn_buf_decoder\fP *d, enum \fBccn_dtag\fP dtag)"
+.br
+.ti -1c
+.RI "int \fBccn_fetch_tagged_nonNegativeInteger\fP (enum \fBccn_dtag\fP tt, const unsigned char *buf, size_t start, size_t stop)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_interest\fP (const unsigned char *msg, size_t size, struct \fBccn_parsed_interest\fP *interest, struct \fBccn_indexbuf\fP *components)"
+.br
+.ti -1c
+.RI "static int \fBccn_parse_KeyName\fP (struct \fBccn_buf_decoder\fP *d, struct parsed_KeyName *x)"
+.br
+.ti -1c
+.RI "static int \fBccn_parse_Signature\fP (struct \fBccn_buf_decoder\fP *d, struct \fBccn_parsed_ContentObject\fP *x)"
+.br
+.ti -1c
+.RI "static int \fBccn_parse_SignedInfo\fP (struct \fBccn_buf_decoder\fP *d, struct \fBccn_parsed_ContentObject\fP *x)"
+.br
+.ti -1c
+.RI "int \fBccn_parse_ContentObject\fP (const unsigned char *msg, size_t size, struct \fBccn_parsed_ContentObject\fP *x, struct \fBccn_indexbuf\fP *components)"
+.br
+.ti -1c
+.RI "int \fBccn_ref_tagged_BLOB\fP (enum \fBccn_dtag\fP tt, const unsigned char *buf, size_t start, size_t stop, const unsigned char **presult, size_t *psize)"
+.br
+.ti -1c
+.RI "static struct \fBccn_buf_decoder\fP * \fBccn_buf_decoder_start_at_components\fP (struct \fBccn_buf_decoder\fP *d, const unsigned char *buf, size_t buflen)"
+.br
+.ti -1c
+.RI "int \fBccn_content_get_value\fP (const unsigned char *data, size_t data_size, const struct \fBccn_parsed_ContentObject\fP *content, const unsigned char **value, size_t *value_size)"
+.br
+.ti -1c
+.RI "int \fBccn_compare_names\fP (const unsigned char *a, size_t asize, const unsigned char *b, size_t bsize)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Support for Interest and ContentObject decoding. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008, 2009 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_buf_decoder.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void ccn_buf_advance (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 40 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance_past_element(), ccn_buf_check_close(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_nonNegativeInteger(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_parse_timestamp(), ccn_parse_uintmax(), ccn_pubid_matches(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), and make_template().
+.SS "int ccn_buf_advance_past_element (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 119 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_uri_append(), and find_first_match_candidate().
+.SS "void ccn_buf_check_close (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Enter an error state if element closer not found. 
+.PP
+Definition at line 108 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_advance_past_element(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), and make_template().
+.SS "struct \fBccn_buf_decoder\fP* ccn_buf_decoder_start (struct \fBccn_buf_decoder\fP * d, const unsigned char * buf, size_t size)\fC [read]\fP"
+.PP
+Definition at line 28 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_get_public_key(), ccn_header_parse(), ccn_interest_lifetime(), ccn_locate_key(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_name_split(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_pubid_matches(), ccn_ref_tagged_BLOB(), ccn_uri_append(), ccnd_reg_uri(), find_first_match_candidate(), main(), and make_template().
+.SS "static struct \fBccn_buf_decoder\fP* ccn_buf_decoder_start_at_components (struct \fBccn_buf_decoder\fP * d, const unsigned char * buf, size_t buflen)\fC [static, read]\fP"
+.PP
+Definition at line 858 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_compare_names().
+.SS "int ccn_buf_match_attr (struct \fBccn_buf_decoder\fP * d, const char * s)"
+.PP
+Definition at line 98 of file ccn_buf_decoder.c.
+.SS "int ccn_buf_match_blob (struct \fBccn_buf_decoder\fP * d, const unsigned char ** bufp, size_t * sizep)"
+.PP
+Definition at line 70 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_check_namebuf(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_get_public_key(), ccn_header_parse(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_Name(), ccn_parse_required_tagged_binary_number(), ccn_ref_tagged_BLOB(), ccn_uri_append(), and make_template().
+.SS "int ccn_buf_match_dtag (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 48 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_buf_decoder_start_at_components(), ccn_check_namebuf(), ccn_chk_signing_params(), ccn_compare_names(), ccn_content_matches_interest(), ccn_face_instance_parse(), ccn_fetch_tagged_nonNegativeInteger(), ccn_forwarding_entry_parse(), ccn_header_parse(), ccn_locate_key(), ccn_name_comp_get(), ccn_name_last_component_offset(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_interest(), ccn_parse_KeyName(), ccn_parse_Name(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_optional_tagged_binary_number(), ccn_parse_optional_tagged_BLOB(), ccn_parse_optional_tagged_nonNegativeInteger(), ccn_parse_optional_tagged_UDATA(), ccn_parse_PublisherID(), ccn_parse_required_tagged_binary_number(), ccn_parse_required_tagged_BLOB(), ccn_parse_required_tagged_timestamp(), ccn_parse_required_tagged_UDATA(), ccn_parse_Signature(), ccn_parse_SignedInfo(), ccn_parse_tagged_required_uintmax(), ccn_parse_tagged_string(), ccn_ref_tagged_BLOB(), ccn_uri_append(), find_first_match_candidate(), main(), and make_template().
+.SS "int ccn_buf_match_some_blob (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 63 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_buf_match_blob(), ccn_chk_signing_params(), ccn_parse_PublisherID(), ccn_parse_required_tagged_BLOB(), and ccn_pubid_matches().
+.SS "int ccn_buf_match_some_dtag (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 56 of file ccn_buf_decoder.c.
+.SS "int ccn_buf_match_udata (struct \fBccn_buf_decoder\fP * d, const char * s)"
+.PP
+Definition at line 88 of file ccn_buf_decoder.c.
+.SS "int ccn_compare_names (const unsigned char * a, size_t asize, const unsigned char * b, size_t bsize)"
+.PP
+Definition at line 886 of file ccn_buf_decoder.c.
+.PP
+Referenced by content_skiplist_findbefore(), and namecompare().
+.SS "int ccn_content_get_value (const unsigned char * data, size_t data_size, const struct \fBccn_parsed_ContentObject\fP * content, const unsigned char ** value, size_t * value_size)"
+.PP
+Definition at line 873 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_cache_key(), ccn_get_header(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), create_face(), decode_message(), handle_key(), handle_prefix_reg_reply(), incoming_content(), main(), process_test(), and register_unregister_prefix().
+.SS "int ccn_fetch_tagged_nonNegativeInteger (enum \fBccn_dtag\fP tt, const unsigned char * buf, size_t start, size_t stop)"
+.PP
+Definition at line 540 of file ccn_buf_decoder.c.
+.PP
+Referenced by set_content_timer().
+.SS "int ccn_parse_ContentObject (const unsigned char * msg, size_t size, struct \fBccn_parsed_ContentObject\fP * x, struct \fBccn_indexbuf\fP * components)"
+.PP
+Definition at line 801 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_content_matches_interest(), ccn_dispatch_message(), ccnd_answer_req(), ccnd_req_destroyface(), ccnd_req_newface(), ccnd_req_prefix_or_self_reg(), ccnd_req_unreg(), decode_message(), deliver_content(), interest_handler(), main(), process_incoming_content(), and process_test().
+.SS "int ccn_parse_Exclude (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 369 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_interest().
+.SS "int ccn_parse_interest (const unsigned char * msg, size_t size, struct \fBccn_parsed_interest\fP * interest, struct \fBccn_indexbuf\fP * components)"
+.PP
+Definition at line 561 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_age_interest(), ccn_construct_interest(), ccn_content_matches_interest(), ccn_dispatch_message(), ccn_parse_interest(), ccnd_debug_ccnb(), main(), and process_incoming_interest().
+.SS "static int ccn_parse_KeyName (struct \fBccn_buf_decoder\fP * d, struct parsed_KeyName * x)\fC [static]\fP"
+.PP
+Definition at line 679 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_SignedInfo().
+.SS "int ccn_parse_Name (struct \fBccn_buf_decoder\fP * d, struct \fBccn_indexbuf\fP * components)"
+.PP
+Parses a ccnb-encoded name. \fBParameters:\fP
+.RS 4
+\fId\fP is the decoder 
+.br
+\fIcomponents\fP may be NULL, otherwise is filled in with the Component boundary offsets 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the number of Components in the Name, or -1 if there is an error. 
+.RE
+.PP
+
+.PP
+Definition at line 289 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_append_link_name(), ccn_forwarding_entry_parse(), ccn_name_split(), ccn_parse_ContentObject(), ccn_parse_interest(), ccn_parse_KeyName(), and ccnd_reg_uri().
+.SS "int ccn_parse_nonNegativeInteger (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 390 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_fetch_tagged_nonNegativeInteger(), and ccn_parse_optional_tagged_nonNegativeInteger().
+.SS "static int ccn_parse_optional_Any_or_Bloom (struct \fBccn_buf_decoder\fP * d)\fC [static]\fP"
+.PP
+Definition at line 352 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_Exclude().
+.SS "uintmax_t ccn_parse_optional_tagged_binary_number (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen, uintmax_t default_value)"
+.PP
+Definition at line 204 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_interest_lifetime(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_optional_tagged_BLOB (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 167 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_parse_interest(), ccn_parse_optional_Any_or_Bloom(), ccn_parse_Signature(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_optional_tagged_nonNegativeInteger (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 526 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_face_instance_parse(), ccn_forwarding_entry_parse(), ccn_parse_interest(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_optional_tagged_UDATA (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 234 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_Signature().
+.SS "int ccn_parse_PublisherID (struct \fBccn_buf_decoder\fP * d, struct \fBccn_parsed_interest\fP * pi)"
+.PP
+Definition at line 317 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_interest(), and ccn_parse_KeyName().
+.SS "uintmax_t ccn_parse_required_tagged_binary_number (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 176 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_optional_tagged_binary_number().
+.SS "int ccn_parse_required_tagged_BLOB (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, int minlen, int maxlen)"
+.PP
+Definition at line 142 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_parse_ContentObject(), ccn_parse_Exclude(), ccn_parse_optional_tagged_BLOB(), ccn_parse_Signature(), and ccn_parse_SignedInfo().
+.SS "int ccn_parse_required_tagged_timestamp (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 509 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_SignedInfo().
+.SS "int ccn_parse_required_tagged_UDATA (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag)"
+.PP
+Definition at line 213 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_optional_tagged_UDATA().
+.SS "static int ccn_parse_Signature (struct \fBccn_buf_decoder\fP * d, struct \fBccn_parsed_ContentObject\fP * x)\fC [static]\fP"
+.PP
+Definition at line 700 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_buf_decoder_start_at_components(), and ccn_parse_ContentObject().
+.SS "static int ccn_parse_SignedInfo (struct \fBccn_buf_decoder\fP * d, struct \fBccn_parsed_ContentObject\fP * x)\fC [static]\fP"
+.PP
+Definition at line 731 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_ContentObject().
+.SS "int ccn_parse_tagged_string (struct \fBccn_buf_decoder\fP * d, enum \fBccn_dtag\fP dtag, struct \fBccn_charbuf\fP * store)"
+.PP
+Parses a ccnb-encoded element expected to contain a UDATA string. \fBParameters:\fP
+.RS 4
+\fId\fP is the decoder 
+.br
+\fIdtag\fP is the expected dtag value 
+.br
+\fIstore\fP - on success, the string value is appended to store, with null termination. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the offset into the store buffer of the copied value, or -1 for error. If a parse error occurs, d->decoder.state is set to a negative value. If the element is not present, -1 is returned but no parse error is indicated. 
+.RE
+.PP
+
+.PP
+Definition at line 253 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_face_instance_parse(), and ccn_forwarding_entry_parse().
+.SS "int ccn_parse_timestamp (struct \fBccn_buf_decoder\fP * d)"
+.PP
+Definition at line 465 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_required_tagged_timestamp().
+.SS "int ccn_parse_uintmax (struct \fBccn_buf_decoder\fP * d, uintmax_t * result)"
+.PP
+Parse a potentially large non-negative integer. \fBReturns:\fP
+.RS 4
+0 for success, and the value is place in *result; for an error a negative value is returned and *result is unchanged. 
+.RE
+.PP
+
+.PP
+Definition at line 430 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_parse_tagged_required_uintmax().
+.SS "int ccn_ref_tagged_BLOB (enum \fBccn_dtag\fP tt, const unsigned char * buf, size_t start, size_t stop, const unsigned char ** presult, size_t * psize)"
+.PP
+Definition at line 836 of file ccn_buf_decoder.c.
+.PP
+Referenced by ccn_chk_signing_params(), ccn_content_get_value(), ccn_digest_Content(), ccn_initiate_key_fetch(), ccn_locate_key(), ccn_name_next_sibling(), ccn_verify_signature(), ccnd_debug_ccnb(), get_ccndid(), handle_ping_response(), incoming_content(), incoming_interest(), is_final(), and main().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

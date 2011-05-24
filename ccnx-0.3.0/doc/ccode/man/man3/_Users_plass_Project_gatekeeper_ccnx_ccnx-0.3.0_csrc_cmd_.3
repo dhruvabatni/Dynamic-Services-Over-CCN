@@ -1,0 +1,138 @@
+.TH "cmd/ Directory Reference" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd/ Directory Reference \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Files"
+
+.in +1c
+.ti -1c
+.RI "file \fBccn_ccnbtoxml.c\fP"
+.br
+.PP
+
+.RI "\fIUtility to convert ccn binary encoded data into XML form. \fP"
+.ti -1c
+.RI "file \fBccn_splitccnb.c\fP"
+.br
+.PP
+
+.RI "\fIUtility to break up a file filled with ccnb-encoded data items into one data item per file. \fP"
+.ti -1c
+.RI "file \fBccn_xmltoccnb.c\fP"
+.br
+.PP
+
+.RI "\fIUtility to convert XML into ccn binary encoded data (ccnb). \fP"
+.ti -1c
+.RI "file \fBccnbasicconfig.c\fP"
+.br
+.PP
+
+.RI "\fIBring up a link to another ccnd. \fP"
+.ti -1c
+.RI "file \fBccnbuzz.c\fP"
+.br
+.PP
+
+.RI "\fIPre-reads stuff written by ccnsendchunks, produces no output. \fP"
+.ti -1c
+.RI "file \fBccnbx.c\fP"
+.br
+.PP
+
+.RI "\fIUtility to extract a field from ccn binary encoded data. \fP"
+.ti -1c
+.RI "file \fBccncat.c\fP"
+.br
+.PP
+
+.RI "\fIReads streams at the given CCNx URIs and writes to stdout. \fP"
+.ti -1c
+.RI "file \fBccncatchunks.c\fP"
+.br
+.PP
+
+.RI "\fIReads stuff written by ccnsendchunks, writes to stdout. \fP"
+.ti -1c
+.RI "file \fBccncatchunks2.c\fP"
+.br
+.PP
+
+.RI "\fIReads stuff written by ccnsendchunks, writes to stdout. \fP"
+.ti -1c
+.RI "file \fBccndumpnames.c\fP"
+.br
+.PP
+
+.RI "\fIDumps names of everything quickly retrievable to stdout. \fP"
+.ti -1c
+.RI "file \fBccndumppcap.c\fP"
+.br
+.PP
+
+.RI "\fIReads in a one or more ccnbs from stdin (e.g. \fP"
+.ti -1c
+.RI "file \fBccnget.c\fP"
+.br
+.PP
+
+.RI "\fIGet one content item matching the name prefix and write it to stdout. \fP"
+.ti -1c
+.RI "file \fBccnhexdumpdata.c\fP"
+.br
+.PP
+
+.RI "\fIParse a ccnb-encoded ContentObject in a file and dump the content as hex data to stdout. \fP"
+.ti -1c
+.RI "file \fBccnls.c\fP"
+.br
+.PP
+
+.RI "\fIAttempts to list name components available at the next level of the hierarchy. \fP"
+.ti -1c
+.RI "file \fBccnput.c\fP"
+.br
+.PP
+
+.RI "\fIInjects one chunk of data from stdin into ccn. \fP"
+.ti -1c
+.RI "file \fBccnrm.c\fP"
+.br
+.PP
+
+.RI "\fIMark as stale any local items a matching given prefixes. \fP"
+.ti -1c
+.RI "file \fBccnsendchunks.c\fP"
+.br
+.PP
+
+.RI "\fIInjects chunks of data from stdin into ccn. \fP"
+.ti -1c
+.RI "file \fBccnseqwriter.c\fP"
+.br
+.PP
+
+.RI "\fIStreams data from stdin into ccn. \fP"
+.ti -1c
+.RI "file \fBccnslurp.c\fP"
+.br
+.PP
+
+.RI "\fIAttempts pull everything in a branch of the ccn name hierarchy. \fP"
+.ti -1c
+.RI "file \fBccntimefromdatetime.c\fP"
+.br
+.PP
+
+.RI "\fIA little utility for converting canonical dateTime values to the scaled binary form used by ccn. \fP"
+.ti -1c
+.RI "file \fBdataresponsetest.c\fP"
+.br
+.PP
+
+.RI "\fIA CCNx command-line utility. \fP"
+.in -1c

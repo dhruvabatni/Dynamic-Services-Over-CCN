@@ -1,0 +1,69 @@
+.TH "lib/ccn_verifysig.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_verifysig.c \- 
+.PP
+Utility to check the signature on ccnb-formatted ContentObjects.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMOAN\fP(args)   do { fprintf args; Moan(__LINE__); status = 1; } while(0)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBMoan\fP (int line)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static unsigned char \fBrawbuf\fP [8801]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Utility to check the signature on ccnb-formatted ContentObjects. 
+
+A CCNx program.
+.PP
+Copyright (C) 2009 Palo Alto Research Center, Inc.
+.PP
+This work is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation. This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+.PP
+Definition in file \fBccn_verifysig.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define MOAN(args)   do { fprintf args; Moan(__LINE__); status = 1; } while(0)"
+.PP
+Definition at line 33 of file ccn_verifysig.c.
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+.PP
+Definition at line 41 of file ccn_verifysig.c.
+.SS "void Moan (int line)"
+.PP
+Definition at line 36 of file ccn_verifysig.c.
+.SH "Variable Documentation"
+.PP 
+.SS "unsigned char \fBrawbuf\fP[8801]\fC [static]\fP"
+.PP
+Definition at line 31 of file ccn_verifysig.c.
+.PP
+Referenced by main(), and outgoing_content().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.

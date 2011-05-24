@@ -1,0 +1,644 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
+<title>CCNx Signature Generation and Verification</title>
+<style type="text/css">
+/* Debug borders */
+p, li, dt, dd, div, pre, h1, h2, h3, h4, h5, h6 {
+/*
+  border: 1px solid red;
+*/
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  font-family: serif;
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+  font-family: sans-serif;
+}
+
+div#footer {
+  font-family: sans-serif;
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > div.content {
+  white-space: pre;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+/* Workarounds for IE6's broken and incomplete CSS2. */
+
+div.sidebar-content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+div.sidebar-title, div.image-title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 0.0em;
+  margin-bottom: 0.5em;
+}
+
+div.listingblock div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock-attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock-content {
+  white-space: pre;
+}
+div.verseblock-attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+
+div.exampleblock-content {
+  border-left: 2px solid silver;
+  padding-left: 0.5em;
+}
+
+/* IE6 sets dynamically generated links as visited. */
+div#toc a:visited { color: blue; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>CCNx Signature Generation and Verification</h1>
+</div>
+<h2 id="_source_references">Source references</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><a href="xsd.html">ccnx.xsd</a> is the xml schema that describes what the xml rendition of ccn data (including ContentObject messages) should look like.</p></div>
+<div class="paragraph"><p><a href="dtd.html">ccnx.dtd</a> is a dtd that should describe the same, in a less strongly-typed fashion.</p></div>
+<div class="paragraph"><p><a href="DTAG.html">tagname.csvdict</a> contains the mapping between the DTAG values used in the binary encoding and the element names used in the XML representation.</p></div>
+<div class="paragraph"><p>Here we specify how content signatures are generated in CCNx.</p></div>
+</div>
+<h2 id="_signed_content">Signed Content</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>A <a href="ContentObject.html">ContentObject</a> in CCNx consists
+of:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>ContentObject ::= Signature
+                  Name
+                  SignedInfo
+                  Content</tt></pre>
+</div></div>
+<div class="paragraph"><p>The Signature, described below, is computed over the concatenated ccnb
+binary encoding of the <tt>Name</tt>, <tt>SignedInfo</tt> and <tt>Content</tt> components of the
+ContentObject, with all of their start and end tags, but <strong>without</strong> the
+start or end tag of the ContentObject itself, or any component of the <tt>Signature</tt>.
+This makes possible a signing implementation that takes a packet in over the
+wire, selects the digest algorithm to use to verify the signature based on
+information in the <tt>Signature</tt> component, and then digest the bulk of the
+packet, exactly as it arrived on the wire, in order to verify its signature.</p></div>
+</div>
+<h2 id="_signature">Signature</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Signature component of the ContentObject consists of:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>Signature ::= DigestAlgorithm
+              Witness
+              SignatureBits</tt></pre>
+</div></div>
+<h3 id="_digestalgorithm">DigestAlgorithm</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The digest algorithm specifies the cryptographic digest algorithm used
+in signature generation. We need to specify either the digest
+algorithm used to generate the signature, or a combined signature
+algorithm which includes both the digest algorithm and public key
+algorithm used (for example, "SHA1withRSA"), so that verifiers know
+what digest to use to verify the signature. The X.509 digital
+signature standard uses a signature algorithm specified at the start
+of the certificate, as well as in the signature itself. The PKCS#7
+standard for signed data, and the standard for XML signatures specify
+only a digest algorithm up front.  Choosing to specify a digest
+algorithm, rather than a signature algorithm, at the start (and to
+only specify the digest algorithm, letting the signature algorithm be
+determined by the key rather than separately specified in the
+signature) forces us to assume that a given key can only be used for
+one algorithm type. However, assuming that a smaller number of digest
+algorithms are used than public key types, including only the digest
+algorithm in the specifier saves us the bytes for a separate
+specification of signature algorithm in the signature, and increases
+the chance that we will also be able to elide the digest algorithm
+identifier itself because the digest algorithm chosen will be one
+selected as the most common default (for now, <tt>SHA-256</tt>, see
+<a href="CryptographicAlgorithms.html">CryptographicAlgorithms</a>).</p></div>
+<div class="paragraph"><p>We place the digest algorithm identifier, along with the content of the signature
+itself, at the start of the ContentObject, so that devices that need
+to perform signature verification on the incoming data stream as it
+arrives may do so. (Though they will need to store the Signature
+itself for verification until both the data is processed and the public
+key needed has been retrieved.)  For the moment, the digest algorithm
+is specified as a UTF-8 encoding of an Object Identifier, or OID. If
+it matches the default value (the OID for <tt>SHA-256</tt>, or <tt>2.16.840.1.101.3.4.2.1</tt>)
+it is elided.</p></div>
+<h3 id="_witness">Witness</h3><div style="clear:left"></div>
+<div class="paragraph"><p>A Witness is additional information necessary to verify the signature,
+particularly in the case where signature generation is aggregated and
+performed over multiple ContentObjects at once. In such a case, the
+Witness allows an individual ContentObject to be verified as being
+part of that set. For example, elements authenticated using a Merkle
+Hash Tree, the witness information would be the elements of the hash
+path through the tree.</p></div>
+<div class="paragraph"><p>The Witness is represented as a DER-encoded PKCS#1 DigestInfo, which
+contains an AlgorithmIdentifier (an OID, together with any necessary
+parameters) and a byte array (OCTET STRING) containing the digest
+information to be interpreted according
+to that OID.</p></div>
+<h3 id="_signaturebits">SignatureBits</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The contents of the digital signature itself, computed as appropriate for
+the algorithm used (see below). For now, this is the bits of the signature
+itself, encoded as appropriate for the particular cryptographic algorithm used
+(in other words, no encapsulating specification of signature algorithm).</p></div>
+</div>
+<h2 id="_signature_generation">Signature Generation</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Signature generation in CCNx takes one of two forms: either individual
+blocks are individually digitally signed with a standard public key signature
+algorithm, or multiple blocks are signed at once using an aggregated signature.</p></div>
+<h3 id="_algorithm_choice">Algorithm Choice</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The choice of signature algorithm and signature granularity (whether,
+or how much, to aggregate signing) is done by the publisher using a
+number of considerations: most importantly ease of implementation,
+computational constraints on the publisher and verifier, and bandwidth
+constraints. Signing each block individually is more computationally
+costly for the publisher than aggregating signature generation, but
+offers lower latency and requires less space for the signature. (Aggregated
+signatures require the use of per-block witness information to allow
+each block to be individually verified.) Verification cost is lower for
+aggregated signatures, as the consumer can cache and reuse the result of
+verifying the signature itself, and even parts of the witness, across
+multiple blocks.</p></div>
+<div class="paragraph"><p>The choice of the public key algorithm used to generate
+either the individual block or aggregated signature is determined by what
+keys the publisher has available, what algorithms they expect their
+consumers to support, and the relative cost of signature generation and
+verification for individual algorithms, as well as, of course, their
+security requirements. For example, the RSA algorithm offers a significant
+asymmetry in signing and verification times&#8201;&#8212;&#8201;signature generation being
+an order of magnitude (or more) slower than verification. It is therefore
+a good choice if signatures will be verified many more times than they will
+be generated; at the cost of relatively long signatures. Elliptic curve
+cryptography can be used to generate short signatures with high security,
+but verification is as computationally expensive, or more expensive, than
+signature generation.</p></div>
+<h3 id="_individual_block_signing">Individual Block Signing</h3><div style="clear:left"></div>
+<div class="paragraph"><p>To sign an individual ContentObject, we generate a standard digital
+signature using PKCS#1 padding over the Name, SignedInfo, and Content
+portions of the encoded ContentObject described above with the
+specified digest algorithm and a signature algorithm determined by
+that and the key. We place the resulting signature in the
+SignatureBits portion of the Signature, omitting the Witness. Such a
+signature can be generated and verified using any number of standard
+cryptographic libraries.</p></div>
+<h3 id="_aggregated_signing">Aggregated Signing</h3><div style="clear:left"></div>
+<div class="paragraph"><p>An aggregated signature takes a set of 2 or more ContentObjects, and generates
+a signature over their combination, together with a set of per-object witness
+data such that it is possible to verify for each ContentObject in the set that
+it is indeed a member of the set, that it was signed as part of the set by the
+designated public key, and that it has not been altered since (up to the security
+of the cryptographic algorithms used).</p></div>
+<div class="paragraph"><p>The CCNx standard library currently implements a single aggregated
+signature algorithm, using Merkle hash trees. However, the intent is
+to make the aggregated, or bulk signature implementation sufficiently
+parameterizable that other algorithms (for experimental or production
+use) can be included. At the same time, the expectation that all nodes
+in the network can verify any signature they choose suggests that the
+number of production algorithms eventually supported will be relatively
+limited. As of the initial release, aggregated signature generation is
+set up to allow for new implementations to be added, but verification
+is not.</p></div>
+<div class="paragraph"><p>While the typical use for aggregated signatures is to sign a set of related
+content objects&#8201;&#8212;&#8201;for example a set of segments from a single stream; there is
+no requirement that the objects aggregated be related at all. (However, when they
+are, it maximizes the likelihood that a verifier will be verifying them all
+together and so will be able to reuse cached verification data.)</p></div>
+<h4 id="_merkle_hash_tree_aggregated_signatures">Merkle Hash Tree Aggregated Signatures</h4>
+<div class="paragraph"><p>We describe here the aggregated signature algorithm implemented in the
+CCNx library (as of September 2009). Some of the design elements used
+in this algorithm were selected to maximize overlap with the standard
+signing implementation, and would be good common elements to use for
+any aggregated signature implementation. Additional details of the
+implementation can be seen in the Java library source code.</p></div>
+<div class="paragraph"><p>A Merkle hash tree is constructed most simply by taking a set of data elements,
+and arranging them as leaf nodes in a n-ary tree. Each leaf node is represented
+by its cryptographic digest, or hash. The parent of a set of n leaves
+is calculated by concatenating the digests of those n leaves
+and then computing a cryptographic digest, or hash, over the result.
+This process is iterated up the tree, until a single root digest
+is calculated at the top. That root digest is then digitally signed.
+To verify a single leaf, one needs the leaf itself, as well as a <em>Merkle Path</em> through
+the tree&#8201;&#8212;&#8201;the values (digests) in the tree of that leaf&#8217;s n-1 siblings,
+and its parents' siblings, and so on up the tree, so as to be able to take
+the leaf and the path values, and recompute the root. A consumer verifying the
+leaf uses the leaf and path data to compute a root value, and then given a
+digital signature on the actual root, determines whether or not the computed
+root value matches the value that was originally computed and signed.
+Assuming the security of the cryptographic digest algorithm used to compute
+the tree, this verifies the content and position of the leaf in the tree.</p></div>
+<div class="paragraph"><p>CCNx uses binary Merkle hash trees, with a parameterizable digest
+algorithm used to compute the leaf and interior (node) digests. Given
+a set of 2 or more ContentObjects, the leaf digest of each of those
+ContentObjects is computed using the same method used to compute an
+individual signature over a single ContentObject.  In other words, each
+leaf is represented by the cryptographic digest of the concatenated ccnb binary
+encodings of its contained Name, SignedInfo and Content fields.
+The node (interior) digests of the tree are computed as described above&#8201;&#8212;&#8201;as
+the digest of the concatenation of the two children of the node to be computed.
+If that node has only a left child (the tree formulation used ensures that
+no node will have only a right child), the digest of that node is computed as
+the digest of its left child alone (this simplifies implementation over skipping
+the digest computation).</p></div>
+<div class="paragraph"><p>To generate the signature on a Merkle hash tree (MHT), we sign the
+root node as follows: it&#8217;s already a digest, so in n theory we could
+just wrap it up in some PKCS#1 padding, encrypt it with our private
+key, and voila! A signature. But there are basically no crypto
+software packages that provide signature primitives that take
+already-digested data and just do the padding and encryption, and so
+we&#8217;d be asking anyone attempting to implement CCN MHT signing
+(including ourselves) to re-implement a very complicated wheel, across
+a number of signature algorithms.  We might also want to sign with a
+key that does not support the digest algorithm we used to compute the
+root (for example, DSA).  so we take the computationally very slightly
+more expensive, but vastly simpler (implementation-wise) approach of
+taking our digest and signing it with a standard signing API&#8201;&#8212;&#8201;which
+means digesting it one more time for the signature. So we sign (digest
++ encrypt) the root digest with a standard off-the-shelf signature
+algorithm. It is this signature that we place in the SignatureBits of
+the Signature of each ContentObject in the aggregated set, and the
+digest algorithm used for this signature that we place in the
+DigestAlgorithm field.</p></div>
+<div class="paragraph"><p>To represent the witness, or Merkle Path, for each ContentObject in
+the aggregate, we list the leaf or node digests for the sibling of
+this leaf, and the sibling of its parent, and on up the tree, in that
+order. We do not include the digest of the leaf itself (that can be
+calculated from the content) or the root digest (which can be
+calculated from the calculated leaf digest and the path) in the path
+data (witness). In order to be able to verify the content with respect
+to the given path, the verifier needs to be able to determine whether
+this leaf represents the left or right leaf in a terminal pair, and
+which position (left or right child) each of the digests on the
+witness path takes (as the computation of the parent digest is order
+dependent). Because of the representation of trees used, the index of
+the leaf whose path this is determines the position of the remainder
+of the nodes on the path if they are presented in order (from top
+to bottom). We therefore represent our Merkle Paths as follows (noted in
+ASN.1):</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>MerklePath ::= SEQUENCE {
+           nodeIndex INTEGER,
+           nodes NodeList
+}
+
+NodeList ::= SEQUENCE OF OCTET STRING</tt></pre>
+</div></div>
+<div class="paragraph"><p>We could probably save a few bytes by not encoding this
+as DER, and simply packing in the bytes to represent this
+data&#8201;&#8212;&#8201;this encoding offers a fair amount of ease of parsing
+and clarity, at the cost of probably 5 + 2*pathLength bytes of overhead,
+or 20 bytes in typical paths. At some point this may
+seem too much, and we will move to a more compact encoding.</p></div>
+<div class="paragraph"><p>The <tt>Witness</tt> for a Merkle hash tree-signed ContentObject contains,
+as noted above, a DER-encoded PKCS#1 DigestInfo. The AlgorithmIdentifier
+of that DigestInfo contains an OID that specifies both that this is
+a Merkle path, and the component digest algorithm used to compute the
+leaf and interior node digests.  The OCTET STRING of that DigestInfo
+contains the DER-encoded MerklePath for this leaf. OIDs for initial
+MHT algorithms are below. The default for the CCNx library is <tt>SHA256MHT</tt>.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>SHA-1-Merkle-Hash-Tree ::= 1.2.840.113550.11.1.2.1
+
+SHA-256-Merkle-Hash-Tree ::= 1.2.840.113550.11.1.2.2</tt></pre>
+</div></div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2010-11-04 13:33:08 PDT
+</div>
+</div>
+</body>
+</html>

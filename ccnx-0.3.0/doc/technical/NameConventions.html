@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
+<title>CCNx Basic Name Conventions</title>
+<style type="text/css">
+/* Debug borders */
+p, li, dt, dd, div, pre, h1, h2, h3, h4, h5, h6 {
+/*
+  border: 1px solid red;
+*/
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+tt {
+  color: navy;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+
+div.sectionbody {
+  font-family: serif;
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+span#author {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+span#email {
+}
+span#revnumber, span#revdate, span#revremark {
+  font-family: sans-serif;
+}
+
+div#footer {
+  font-family: sans-serif;
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+div#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+div#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > div.content {
+  white-space: pre;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toctitle {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+/* Workarounds for IE6's broken and incomplete CSS2. */
+
+div.sidebar-content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+div.sidebar-title, div.image-title {
+  color: #527bbd;
+  font-family: sans-serif;
+  font-weight: bold;
+  margin-top: 0.0em;
+  margin-bottom: 0.5em;
+}
+
+div.listingblock div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock-attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock-content {
+  white-space: pre;
+}
+div.verseblock-attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+
+div.exampleblock-content {
+  border-left: 2px solid silver;
+  padding-left: 0.5em;
+}
+
+/* IE6 sets dynamically generated links as visited. */
+div#toc a:visited { color: blue; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>CCNx Basic Name Conventions</h1>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>The CCNx protocol does not specify any assignment of meaning to names,
+only their structure.  All assignment of meaning comes from
+application, institution, and/or global conventions.  Application
+developers are free to design their own custom conventions.  In order
+to have globally-routable names, institutional or global conventions
+must be reflected in prefix forwarding rules.</p></div>
+<div class="paragraph"><p>A number of basic issues requiring some convention will arise in many
+applications, and it will be helpful for everyone if common
+conventions are shared by many applications.  In practice, such
+conventions should be implemented consistently in libraries.</p></div>
+<div class="paragraph"><p>This document specifies basic conventions implemented in the libraries
+of the CCNx Reference Implementation addressing the following issues:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Encoding of human-readable name components
+</p>
+</li>
+<li>
+<p>
+Globally-unique name prefixes
+</p>
+</li>
+<li>
+<p>
+Encoding of functional name components not intended to be directly
+   human-readable
+</p>
+</li>
+<li>
+<p>
+Naming of versions
+</p>
+</li>
+<li>
+<p>
+Naming of segments (sequence numbering)
+</p>
+</li>
+<li>
+<p>
+Naming file meta-data including headers
+</p>
+</li>
+<li>
+<p>
+Functional/Command name components for constructing
+   application-level protocols
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<h2 id="_human_readable_name_components">Human-readable name components</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Human readable clear-text components of names, analogous to components of file
+names, should use <tt>UTF-8</tt> encoding and are always case-sensitive.  In
+the case of encrypted names, the unencrypted values may be
+human-readable but the cipher-text names that appear in the messages
+will of course not be human-readable.</p></div>
+</div>
+<h2 id="_globally_unique_name_prefixes">Globally-unique name prefixes</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The first component of a globally-meaningful name should be
+a DNS name.  Although the CCNx protocol does not rely on DNS, as a
+transition strategy it is helpful to take advantage of the existing
+DNS collection of globally-unique names.  Furthermore, the DNS can be
+used to look up IP addresses for creating IP tunnels to provide CCNx
+protocol connectivity between sites.</p></div>
+<div class="paragraph"><p>It is not necessary to use globally-meaningful names exclusively.  In
+some situations a local and context sensitive name prefix is appropriate.
+The specification of such contextual name prefixes is a matter of
+convention for particular applications.  It is also unneccessary to
+use IP tunnels or other large-scale routing to communicate locally using
+globally-meaningful names.</p></div>
+</div>
+<h2 id="_markers_coding_space_for_functional_name_components">Markers: Coding space for functional name components</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In a variety of situations, name components need to represent commands
+or annotations that can appear at arbitrary levels in the name
+hierarchy, intermixed with the human readable components that are
+analogous to pieces of file names.  In these cases, the position in
+the name is not able to distinguish the component&#8217;s role and so we
+rely on coding conventions in the component itself.  Applications
+should follow these conventions so as to make the markers unambiguous.
+Wherever possible, however, the function or meaning of a name
+component should be determined by its context within the overall name,
+and human readable components should be used where they will not be
+mistaken for organizational name components.</p></div>
+<div class="paragraph"><p>The specification of <tt>UTF-8</tt> prohibits certain octet values from
+occurring anywhere in a <tt>UTF-8</tt> encoded string.  These are the (hex)
+octet values <tt>C0</tt>, <tt>C1</tt>, and <tt>F5</tt> to <tt>FF</tt>.  In addition, the null
+octet <tt>00</tt> is used for string termination and so does not encode a
+usable character.  Thus these make good <em>markers</em> to identify
+components of a CCNx name that play special functional roles such as
+for versioning and sequence numbering.</p></div>
+<div class="paragraph"><p>These conventions assign the prohibited octet values to specific
+functions.  A functional name component is constructed using a <em>marker
+octet</em> from the UTF-8 prohibited set as the first octet, followed by
+additional octets according to the conventions for that marker.</p></div>
+</div>
+<h2 id="_versions_marker_fd">Versions (Marker FD)</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The first byte of a version component is <tt>0xFD</tt>. Versions are named
+based (primarily) on time.  The remaining bytes are a big-endian
+binary encoding of the time in <a href="Timestamp.html">CCNx Timestamp
+format</a>.</p></div>
+<div class="paragraph"><p>The publisher generating the version stamp should try to avoid
+using a stamp earlier than (or the same as) any version of the file,
+to the extent that it knows about it.
+It should also avoid generating stamps that are unreasonably far in the future.</p></div>
+<div class="literalblock">
+<div class="title">Example:</div>
+<div class="content">
+<pre><tt>February 13, 2009 3:31:30 PM PST = 1234567890.000 seconds since January 1, 1970 UT
+1234567890 = 0x499602d2
+&lt;Component ccnbencoding="hexBinary"&gt;FD 0 499602d2 000&lt;/Component&gt;
+&lt;Component ccnbencoding="base64Binary"&gt;/QSZYC0gAA==&lt;/Component&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>Versions, when present, commonly occupy the next-to-last component of the CCNx
+name, not counting the digest component.  It is normal to have
+versions within versions, however, so version components MUST be
+interpreted contextually (see meta-data section).</p></div>
+<div class="paragraph"><p>The content within a version should include only segments and/or
+meta-data.</p></div>
+</div>
+<h2 id="_segments_markers_00_fb">Segments (Markers 00, FB)</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For consecutive numbering of segments, the first byte of the sequence
+component is 0x00.  For non-consecutive numbering (e.g, using byte
+offsets) the value 0xFB should be used as the marker.  In both cases,
+the remaining bytes of the segment name hold the sequence number in
+big-endian binary, using the minimum number of bytes.  Thus sequence
+number 0 is encoded in just one byte, for example in consecutive
+numbering the name of segment 0 is <tt>%00</tt> and the name of segment 1 is
+<tt>%00%01</tt>.</p></div>
+<div class="paragraph"><p>Note that this encoding is not quite dense - <tt>%00%00</tt> is unused, as
+are other components that start with these two bytes.</p></div>
+<div class="literalblock">
+<div class="title">Example: Sequence 257 is</div>
+<div class="content">
+<pre><tt>&lt;Component ccnbencoding="hexBinary"&gt;000101&lt;/Component&gt;
+or
+&lt;Component ccnbencoding="base64Binary"&gt;AAEB&lt;/Component&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>Sequence numbers typically occupy the final component of the CCNx name
+(again, not counting the digest component).</p></div>
+</div>
+<h2 id="_extensible_command_markers_marker_c1">Extensible Command Markers (Marker C1)</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The marker 0xC1 prefixes namespaces for commands,
+queries, or other special identifiers, all of which will be referred
+to as <em>commands</em> in the following description.</p></div>
+<div class="paragraph"><p>Commands consist of the marker 0xC1 followed by ".", followed by a
+namespace, which is a UTF-8 string possibly containing additional
+periods, followed by an operation name which is a UTF-8 string
+interpreted by the namespace owner in whatever manner they choose.
+Since a namespace may have one or more interior
+periods so it may be constructed using a reversed DNS name, as with Java
+conventions for collision-free class naming.</p></div>
+<div class="paragraph"><p>Optionally the operation name may be followed by UTF-8 arguments delimited
+by tilde characters (~).</p></div>
+<div class="paragraph"><p>The UTF-8 arguments, if any, may be followed by a single, optional, binary argument.
+A general binary argument is prefixed by the byte 0x00. A binary argument that
+is ccnb-encoded data is prefixed by the byte 0xC1.</p></div>
+<div class="paragraph"><p>Note that early versions of the command marker syntax did not use a
+separator character between the operation and/or final UTF-8 argument
+and the last binary argument (previously treated as a data
+field). This lead to an ambiguous encoding parseable only by elements
+that knew the specific argument structure of a particular command. It
+is possible to encounter legacy data of this form stored in older
+repositories.</p></div>
+<div class="literalblock">
+<div class="title">Example of General Command:</div>
+<div class="content">
+<pre><tt>%C1.org.ccnx.frobnicate~1~37</tt></pre>
+</div></div>
+<div class="paragraph"><p>would be a command in the namespace <tt>org.ccnx</tt>, where the operation is
+<tt>frobnicate</tt>, which takes two arguments, in this case given as <tt>1</tt> and <tt>37</tt>.</p></div>
+<div class="paragraph"><p>Namespaces containing only capital letters are reserved for CCNx
+standard application protocols.  The protocols defined so far are
+listed below:</p></div>
+<h3 id="_repository_protocol_namespace_tt_r_tt">Repository Protocol (Namespace <tt>R</tt>)</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The repository protocol is used for clients to control repositories
+which are stores of CCNx content, usually persistent stores.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Start Write Command
+</dt>
+<dd>
+<p>
+   <tt>%C1.R.sw</tt> - request repository to retrieve and store content.  The
+   prefix of the name before this start write command component must
+   be the prefix of the content to be written.  Following this there
+   should be a nonce component.
+</p>
+</dd>
+<dt class="hdlist1">
+Checked Start Write Command
+</dt>
+<dd>
+<p>
+   <tt>%C1.R.sw-c</tt> - similar to above, but the repository firsts checks
+   for the presence of the stream and does not store it if it is already
+   present.  The repository responds in either case.  Following the
+   command component is a nonce component, a segment name component,
+   and an explicit digest component, the last two identifying precisely
+   the first segment of the stream to be stored.
+</p>
+</dd>
+</dl></div>
+<h3 id="_nonce_namespace_tt_n_tt">Nonce (Namespace <tt>N</tt>)</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The nonce namespace is used for marking random nonce values designed
+to make names unique.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Nonce Command
+</dt>
+<dd>
+<p>
+   <tt>%C1.N%00&lt;noncevalue&gt;</tt> - where &lt;noncevalue&gt; is the random (binary)
+   nonce value.
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><tt>Early versions of this profile used an operation of 'n', and predated
+the binary argument separator, resulting in nonce commands of
+%C1.N.n&lt;noncevalue&gt;.</tt></pre>
+</div></div>
+</dd>
+</dl></div>
+<h3 id="_name_enumeration_namespace_tt_e_tt">Name Enumeration (Namespace <tt>E</tt>)</h3><div style="clear:left"></div>
+<div class="paragraph"><p>The Name Enumeration Protocol is used to query for names of available
+content without retrieving the content itself.</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Basic Enumeration Command
+</dt>
+<dd>
+<p>
+   <tt>%C1.E.be</tt> - request first level names under the prefix of this
+   command, much like a single-level directory listing command.
+</p>
+</dd>
+</dl></div>
+</div>
+<h2 id="_marker_namespace_tt_m_tt">Marker (Namespace <tt>M</tt>)</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Marker namespace identifies name components meant to be parsed by
+programs, rather than people. They may contain additional components
+that allow them to be identified and parsed. They usually do not have
+command namespaces of their own because they are not operations, and
+do not have subcommands; but they are marked so that they can be easily
+filtered out from displays shown to the user and do not encounter
+accidental collisions with application names.</p></div>
+<div class="paragraph"><p>Marker namespaces in common use:</p></div>
+<h3 id="_guid_name_components">Guid name components:</h3><div style="clear:left"></div>
+<div class="paragraph"><p>Thes are used to specify fixed random binary name components, which are used
+repeatedly over time, rather than nonces.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.M.G%00&lt;guid value&gt;</tt></pre>
+</div></div>
+<h3 id="_key_id_name_components">Key ID name components:</h3><div style="clear:left"></div>
+<div class="paragraph"><p>These refer to a particular public key by its digest (currently SHA256).
+Equivalent to PublisherPublicKeyDigest, and the PublisherID included in the
+SignedInfo of each ContentObject.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.M.K%00&lt;key id value&gt;</tt></pre>
+</div></div>
+<h3 id="_access_control_marker">Access control marker:</h3><div style="clear:left"></div>
+<div class="paragraph"><p>Content relating to access control for a given namespace node is stored below
+this marker component.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.M.ACCESS</tt></pre>
+</div></div>
+<h3 id="_scoped_name">Scoped name:</h3><div style="clear:left"></div>
+<div class="paragraph"><p>This is used as the first component of a namespace that is restricted to the
+local machine.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.M.S.localhost</tt></pre>
+</div></div>
+<h3 id="_service_discovery">Service discovery:</h3><div style="clear:left"></div>
+<div class="paragraph"><p>This is used to denote a portion of the name tree used for service discovery.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.M.SRV</tt></pre>
+</div></div>
+<div class="paragraph"><p>For example
+<tt>/%C1.M.S.localhost/%C1.M.SRV/ccnd/KEY</tt>
+will get the local ccnd&#8217;s public key.
+Similarly for other services.</p></div>
+</div>
+<h2 id="_metadata">Metadata</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Meta-data content about files&#8201;&#8212;&#8201;headers, thumbnails, tags, and so on&#8201;&#8212;&#8201;is named in a subcollection of the file version named using the
+metadata namespace marker.</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>%C1.META</tt></pre>
+</div></div>
+<div class="paragraph"><p>Metadata content is stored under this name component, named under human-readable
+names (as they are unlikely to collide with user-specified filenames).</p></div>
+<div class="paragraph"><p>A header is a CCN content stream that provides summary file-level
+information about the set of content to which it is attached by name.
+The name of a header is <em>.header</em> (again human-readable UTF-8).  Note
+that a header is itself a file that has its own versions and segments
+within those.</p></div>
+<div class="paragraph"><p>Early versions of this profile used the name component <em>meta</em> for the metadata
+namespace, instead of %C1.META.</p></div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2010-11-04 13:33:08 PDT
+</div>
+</div>
+</body>
+</html>

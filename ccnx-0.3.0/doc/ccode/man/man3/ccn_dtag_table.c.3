@@ -1,0 +1,63 @@
+.TH "lib/ccn_dtag_table.c" 3 "4 Nov 2010" "Version 0.3.0" "Content-Centric Networking in C" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/ccn_dtag_table.c \- 
+.PP
+DTAG table.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBARRAY_N\fP(arr)   (sizeof(arr)/sizeof(arr[0]))"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static struct \fBccn_dict_entry\fP \fBccn_tagdict\fP []"
+.br
+.RI "\fISee the gen_dtag_table script for help updating these. \fP"
+.ti -1c
+.RI "struct \fBccn_dict\fP \fBccn_dtag_dict\fP = {ARRAY_N(\fBccn_tagdict\fP) - 1, \fBccn_tagdict\fP}"
+.br
+.RI "\fITable for translating from DTAGs to names and vice versa. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+DTAG table. 
+
+Part of the CCNx C Library.
+.PP
+Copyright (C) 2008-2010 Palo Alto Research Center, Inc.
+.PP
+This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1 as published by the Free Software Foundation. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. 
+.PP
+Definition in file \fBccn_dtag_table.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define ARRAY_N(arr)   (sizeof(arr)/sizeof(arr[0]))"
+.PP
+Definition at line 22 of file ccn_dtag_table.c.
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBccn_dict\fP \fBccn_dtag_dict\fP = {ARRAY_N(\fBccn_tagdict\fP) - 1, \fBccn_tagdict\fP}"
+.PP
+Table for translating from DTAGs to names and vice versa. 
+.PP
+Definition at line 119 of file ccn_dtag_table.c.
+.PP
+Referenced by dtag_lookup(), and main().
+.SS "struct \fBccn_dict_entry\fP \fBccn_tagdict\fP[]\fC [static]\fP"
+.PP
+See the gen_dtag_table script for help updating these. 
+.PP
+Definition at line 26 of file ccn_dtag_table.c.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Content-Centric Networking in C from the source code.
