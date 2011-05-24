@@ -1,0 +1,77 @@
+==================================================
+Dynamic services over CCN
+==================================================
+
+Content-centric networking, such as CCNx and similar implementations, do not 
+address the issue of services which are at least as important as raw content. The 
+popularity of services such as Facebook and Google allude to the fact that users are not 
+only interested in a specific piece of content but are also interested in services.
+
+Hence a complete networking paradigm will focus on not only content-centric networking, 
+but will involve services as well. In this report, architecture and implementation of dynamic 
+services and service mobility on top of an existing content centric networking framework, CCNx 
+is presented. This project addresses how service modules are treated as content, thus  leveraging 
+the existing content-centric features of CCNx, thus naturally allowing for service mobility.
+
+
+Building the code:
+------------------
+
+Build the CCNx code and install it.
+Build scripts assume apache-log4j library is installed at the location $HOME/softwares/
+
+Adding a new service
+--------------------
+
+To add a new service following steps have to be followed:
+
+1) Create necessary java source files. Let each source file name end with *service.java 
+i.e if "weather" is a service, then a source file with a name "Process.java" is named 
+"processWeather.java". This is to avoid duplicate classes getting loaded during runtime. 
+There is no way to dynamically unload java jar files during runtime. Hence it is highly 
+advisable to have unique class names.
+        
+2) Provide a public class with the same name as the service. This class should have a 
+method called "run_<service>" defined. This method is invoked during runtime after loading 
+the jar file. The signature of this method is String run_<service>(String). This "run_<service>" 
+method is the entry point to the service code. The argument is usually a file path.
+            
+3) Bundle all the service related class files into <service>.jar.
+Copy the jar file to a jars repository which is served by a different instance of ccnfileproxy. 
+
+For the purpose of demo and testing, 4 services are provided -
+---------------------------------------------------------------
+
+    weather: It takes a video file as input and generates a SMIL[2] output. The actual video 
+             is served using a lighttpd server. Latest weather information from www.weather.gov 
+             is overlaid on the video.
+    ads:     It takes a video file as input an generates a SMIL output with a random video 
+             advertisement inserted.
+    news:    It takes a video file as input and generates a SMIL output with latest crawling 
+             news feed from BBC overlaid on the video.
+    weather2: This service does actual processing of the video using Xuggler Java library. 
+              It adds the latest weather information over the video. 
+
+    Two ccnfileproxy applications are started. One for the video directory and the other for 
+    the jar file directory on the filesystem:
+
+        ccnx_root/apps/ccnFileProxy/>ant -DCCNX_PREFIX=ccnx:/ -DFILE_PREFIX=<video repository path> -DLOGGING=--loggingoff run-fileproxy
+        ccnx_root/apps/ccnFileProxy/>ant -DCCNX_PREFIX=ccnx:/ -DFILE_PREFIX=<service jars repository path> -DLOGGING=--loggingoff run-fileproxy 
+
+    Videos are requested as shown below:
+
+        ccngetfile -timeout <value> --loggingoff ccnx://video.mp4+weather <output file>
+
+
+    Output videos are played as follows:
+
+        If the output is a SMIL file: Have a http server on port 81 serving files from the video 
+        directory. Video directory here refers to the root directory of ccnfileproxy. Use firefox 
+        browser with Ambulant plug in installed to play the SMIL file.
+
+        If the output is a video file: Use VLC or any other video player to play the file. 
+
+Env variables -
+---------------
+
+Set the env variable VIDEODIR to the root directory of ccnfileproxy.
